@@ -1,0 +1,7 @@
+map 960,960
+	20 cara :  AVG FPS : 2233.973
+	100 cara :  AVG FPS : 27.981
+map 3200,3200
+	20 cara :  AVG FPS : 32.009
+	20 cara focus obj :AVG FPS : 17.296
+	100 cara :  AVG FPS : 18.11
