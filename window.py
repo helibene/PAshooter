@@ -32,7 +32,6 @@ class window :
         if conf!=None :
             self.useConf = True
         self.handObjUsefullList = self.getAllUsefullList()
-        print(len(self.handObjUsefullList))
         #self.useConf = False
         #Constants
         self.exitFlag = False
@@ -71,7 +70,8 @@ class window :
         self.medList = med.getAllList()
         self.characterVision = 500
         
-        self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/pa/sprites/")
+        self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/PAshooter/sprites/")
+        self.textureFolder = self.pasteConf(self.conf.textureFolder,"texture/")
         self.zoomHandObj = self.pasteConf(self.conf.itemSize,0.7)
         self.generate_new_map = self.pasteConf(self.conf.generateNewMap,False)
         self.maxInventory = self.pasteConf(self.conf.maxInventorySize,12)
@@ -92,6 +92,7 @@ class window :
         peopleAttackRange = self.pasteConf(self.conf.peopleAttackRange,[30,30])
         peopleDamageMultiRange = self.pasteConf(self.conf.peopleDamageMultiRange,[1,1])
         objInitInstance = self.pasteConf(self.conf.objInitInstance,0)
+        print(objInitInstance)
         myName = self.pasteConf(self.conf.myName,"")
         mySprite = self.pasteConf(self.conf.mySprite,0)
         myGender = self.pasteConf(self.conf.myGender,"M")
@@ -250,7 +251,7 @@ class window :
                     if not takenFlag and obj[0]!=1 and obj[3]!=-4 and obj[3]!=-5:
                         dist = math.sqrt(math.pow(obj[1]-me.posMap[0],2)+math.pow(obj[2]-me.posMap[1],2))
                         if dist < self.distancePickup :
-                            print("Picked up obj #",obj[0])
+                            #print("Picked up obj #",obj[0])
                             obj[1] = -100
                             obj[2] = -100
                             avaSpot = self.inventoryAvailableSpot()
@@ -420,8 +421,9 @@ class window :
         lootList = self.generateLoot(10)
         self.handObjList.extend(lootList)
         self.handObjList.extend(handObjList)
-        print(len(self.handObjList))
+        
         self.objList = objList
+        print("len obj list",len(self.objList))
         
     def generateBullets(self) :
         bulletList = []
@@ -549,7 +551,7 @@ class window :
             del(self.mapList)
     def openSheetList(self) :
         for sheetNum in range(len(self.sheetList)) :
-            img = Image.open(self.rootPath+self.sheetList[sheetNum][0]).convert("RGBA")
+            img = Image.open(self.rootPath+self.textureFolder+self.sheetList[sheetNum][0]).convert("RGBA")
             self.sheetList[sheetNum][0] = img
             
     def openMapList(self) :
@@ -632,7 +634,7 @@ class window :
 
     def loadImageMenuList(self,menuSheetSettings,mirror=False) :
         for coord in range(1,6) :
-            img = Image.open(self.rootPath+menuSheetSettings[0][0]).convert("RGBA")
+            img = Image.open(self.rootPath+self.textureFolder+menuSheetSettings[0][0]).convert("RGBA")
             box = (menuSheetSettings[0][coord])
             img = img.crop(box)
             if coord==5 :

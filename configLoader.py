@@ -40,6 +40,7 @@ class configLoader :
         self.myHealth = castValue(configJson.get("myHealth"),"int")
         self.myDamageMulti = castValue(configJson.get("myDamageMulti"),"int")
         self.myAttackRange = castValue(configJson.get("myAttackRange"),"int")
+        self.textureFolder = castValue(configJson.get("textureFolder"),"string")
         #self.myGender = castValue(configJson.get("myGender"),"string")
         #self.myGender = castValue(configJson.get("myGender"),"string")
         self.confVars = vars()

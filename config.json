@@ -7,7 +7,7 @@
 	"maxInventorySize":12,
 	"itemSize":0.7,
 	"sleepPerFrame":0,
-	"generateNewMap":"True",
+	"generateNewMap":"False",
 	"distancePickupPixel":30,
 	"maxBulletOnScreen":10,
 	"sprintMultiplier":2,
@@ -18,7 +18,7 @@
 	"peopleSpeedRange":[0.5,0.5],
 	"peopleAttackRange":[30,30],
 	"peopleDamageMultiRange":[0.02,0.02],
-	"objInitInstance":0,
+	"objInitInstance":2,
 	"myName":"Alex",
 	"mySprite":34,
 	"myGender":"M",
@@ -27,5 +27,6 @@
 	"myPosition":[0,0],
 	"myHealth":1,
 	"myDamageMulti":1,
-	"myAttackRange":30
+	"myAttackRange":30,
+	"textureFolder":"texture\"
 }
