@@ -6,6 +6,7 @@ Created on Mon Jan  9 22:51:09 2023
 """
 from PIL import ImageTk,Image
 import sys
+import math
 
 class object_builder :
     def __init__(self,objSheetSetting):
@@ -16,7 +17,7 @@ class object_builder :
         self.step_x = int(self.objSheetSetting[1]/self.objSheetSetting[3])
         self.step_y = int(self.objSheetSetting[2]/self.objSheetSetting[4])
         self.img = self.objSheetSetting[0]
-        self.spriteList = [None for x in range(200)]
+        self.spriteList = [None for x in range(300)]
         for x in range(self.objSheetSetting[3]) :
             for y in range(self.objSheetSetting[4]) :
                 box = ([int(x*self.step_x),int(y*self.step_y),int((x+1)*self.step_x),int((y+1)*self.step_y)])
@@ -24,7 +25,7 @@ class object_builder :
                 self.imageMat2[x][y] = ImageTk.PhotoImage(self.imgCrop)
         for x in range(self.objSheetSetting[3]*2) :
             for y in range(self.objSheetSetting[4]*2) :
-                box = ([int(x*self.step_x/2),int(y*self.step_y/2),int((x+1)*self.step_x/2),int((y+1)*self.step_y/2)])
+                box = ([int(x*self.step_x/2),int(y*self.step_y/2),math.ceil((x+1)*self.step_x/2),math.ceil((y+1)*self.step_y/2)])
                 self.imgCrop = self.img.crop(box)
                 self.imageMat[x][y] = self.imgCrop
        
@@ -37,7 +38,7 @@ class object_builder :
         del(self.img)
         
     def getSprite(self,num) :
-        if self.spriteList[num]!=None :
+        if self.spriteList[abs(num)]!=None :
             return self.spriteList[num]
         mapDict = {
             0: [0,0],
@@ -73,8 +74,10 @@ class object_builder :
             self.spriteList[num] = self.imageMat2[coord[0]][coord[1]]#.transpose(Image.FLIP_LEFT_RIGHT)
             return self.spriteList[num]
         flip = False
+        num2 = num
         if num <0 :
             num = abs(num)
+            num2 = num + 100
             flip = True
         
         mapDict2 = {
@@ -137,38 +140,36 @@ class object_builder :
             156: [13,10.5,13,11],
             157: [14,10.5,14,11],
             158: [15,10.5,15,11],
+            159: [11.5,14.5,12.5,15.5],
+            160: [13.5,14.5,14.5,15.5],
+            161: [15.5,14.5,16.5,15.5],
         }
         if num in mapDict2 :
             coord = mapDict2[num]
             image = self.aggSprite(coord,flip)
             self.spriteList[num] = ImageTk.PhotoImage(image)
             return self.spriteList[num]
-        # if num==100 :
-        #     startEndPoint = [0,3,0,4]
-        #     image = self.aggSprite(startEndPoint,flip)
-        #     return ImageTk.PhotoImage(image)
-        # if num==101 :
-        #     startEndPoint = [4,4,4,3.5]
-        #     image = self.aggSprite(startEndPoint,flip)
-        #     return ImageTk.PhotoImage(image)
-        # if num==102 :
-        #     startEndPoint = [5,9,8.5,10]
-        #     image = self.aggSprite(startEndPoint,flip)
-        #     return ImageTk.PhotoImage(image)
-        # if num==103 :
-        #     startEndPoint = [2,4,3,4]
-        #     image = self.aggSprite(startEndPoint,flip)
-        #     return ImageTk.PhotoImage(image)
-        # if num==104 :
-        #     startEndPoint = [0,7,1,8]
-        #     image = self.aggSprite(startEndPoint,flip)
-        #     return ImageTk.PhotoImage(image)
-        # if num==105 :
-        #     startEndPoint = [5.5,7,5.5,7]
-        #     image = self.aggSprite(startEndPoint,flip)
-        #     return ImageTk.PhotoImage(image)
         return None
     
+    def getCarSprite(self,num) :
+        flip=False
+        if self.spriteList[num]!=None :
+            return self.spriteList[num]
+        mapDict = {
+            0: [1,0,2,6.5],
+            1: [3,0,4,6.5],#Door
+            2: [1,7.5,2,12],
+            3: [3,7.5,4,12],
+            4: [1,13,2,17],
+            5: [3,13,4,17],
+            }
+        if num in mapDict :
+            coord = mapDict[num]
+            image = self.aggSprite(coord,flip)
+            self.spriteList[num] = ImageTk.PhotoImage(image)
+            return self.spriteList[num]
+        return None
+            
     def aggSprite(self,point,flip=False):
         size = [(point[2]*2)-(point[0]*2)+2,(point[3]*2)-(point[1]*2)+2]
         image = Image.new("RGBA", (int(size[0]*self.step_x/2), int(size[1]*self.step_y/2))) 

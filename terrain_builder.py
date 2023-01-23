@@ -68,7 +68,25 @@ class terrain_builder :
         imageCol.save(path+mapSetting[1]+"Collision.png","PNG")
         return image,imageCol
         
-
+    def splitImage(imageRoot,imageFilename,fileFormat,splitNumX,splitNumY) :
+        img = Image.open(imageRoot+imageFilename+"."+fileFormat).convert("RGB")
+        sizeX,sizeY = img.size
+        stepX = int(sizeX/splitNumX)
+        stepY = int(sizeY/splitNumY)
+        for x in range(splitNumX) :
+            for y in range(splitNumY) :
+                box = (int(x*stepX),int(y*stepY),int((x+1)*stepX),int((y+1)*stepY))
+                imgLoop = img.copy()
+                imgLoop.crop(box)
+                if x<10 :
+                    strx="0"+str(x)
+                else :
+                    strx=str(x)
+                if y<10 :
+                    stry="0"+str(y)
+                else :
+                    stry=str(y)
+                imgLoop.save(imageRoot+imageFilename+"_"+strx+"_"+stry+"."+fileFormat)
 def terrainMapping(redVal,addPoint=[0,0]) :
     mapDict = {
         0: randPointRange(0,4,5,2),
@@ -80,7 +98,7 @@ def terrainMapping(redVal,addPoint=[0,0]) :
         6: randPointRange(0,6,5,2),
         7: randPointRange(5,6,5,2),
         8: randPointRange(10,6,2,2),
-        9: randPointRange(15,6,2,2),
+        9: randPointRange(15,6,2,2),#Road
         10: randPointRange(20,6,5,2),
         11: randPointRange(25,6,5,2),
         12: randPointRange(15,8,5,2),
@@ -91,13 +109,25 @@ def terrainMapping(redVal,addPoint=[0,0]) :
         17: randPointRange(22,12,2,4),
         18: randPointRange(0,26,6,0),
         19: randPointRange(0,29,6,0),
+        20: randPointRange(17,6,1,2),#left
+        21: randPointRange(18,6,1,2),#right
+        22: randPointRange(19,6,1,2),#middle vert
+        23: randPointRange(15,10,2,0),#up
+        24: randPointRange(15,11,2,0),#down
+        25: randPointRange(17,10,2,0),#middle hor
+        26: randPointRange(13,6,1,2),#PAvement left
+        27: randPointRange(14,6,1,2),#right
+        28: randPointRange(19,10,2,0),#up
+        29: randPointRange(19,11,2,0),#down
+        30: randPointRange(22,8,0,0),
+        31: randPointRange(22,9,0,0),
         100: [0+addPoint[0],0+addPoint[1]],
         101: [13+addPoint[0],0+addPoint[1]],
         102: [8+addPoint[0],8+addPoint[1]],
         103: [0+addPoint[0],12+addPoint[1]],
         104: [8+addPoint[0],12+addPoint[1]],
         105: [0+addPoint[0],16+addPoint[1]],
-        106: [8+addPoint[0],16+addPoint[1]]
+        106: [8+addPoint[0],16+addPoint[1]],
     }
     if redVal in mapDict :
         return mapDict[redVal]
@@ -118,7 +148,7 @@ def decoMapping(greenVal) :
         9: randPointRange(26,10,3,2),
         10: randPointRange(29,10,3,2),
         11: randPointRange(26,12,3,2),
-        12: randPointRange(29,12,3,2),
+        12: randPointRange(29,13,3,0),
     }
     if greenVal in mapDict :
         return mapDict[greenVal]
