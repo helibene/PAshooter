@@ -18,7 +18,7 @@
 	"peopleSpeedRange":[0.5,0.5],
 	"peopleAttackRange":[30,30],
 	"peopleDamageMultiRange":[0.02,0.02],
-	"objInitInstance":2,
+	"objInitInstance":5,
 	"myName":"Alex",
 	"mySprite":34,
 	"myGender":"M",
@@ -28,5 +28,5 @@
 	"myHealth":1,
 	"myDamageMulti":1,
 	"myAttackRange":30,
-	"textureFolder":"texture\"
+	"textureFolder":"texture//"
 }

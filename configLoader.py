@@ -7,7 +7,7 @@ Created on Wed Jan 18 20:25:33 2023
 import json
 
 class configLoader :
-    def __init__(self,jsonPath="C:/Users/Alexandre/Desktop/pa/config.json"):
+    def __init__(self,jsonPath="C:/Users/Alexandre/Desktop/PAshooter/config.json"):
         f = open(jsonPath)
         configJson = json.load(f)
         self.screenWidth = castValue(configJson.get("screenWidth"),"int")
