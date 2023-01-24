@@ -53,12 +53,20 @@ class objectTemplate :
                 [179,7,7],[178,4,9],[177,2,0]]
     handObjList3 = [[0,0,0,-1]]
     defaultOffset3 = [0,0]
+    objList4 = [[7,4,-1],[7,4,1],[5,1,2],#Doors
+                [102,0,0],[10,2,0],#Prison cell
+                [109,5.5,9],[162,4.5,7],#relax area
+                [165,6.5,3],[138,6,4],
+                [-151,0,3],[-151,0,5],[-151,0,7],#cabinets
+                [180,0,9],[183,0,9.3],[180,6,0],[186,6,0],[180,7,0],[189,7,0]]
+    handObjList4 = [[0,0,0,-1]]
+    defaultOffset4 = [0,0]
     def __init__(self,index,offset=[0,0]):
         self.index = index
         self.offset = offset
-        self.objMat = [objectTemplate.objList0,objectTemplate.objList1,objectTemplate.objList2,objectTemplate.objList3]
-        self.handObjMat = [objectTemplate.handObjList0,objectTemplate.handObjList1,objectTemplate.handObjList2,objectTemplate.handObjList3]
-        self.defaultOffsetList = [objectTemplate.defaultOffset0,objectTemplate.defaultOffset1,objectTemplate.defaultOffset2,objectTemplate.defaultOffset3]
+        self.objMat = [objectTemplate.objList0,objectTemplate.objList1,objectTemplate.objList2,objectTemplate.objList3,objectTemplate.objList4,objectTemplate.objList4]
+        self.handObjMat = [objectTemplate.handObjList0,objectTemplate.handObjList1,objectTemplate.handObjList2,objectTemplate.handObjList3,objectTemplate.handObjList4,objectTemplate.handObjList4]
+        self.defaultOffsetList = [objectTemplate.defaultOffset0,objectTemplate.defaultOffset1,objectTemplate.defaultOffset2,objectTemplate.defaultOffset4,objectTemplate.defaultOffset4]
         
     def getTemplateList(self) :
         if self.index>len(self.objMat)-1 or self.index>len(self.handObjMat)-1 :

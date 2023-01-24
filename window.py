@@ -415,6 +415,9 @@ class window :
         if val == 7 :
             otinst = ot.objectTemplate(2,[18,24])#
             self.objListBuff,self.handObjListBuff = otinst.getTemplateList()
+        if val == 8 :
+            otinst = ot.objectTemplate(4,[3,41])#
+            self.objListBuff,self.handObjListBuff = otinst.getTemplateList()
         self.handObjList = self.generateBullets()
         lootList = self.generateLoot(10)
         self.handObjList.extend(lootList)
