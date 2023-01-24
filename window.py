@@ -108,12 +108,12 @@ class window :
         self.sheetList = [["objects2.png",800,1024,25,32],["terrain2.png",1024,992,32,31],["caracteres2.png",1200,1200,32,32],["black.png",1,1,1,1]]
         #self.mapList = [["template11.png","mapTemplate1",100,100]]
         #self.mapList = [["template12.png","mapTemplate2",31,31]]
-        #self.mapList = [["templateMaster.png","mapTemplate3",300,300]]
-        self.mapList = [["StructureTemplate.png","mapTemplate4",75,75]]
+        self.mapList = [["templateMaster.png","mapTemplate3",300,300]]
+        #self.mapList = [["StructureTemplate.png","mapTemplate4",75,75]]
         #self.backList = [["mapTemplate1.jpeg",3200,3200,100,100,"mapTemplate1Collision.png"]]
         #self.backList = [["mapTemplate2.jpeg",992,992,31,31,"mapTemplate2Collision.png"]]
-        #self.backList = [["mapTemplate3.jpeg",9600,9600,300,300,"mapTemplate3Collision.png"]]
-        self.backList = [["mapTemplate4.jpeg",2400,2400,75,75,"mapTemplate4Collision.png"]]
+        self.backList = [["mapTemplate3.jpeg",9600,9600,300,300,"mapTemplate3Collision.png"]]
+        #self.backList = [["mapTemplate4.jpeg",2400,2400,75,75,"mapTemplate4Collision.png"]]
         self.menuList = [["menu.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200]]]
         self.root,self.width,self.height = self.setRoot(width,height,0,0,windowOnTop,fullscreen,True,True)       
         self.canvas = self.getCanvasFullScreen(self.root,self.width,self.height,self.backgroundColor)
@@ -380,6 +380,7 @@ class window :
     def objInit(self,val) :
         handObjList = []
         objList = []
+        templateList = [[0,[3,3]],[1,[20,3]],[2,[18,24]],[3,[3,27]],[4,[3,41]]]
         if val == 0 :
             self.handObjListBuff = []
             self.objListBuff = []
@@ -418,6 +419,8 @@ class window :
         if val == 8 :
             otinst = ot.objectTemplate(4,[3,41])#
             self.objListBuff,self.handObjListBuff = otinst.getTemplateList()
+        if val == 9 :    
+            self.objListBuff,self.handObjListBuff = self.templateListToObjList(templateList)
         self.handObjList = self.generateBullets()
         lootList = self.generateLoot(10)
         self.handObjList.extend(lootList)
@@ -425,7 +428,17 @@ class window :
         
         self.objList = self.objListBuff
         print("len obj list",len(self.objList))
-        
+    
+    def templateListToObjList(self,tempList) :
+        self.objListBuff = []
+        self.handObjListBuff = []
+        for temp in tempList :
+            otinst = ot.objectTemplate(temp[0],temp[1])#
+            objList,handObjList = otinst.getTemplateList()
+            self.objListBuff.extend(objList)
+            self.handObjListBuff.extend(handObjList)
+            del(otinst)
+        return self.objListBuff,self.handObjListBuff
     def generateBullets(self) :
         bulletList = []
         for i in range(self.bulletNum) :

@@ -18,7 +18,7 @@
 	"peopleSpeedRange":[0.5,0.5],
 	"peopleAttackRange":[30,30],
 	"peopleDamageMultiRange":[0.02,0.02],
-	"objInitInstance":8,
+	"objInitInstance":0,
 	"myName":"Alex",
 	"mySprite":34,
 	"myGender":"M",
