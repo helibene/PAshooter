@@ -41,8 +41,12 @@ class configLoader :
         self.myDamageMulti = castValue(configJson.get("myDamageMulti"),"int")
         self.myAttackRange = castValue(configJson.get("myAttackRange"),"int")
         self.textureFolder = castValue(configJson.get("textureFolder"),"string")
-        #self.myGender = castValue(configJson.get("myGender"),"string")
-        #self.myGender = castValue(configJson.get("myGender"),"string")
+        self.mapFolder = castValue(configJson.get("mapFolder"),"string")
+        self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"int")
+        self.mapInstance = castValue(configJson.get("mapInstance"),"int")
+        # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
+        # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
+        # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
         self.confVars = vars()
 
 

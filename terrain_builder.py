@@ -64,8 +64,8 @@ class terrain_builder :
                 if bool1 :
                     imageCol.paste(self.black,(x,y))
 
-        image.save(path+mapSetting[1]+"."+self.imageFormat,self.imageFormat.upper())
-        imageCol.save(path+mapSetting[1]+"Collision.png","PNG")
+        image.save(path+mapSetting[1]+"_tex."+self.imageFormat,self.imageFormat.upper())
+        imageCol.save(path+mapSetting[1]+"_col.png","PNG")
         return image,imageCol
         
     def splitImage(imageRoot,imageFilename,fileFormat,splitNumX,splitNumY) :

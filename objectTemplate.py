@@ -14,7 +14,9 @@ class objectTemplate :
                     [125,11,16.5],[138,17.3,15],[137,19.2,15],#dining table and chairs
                     [17,14,14],
                     [2,24,14],[2,16,17],[1,13,18],#Doors
-                    [25,17,20],[155,23,8.5],[158,23,8.5],[156,23,8.5],[151,23,15],[22,18,20],   
+                    [25,17,20],
+                    [155,23,8.5],[158,23,8.5],[156,23,8.5],#Washing
+                    [151,23,15],[22,18,20],   
                     [127,13.5,19.5],[116,11,18.5],#Bathroom
                     [123,17,8.5],[128,21,8],[148,19,8.5],[132,22,11]]#Kitchen   #,[103,25,25],[103,15,30],[104,27,23],[104,32,32]]
     handObjList0 = [[108,22.5*32,12*32,-1],#Cabadge
@@ -34,7 +36,7 @@ class objectTemplate :
                 [123,8,11.5],[148,10,11.5],[130,12,9],[133,12,7]#Kitchen
                 ]
     handObjList1 = [[0,0,0,-1]]
-    objList2 = [[1,2,-1],[1,3,-1],[2,6,2],[2,5,15],[2,5,22],[2,8,22],[2,13,20],#Doors
+    objList2 = [[1,2,-1],[3,3,-1],[2,6,2],[2,5,15],[2,5,22],[2,8,22],[2,13,20],#Doors
                 [149,8,-0.5],[149,9.5,-0.5],[149,11,-0.5],[145,12.5,-0.5],[145,14,-0.5],#filer and cabinet
                 [140,2,3],[15,2.5,4],
                 [139,1.5,8],[14,2,7],[139,1.5+3.5*1,8],[14,2+3.5*1,7],[139,1.5+3.5*2,8],[14,2+3.5*2,7],[139,1.5+3.5*3,8],[14,2+3.5*3,7],[139,1.5+3.5*4,8],[14,2+3.5*4,7],[139,1.5+3.5*5,8],[14,2+3.5*5,7],
@@ -66,7 +68,7 @@ class objectTemplate :
         self.offset = offset
         self.objMat = [objectTemplate.objList0,objectTemplate.objList1,objectTemplate.objList2,objectTemplate.objList3,objectTemplate.objList4,objectTemplate.objList4]
         self.handObjMat = [objectTemplate.handObjList0,objectTemplate.handObjList1,objectTemplate.handObjList2,objectTemplate.handObjList3,objectTemplate.handObjList4,objectTemplate.handObjList4]
-        self.defaultOffsetList = [objectTemplate.defaultOffset0,objectTemplate.defaultOffset1,objectTemplate.defaultOffset2,objectTemplate.defaultOffset4,objectTemplate.defaultOffset4]
+        self.defaultOffsetList = [objectTemplate.defaultOffset0,objectTemplate.defaultOffset1,objectTemplate.defaultOffset2,objectTemplate.defaultOffset3,objectTemplate.defaultOffset4]
         
     def getTemplateList(self) :
         if self.index>len(self.objMat)-1 or self.index>len(self.handObjMat)-1 :
@@ -76,7 +78,6 @@ class objectTemplate :
             handObjList = self.handObjMat[self.index]
             offset = [self.offset[0] + self.defaultOffsetList[self.index][0],self.offset[1] + self.defaultOffsetList[self.index][1]]
             objList,handObjList = self.applyOffsetToTemplate(objList,handObjList,offset)
-            print("len obj list template",self.offset)
             return objList,handObjList
 
     def applyOffsetToTemplate(self,objList,handObjList,offset,scale=32) :

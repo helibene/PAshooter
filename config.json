@@ -18,15 +18,18 @@
 	"peopleSpeedRange":[0.5,0.5],
 	"peopleAttackRange":[30,30],
 	"peopleDamageMultiRange":[0.02,0.02],
-	"objInitInstance":0,
+	"objInitInstance":-4,
+	"mapInstance":0,
+	"terrainTileSize":32,
 	"myName":"Alex",
 	"mySprite":34,
 	"myGender":"M",
 	"myRandomName":"False",
 	"mySpeed":5,
-	"myPosition":[0,0],
+	"myPosition":[300,300],
 	"myHealth":1,
 	"myDamageMulti":1,
 	"myAttackRange":30,
-	"textureFolder":"texture//"
+	"textureFolder":"texture//",
+	"mapFolder":"map//"
 }

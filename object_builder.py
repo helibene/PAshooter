@@ -178,7 +178,19 @@ class object_builder :
             self.spriteList[num2] = ImageTk.PhotoImage(image)
             return self.spriteList[num2]
         return None
-    
+    def addMetadataToObjList(self,objList):
+        doorList = [[1,[-1,0]],[2,[0,1]],[3,[1,0]],[4,[0,-1]],[5,[-1,0]],[6,[0,1]],[7,[-1,0]],[8,[0,1]]]
+        cabientList = [[149,[True,152]],[150,[True,153]],[151,[True,154]],[152,[False,149]],[153,[False,150]],[154,[False,151]]]
+        for j in range(len(objList)) :
+            objList[j].append(["none"])
+            for i in range(len(doorList)) :
+                if objList[j][0] == doorList[i][0]:
+                    objList[j][3]=["door",doorList[i][1],0,0,True,objList[j][1],objList[j][2]]#Obj type, direction open, unit open, counter animation, unlocked
+                    print(objList[j][3])
+            for i in range(len(cabientList)) :
+                if objList[j][0] == cabientList[i][0]:
+                    objList[j][3]=["cabinet",cabientList[i][1][0],cabientList[i][1][1],True,0]
+        return objList
     def getCarSprite(self,num,angle=0) :
         flip=False
         num2 = num+300+angle*10
@@ -190,22 +202,43 @@ class object_builder :
             return self.spriteList[num2]
         mapDict = {
             0: [1,0,2,7],
-            1: [3,0,4,7],#Door
+            1: [3,0,4,7],
             2: [1,8,2,12],
             3: [3,8,4,12],
             4: [1,13.5,2,17],
             5: [3,13.5,4,17.5],
+            6: [0,26,1,29.5],
+            7: [2,26,4,30.5],
             }
         if num in mapDict :
             coord = mapDict[num]
             image = self.aggSprite(coord,flip)
+            
             for i in range(len(angleList)) :
                 image2 = self.angleImage(image,angleList[i])
                 self.spriteList[num2+10*i] = ImageTk.PhotoImage(image2)
             #self.spriteList[num2] = ImageTk.PhotoImage(image)
             return self.spriteList[num2]
         return None
-            
+    def getCarSize(self,carNum) :
+        mapDict = {
+            0: [1,0,2,7],
+            1: [3,0,4,7],
+            2: [1,8,2,12],
+            3: [3,8,4,12],
+            4: [1,13.5,2,17],
+            5: [3,13.5,4,17.5],
+            6: [0,20.5,1.5,24.5],
+            7: [2.5,20.5,4,24.5],
+            }
+        if carNum in mapDict :
+            coord = mapDict[carNum]
+            image = self.aggSprite(coord,False)
+            sizeX, sizeY = image.size
+            return sizeX, sizeY
+        else :
+            return 0,0
+        
     def aggSprite(self,point,flip=False):
         size = [(point[2]*2)-(point[0]*2)+2,(point[3]*2)-(point[1]*2)+2]
         image = Image.new("RGBA", (int(size[0]*self.step_x/2), int(size[1]*self.step_y/2))) 

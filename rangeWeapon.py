@@ -32,7 +32,7 @@ def selectStats(index) :
             2: [41,0.2,defaultRange,defaultSpeed,defaultRadius],
             3: [69,0.2,defaultRange,defaultSpeed,defaultRadius],
             4: [70,0.2,defaultRange,defaultSpeed,defaultRadius],
-            5: [79,1,defaultRange,defaultSpeed,defaultRadius],#Prison Door
+            5: [79,10,defaultRange,defaultSpeed,defaultRadius],#Prison Door
             6: [51,0.2,defaultRange,defaultSpeed,defaultRadius]
         }
     if index in mapDict :
