@@ -149,6 +149,7 @@ def decoMapping(greenVal) :
         10: randPointRange(29,10,3,2),
         11: randPointRange(26,12,3,2),
         12: randPointRange(29,13,3,0),
+        13: [9,3]
     }
     if greenVal in mapDict :
         return mapDict[greenVal]

@@ -30,7 +30,11 @@ class character :
         self.movingPattern = 3
         self.attackCooldown = 0
         self.defense = 1
+        self.aggro = True
         self.damageCooldown=0
+        self.inCar = -1
+        self.carInteractionCooldown = 0
+        self.merchand = False
         
     def applyDamage(self,damage,multi=1) :
         self.damageCooldown = 20
@@ -47,6 +51,10 @@ class character :
         
     def getPosScreen(self,offset=[0,0]):
         return [self.posMap[0]-offset[0]-int(self.spriteSize[0]/2),self.posMap[1]-offset[1]-int(self.spriteSize[1]/2)]
+    
+    def getPosMapCenter(self) :
+        return [self.posMap[0]-int(self.spriteSize[0]/2),self.posMap[1]-int(self.spriteSize[1]/2)]
+    
     
     def getSpriteFromMotion(self) :
         if self.damageCooldown>0:
@@ -169,4 +177,4 @@ nameListF = [
     "Tiffany"
 ]
 
-femaleNumList = [14,15,18,32,33,45,58,60,62,75,79,80,87,91,97]
+femaleNumList = [14,15,18,32,33,45,58,60,62,75,79,80,81,82,83,87,91,97]

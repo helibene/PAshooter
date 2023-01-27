@@ -17,12 +17,12 @@ class object_builder :
         self.step_x = int(self.objSheetSetting[1]/self.objSheetSetting[3])
         self.step_y = int(self.objSheetSetting[2]/self.objSheetSetting[4])
         self.img = self.objSheetSetting[0]
-        self.spriteList = [None for x in range(500)]
+        self.spriteList = [None for x in range(1000)]
         for x in range(self.objSheetSetting[3]) :
             for y in range(self.objSheetSetting[4]) :
                 box = ([int(x*self.step_x),int(y*self.step_y),int((x+1)*self.step_x),int((y+1)*self.step_y)])
                 self.imgCrop = self.img.crop(box)
-                self.imageMat2[x][y] = ImageTk.PhotoImage(self.imgCrop)
+                self.imageMat2[x][y] = self.imgCrop
         for x in range(self.objSheetSetting[3]*2) :
             for y in range(self.objSheetSetting[4]*2) :
                 box = ([int(x*self.step_x/2),int(y*self.step_y/2),math.ceil((x+1)*self.step_x/2),math.ceil((y+1)*self.step_y/2)])
@@ -37,14 +37,14 @@ class object_builder :
         del(self.objSheetSetting)
         del(self.img)
         
-    def getSprite(self,num) :
+    def getSprite(self,num,rawImage=False) :
         num2 = num
         flip = False
         if num <0 :
             num = abs(num)
             num2 = num + 100
             flip = True
-        if self.spriteList[num2]!=None :
+        if self.spriteList[num2]!=None and not rawImage :
             return self.spriteList[num2]
         mapDict = {
             0: [0,0],
@@ -77,8 +77,12 @@ class object_builder :
         }
         if num in mapDict :
             coord = mapDict[num]
-            self.spriteList[num] = self.imageMat2[coord[0]][coord[1]]#.transpose(Image.FLIP_LEFT_RIGHT)
-            return self.spriteList[num]
+            image = self.imageMat2[coord[0]][coord[1]]
+            if rawImage :
+                return image
+            else :
+                self.spriteList[num] = ImageTk.PhotoImage(image)#.transpose(Image.FLIP_LEFT_RIGHT)
+                return self.spriteList[num]
         
         mapDict2 = {
             100: [0,3,0,4],#Bed
@@ -175,8 +179,11 @@ class object_builder :
         if num in mapDict2 :
             coord = mapDict2[num]
             image = self.aggSprite(coord,flip)
-            self.spriteList[num2] = ImageTk.PhotoImage(image)
-            return self.spriteList[num2]
+            if rawImage :
+                return image
+            else :
+                self.spriteList[num2] = ImageTk.PhotoImage(image)
+                return self.spriteList[num2]
         return None
     def addMetadataToObjList(self,objList):
         doorList = [[1,[-1,0]],[2,[0,1]],[3,[1,0]],[4,[0,-1]],[5,[-1,0]],[6,[0,1]],[7,[-1,0]],[8,[0,1]]]
@@ -186,16 +193,15 @@ class object_builder :
             for i in range(len(doorList)) :
                 if objList[j][0] == doorList[i][0]:
                     objList[j][3]=["door",doorList[i][1],0,0,True,objList[j][1],objList[j][2]]#Obj type, direction open, unit open, counter animation, unlocked
-                    print(objList[j][3])
+                    #print(objList[j][3])
             for i in range(len(cabientList)) :
                 if objList[j][0] == cabientList[i][0]:
                     objList[j][3]=["cabinet",cabientList[i][1][0],cabientList[i][1][1],True,0]
         return objList
-    def getCarSprite(self,num,angle=0) :
+    def getCarSprite(self,num,angle=0,angleNum=10) :
         flip=False
         num2 = num+300+angle*10
         angleList = []#[0,45,90,135,180,225,270,315]
-        angleNum = 20
         for i in range(angleNum) :
             angleList.append(int((i/angleNum)*360))
         if self.spriteList[num2]!=None :
@@ -205,19 +211,20 @@ class object_builder :
             1: [3,0,4,7],
             2: [1,8,2,12],
             3: [3,8,4,12],
-            4: [1,13.5,2,17],
-            5: [3,13.5,4,17.5],
+            4: [0,13.5,1.5,17],
+            5: [2.5,13.5,4,17.5],
             6: [0,26,1,29.5],
             7: [2,26,4,30.5],
             }
         if num in mapDict :
             coord = mapDict[num]
             image = self.aggSprite(coord,flip)
-            
+            sizeX, sizeY = image.size
             for i in range(len(angleList)) :
-                image2 = self.angleImage(image,angleList[i])
+                image2 = self.angleImage(image,angleList[i],[sizeX,sizeY])#
                 self.spriteList[num2+10*i] = ImageTk.PhotoImage(image2)
             #self.spriteList[num2] = ImageTk.PhotoImage(image)
+            #○image9,carsizeX,carsizeY = self.angleImage(image,0,[sizeX,sizeY])#
             return self.spriteList[num2]
         return None
     def getCarSize(self,carNum) :
@@ -226,8 +233,8 @@ class object_builder :
             1: [3,0,4,7],
             2: [1,8,2,12],
             3: [3,8,4,12],
-            4: [1,13.5,2,17],
-            5: [3,13.5,4,17.5],
+            4: [0,13.5,1.5,17],
+            5: [2.5,13.5,4,17.5],
             6: [0,20.5,1.5,24.5],
             7: [2.5,20.5,4,24.5],
             }
@@ -249,8 +256,9 @@ class object_builder :
             image = image.transpose(Image.FLIP_LEFT_RIGHT)#FLIP_TOP_BOTTOM)
         return image
     
-    def angleImage(self,image,angle) :
-        imageret = Image.new("RGBA",(300,300)) 
+    def angleImage(self,image,angle,size=[300,300],border=20) :
+        maxSize = max(size[0],size[1])+border
+        imageret = Image.new("RGBA",(maxSize,maxSize)) 
         image2 = image.copy()
-        imageret.paste(image2,(150-38,0),image2)
-        return imageret.rotate(angle)
+        imageret.paste(image2,(int((maxSize/2)-(size[0]/2)),int((maxSize/2)-(size[1]/2))),image2)
+        return imageret.rotate(angle,3)

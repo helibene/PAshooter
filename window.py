@@ -25,6 +25,8 @@ import meleWeapon as mw
 import medicine as med
 import objectTemplate as ot
 import carObject as co
+import characterAction as ca
+import openImageFiles as oi
 class window :
     def __init__(self,conf=None):
 
@@ -41,7 +43,7 @@ class window :
         self.pressedKeys = []
         self.inventoryCount = 0
         fpsList = []
-        self.keyMovePlayer = False
+        self.keyMovePlayer = True
         self.pctScreenScroll = 0.3  
         displayCharaTest = False
         self.zoom = 1
@@ -51,6 +53,7 @@ class window :
         self.menuImageList = []
         self.inventoryList = []
         self.dropCooldown = 0
+        self.pickupCooldown = 0
         self.mouseVal = [-1,-1,0]
         self.menuBarSel = 0
         self.activeBullet = 0
@@ -68,11 +71,13 @@ class window :
         self.rwList = rw.getAllList()
         self.mwList = mw.getAllList()
         self.medList = med.getAllList()
-        self.characterVision = 500
+        self.characterVision = 300
         self.frameCount = 0
         displayFPS = False
         printResources = False
-        
+        self.objMapImage = None
+        self.carAngleNum = 40
+        self.moneyCount = 9
         
         self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/PAshooter/sprites/")
         self.textureFolder = self.pasteConf(self.conf.textureFolder,"texture/")
@@ -111,8 +116,8 @@ class window :
 
         #Sprites conf
         
-        self.sheetList = [["objects2.png",800,1024,25,32],["terrain2.png",1024,992,32,31],["caracteres2.png",1200,1200,32,32],["black.png",1,1,1,1]]
-        self.menuList = [["menu.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200]]]
+        self.sheetList = [["objects2.png",800,1024,25,32],["terrain2.png",1024,992,32,31],["caracteres3.png",1200,1200,32,32],["black.png",1,1,1,1]]
+        self.menuList = [["menu2.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263]]]
         self.mapList,self.backList = self.generateMapConfig(self.mapInstance)
         self.root,self.width,self.height = self.setRoot(width,height,0,0,windowOnTop,fullscreen,True,True)       
         self.canvas = self.getCanvasFullScreen(self.root,self.width,self.height,self.backgroundColor)
@@ -126,6 +131,8 @@ class window :
         self.loadSpritesFromSheets()
 
         self.listener = lb.ListenerBundle()
+        self.saveObjList(self.objList,self.sheetList[0])
+        self.openObjMap(0)
         self.drawObjList(self.objList,self.sheetList[0],self.offset,True)
         self.drawCarObjList(self.offset,True)
         self.object.deleteSpriteMatrix()
@@ -140,22 +147,24 @@ class window :
             self.canvas.pack()
             self.root.update()
             time.sleep(waitBetweenFrames)
-            self.moveCharacterList(self.chara_list,self.backList[0][5])
-            
+
             self.scrollCursor()
-            self.keyMouseAction()
+            ca.master(self)
+            self.moveCharacterList(self.chara_list,self.backList[0][5])
+            self.moveCarList()
             end = time.time()
             self.fpsHandeling(start,end,displayFPS,fpsList)
             self.resetMemAndCanvas()
         self.root.mainloop() 
 
     def openImageFiles(self) :
-        self.openSheetList()
-        self.openMapList()
-        self.generateNewMap(self.generate_new_map)           
-        self.object = ob.object_builder(self.sheetList[0])
-        self.objectCar = ob.object_builder(self.sheetList[2])
-        self.openBackgroundList()
+        self.object,self.objectCar = oi.master(self)
+        # self.openSheetList()
+        # self.openMapList()
+        # self.generateNewMap(self.generate_new_map)           
+        # self.object = ob.object_builder(self.sheetList[0])
+        # self.objectCar = ob.object_builder(self.sheetList[2])
+        # self.openBackgroundList()
         
     def loadSpritesFromSheets(self):
         self.loadImageCharacterList(self.sheetList[2])
@@ -165,7 +174,7 @@ class window :
         
     def drawBundle(self) :
         self.drawBackgroundSheet(self.backList[0],-self.offset[0],-self.offset[1])
-        self.drawObjList(self.objList,self.sheetList[0],self.offset)  
+        self.drawObjList(self.objList,self.sheetList[0],self.offset,False,True)  
         self.drawCarObjList(self.offset)#,False,int(self.frameCount/5)%20) 
         self.drawHandObjList(self.handObjList,self.offset)
         self.drawCharacterClassList(self.sheetList[2],self.chara_list,self.offset)
@@ -185,224 +194,16 @@ class window :
             if obj.spriteNum == spriteNum : 
                 return obj
         return None
-    def moveCarList(self,direction=[0,0]) :
-        for car in self.carObjList :
-            car.setAcceleration([direction[0]/10,direction[1]/10])
-            car.applyAcceleration()
-            car.move()
+            
+    def moveCarList(self) :
+        for i in range(len(self.carObjList)) :
+            self.carObjList[i].applyAcceleration()
+            self.carObjList[i].move()
     ###############
     #Player Action#
     ###############
     
-    def keyMouseAction(self) :
-        keyDir,interact,drop,sprint = self.listener.keyAction()
-        me = self.getMe()
-        if sprint :
-            keyDir = [keyDir[0]*self.sprintFactor,keyDir[1]*self.sprintFactor]
-            
-        if not self.keyMovePlayer :
-            self.moveCamera(keyDir)
-            
-        self.changeDirCharacterList(0.05,self.chara_list,keyDir,me)
-        self.moveCarList(keyDir)
-        self.healthPct = me.healthPct
-        meleWepon = self.weponUseAtempt(me)
-        self.damageCalculation(me,meleWepon)
-        self.healUseAtempt(me)
-        self.listener.resetClick()
-        self.dropAction(drop,me)
-        self.interactAction(interact,me)
-        
-    def healUseAtempt(self,me) :
-        if self.listener.mouseVal[0]!=-1 :
-            obj = self.getHandObjFromInventory(self.menuBarSel)
-            if obj != None :
-                healItem = self.getUOfromSpriteNum(obj[0],self.medList)
-                if healItem != None :
-                    me.healthPct = min(me.healthPct + healItem.healValue,1)
-                    self.dropItem(obj,me,True)
-        
-    def dropAction(self,dropBool,me) :
-        if dropBool and self.dropCooldown==0:
-            obj = self.getHandObjFromInventory(self.menuBarSel)
-            self.dropItem(obj,me)
-        elif self.dropCooldown>0 :
-            self.dropCooldown = self.dropCooldown - 1
-    
-    def dropItem(self,item,me,delete=False) :
-        if item!=None :
-            if delete :
-                item[3] = -4
-            else :
-                item[3] = -1
-            item[1] = me.posMap[0]
-            item[2] = me.posMap[1]
-            dropIndex = self.inventoryList.index(self.handObjList.index(item))
-            self.inventoryList[dropIndex] = -1
-            self.inventoryCount = self.inventoryCount - 1
-            self.dropCooldown = 10
-    
-    def interactAction(self,interBool,me) :
-        if interBool :
-            self.pickUpItem(me)
-        self.interactWithItem(me,interBool)
-            
-    def pickUpItem(self,me) :
-        takenFlag = False
-        if self.inventoryCount<self.maxInventory+1 : 
-            for obj in self.handObjList :
-                if not takenFlag and obj[0]!=1 and obj[3]!=-4 and obj[3]!=-5:
-                    dist = math.sqrt(math.pow(obj[1]-me.posMap[0],2)+math.pow(obj[2]-me.posMap[1],2))
-                    if dist < self.distancePickup :
-                        #print("Picked up obj #",obj[0])
-                        obj[1] = -100
-                        obj[2] = -100
-                        avaSpot = self.inventoryAvailableSpot()
-                        obj[3] = avaSpot
-                        if avaSpot==len(self.inventoryList):
-                            self.inventoryList.append(self.handObjList.index(obj))
-                        else :
-                            self.inventoryList[avaSpot] = self.handObjList.index(obj)
-                        self.inventoryCount = self.inventoryCount + 1
-                        takenFlag = True
-                        
-    def interactWithItem(self,me,interBool):
-        aniIter = 25
-        distance = 50
-        for obj in self.objList : 
-            if obj[3][0]!='none' :
-                if obj[3][0]=='door' :
-                    if obj[3][3] == 0 :
-                        #print(self.backList[0][5][int(obj[1])][int(obj[2])],"  ",obj[1],"  ",obj[2])
-                        self.backList[0][5][int(obj[3][6])][int(obj[3][5])]=True
-                    else :
-                        self.backList[0][5][int(obj[3][6])][int(obj[3][5])]=False
-                    if obj[3][4] :
-                        if interBool:
-                            dist = math.sqrt(math.pow(obj[1]*32-me.posMap[0],2)+math.pow(obj[2]*32-me.posMap[1],2))
-                            if dist < distance :
-                                if obj[3][2] == 0 :
-                                    if obj[3][3] == 0 :
-                                        obj[3][2] = 1
-                                    if obj[3][3] == aniIter:
-                                        obj[3][2] = -1
-        
-                                
-                        obj[1] = obj[1]+obj[3][1][0]*obj[3][2]/aniIter
-                        obj[2] = obj[2]+obj[3][1][1]*obj[3][2]/aniIter
-                        obj[3][3] = obj[3][3] + obj[3][2] 
-                        if aniIter<=obj[3][3] and obj[3][2] == 1:
-                            obj[3][2] = 0
-                            obj[3][3] = aniIter
-                        if obj[3][3] <= 0 and obj[3][2] == -1:
-                            obj[3][3] = 0
-                            obj[3][2] = 0
-                if obj[3][0]=='cabinet' :
-                    if obj[3][3] :
-                        if interBool:
-                            print("cabinet")
-                            dist = math.sqrt(math.pow(obj[1]*32 +15-me.posMap[0],2)+math.pow(obj[2]*32+25-me.posMap[1],2))
-                            if dist < distance and obj[3][4]==0:
-                                obj[3][4] = aniIter
-                                if obj[3][1] :
-                                    obj[3][1] = False
-                                else :
-                                    obj[3][1] = True
-                                spriteNum = obj[0]
-                                obj[0] = obj[3][2]
-                                obj[3][2] = spriteNum
-                    if obj[3][4]>0 :
-                        obj[3][4] = obj[3][4] -1
-    def damageCalculation(self,me,meleWepon):
-        self.moveBullets(me)
-        self.meleDamageCalculation(me,meleWepon)
 
-    def meleDamageCalculation(self,me,meleWepon) :
-        if self.weponUsedCooldown == self.weponUsedCooldownReset and meleWepon!=None:
-            for cha in self.chara_list :
-                dist = math.sqrt(math.pow(cha.posMap[0]-me.posMap[0],2)+math.pow(cha.posMap[1]-me.posMap[1],2))
-                if not cha.playerControled and dist<(me.attackRange*meleWepon.rangeMulti) :
-                    dead = cha.applyDamage(meleWepon.damage,me.damageMulti)
-                    if dead :
-                        self.killCharacter(cha)
-        for cha in self.chara_list :
-            if not cha.dead and not cha.playerControled and cha.attackCooldown==0 :
-                dist = math.sqrt(math.pow(cha.posMap[0]-me.posMap[0],2)+math.pow(cha.posMap[1]-me.posMap[1],2))
-                if dist<cha.attackRange :
-                    cha.attackCooldown = 10
-                    dead = me.applyDamage(1,cha.damageMulti)
-                    if dead :
-                        self.killCharacter(me)
-            elif not cha.dead and not cha.playerControled and cha.attackCooldown!=0 :
-                cha.attackCooldown = cha.attackCooldown -1
-            if cha.damageCooldown>0 :
-                cha.damageCooldown = cha.damageCooldown -1
-    
-    def killCharacter(self,cha) :
-        cha.dead = True
-        self.animationListPos.append([0,cha.posMap[0],cha.posMap[1],cha.spriteSize[0],cha.spriteSize[1]])
-                    
-    def moveBullets(self,me) :
-        damage = 0.6
-        if self.bulletNum>0 :
-            for i in range(self.bulletNum) :
-                if self.handObjList[i][3] == -2 :
-                    self.handObjList[i][1] = me.posMap[0] 
-                    self.handObjList[i][2] = me.posMap[1]
-    
-                if self.handObjList[i][3] == -3 :
-                    self.handObjList[i][1] = self.handObjList[i][1]+self.handObjList[i][5][0]
-                    self.handObjList[i][2] = self.handObjList[i][2]+self.handObjList[i][5][1]
-                    self.handObjList[i][7] = self.handObjList[i][7] + self.handObjList[i][6].speed 
-                    if self.objOutOfScreen(self.handObjList[i]) or self.handObjList[i][7]>self.handObjList[i][6].range:
-                        self.handObjList[i][3]=-2
-                        self.handObjList[i][7] = 0
-                    else :  
-                        for cha in self.chara_list :
-                            dist = math.sqrt(math.pow(cha.posMap[0]-self.handObjList[i][1],2)+math.pow(cha.posMap[1]-self.handObjList[i][2],2))
-                            if not cha.playerControled and dist<self.handObjList[i][6].radius :
-                                self.handObjList[i][3]=-2
-                                dead = cha.applyDamage(self.handObjList[i][6].damage,me.damageMulti)
-                                if dead :
-                                    self.killCharacter(cha)
-
-    def weponUseAtempt(self,me):
-        weponUsedFlag = False
-        meleWeponReturn=None
-        if self.listener.mouseVal[0]!=-1 :
-            obj = self.getHandObjFromInventory(self.menuBarSel)
-            if obj != None :
-                rangeWeapon = self.getUOfromSpriteNum(obj[0],self.rwList)
-                if rangeWeapon!=None :
-                    speed = rangeWeapon.speed
-
-                    bulletDir = [0,0]
-                    bulletDir[0] = self.listener.mouseVal[0]-(me.getPosScreen(self.offset)[0])
-                    bulletDir[1] = self.listener.mouseVal[1]-(me.getPosScreen(self.offset)[1])
-                    distance = math.sqrt(math.pow(bulletDir[0],2)+math.pow(bulletDir[1],2))
-
-                    self.handObjList[self.activeBullet][3] = -3
-                    dir2 = [speed*bulletDir[0]/distance,speed*bulletDir[1]/distance]
-                    self.handObjList[self.activeBullet][5] = dir2
-                    self.handObjList[self.activeBullet][6] = rangeWeapon
-                    self.activeBullet = self.activeBullet + 1
-                    if self.activeBullet==self.bulletNum :
-                        self.activeBullet = 0
-                    weponUsedFlag = True
-                else :
-                    meleWeapon = self.getUOfromSpriteNum(obj[0],self.mwList)
-                    if meleWeapon!=None :
-                        weponUsedFlag = True
-                        meleWeponReturn = meleWeapon
-                    
-        if weponUsedFlag :
-            self.weponUsedCooldown = self.weponUsedCooldownReset
-        else :
-            if self.weponUsedCooldown>0 :
-                self.weponUsedCooldown = self.weponUsedCooldown -1
-        
-        return meleWeponReturn
-    
     def objOutOfScreen(self,obj) :
         if obj[1]-self.offset[0] < 0 :
             return True
@@ -439,29 +240,31 @@ class window :
             self.objListBuff = []
         if val == -2 :
             self.handObjListBuff = []
-            for i in range(len(self.shootWeaponsObj)) :
-                self.handObjListBuff.append([self.shootWeaponsObj[i],i*35+20,20,-1])
-            for i in range(len(self.meleWeponsObj)) :
-                self.handObjListBuff.append([self.meleWeponsObj[i],i*35+20,70,-1])
-            for i in range(len(self.medicineObj)) :
-                self.handObjListBuff.append([self.medicineObj[i],i*35+20,120,-1])
+            for i in range(len(self.rwList)) :
+                self.handObjListBuff.append([self.rwList[i].spriteNum,i*35+20,20,-1])
+            for i in range(len(self.mwList)) :
+                self.handObjListBuff.append([self.mwList[i].spriteNum,i*35+20,70,-1])
+            for i in range(len(self.medList)) :
+                self.handObjListBuff.append([self.medList[i].spriteNum,i*35+20,120,-1])
             self.objListBuff = []
         if val == -3 :    
             self.objListBuff = generateObjList()
             self.handObjListBuff = []
         if val == -4 :
-            self.handObjListBuff = []
+            self.handObjListBuff = [[10,300,300,-1]]
             self.objListBuff = []
             for i in range(8) :
-                car = self.loadCarObj(co.carObject(i,[100+i*100,50]))
+                car = self.loadCarObj(co.carObject(i,[300+i*300,300]))
                 self.carObjList.append(car)
-                car.display()
+                #car.display()
                 self.carList.append([i,i*100+100,150])
         if val == -5 :
             self.handObjListBuff = []
             self.objListBuff = []
-            car = self.loadCarObj(co.carObject(5,[0,0]))
+            car = self.loadCarObj(co.carObject(5,[400,150]))
+            car2 = self.loadCarObj(co.carObject(1,[600,150]))
             self.carObjList.append(car)
+            self.carObjList.append(car2)
             car.display()
 
         self.handObjList = self.generateBullets()
@@ -476,9 +279,11 @@ class window :
     #########################
     
     def loadCarObj(self,car) :
-        for i in range(20) :
+        for i in range(self.carAngleNum) :
             w,h = self.objectCar.getCarSize(car.spriteNum)
-            car.sprite.append(self.objectCar.getCarSprite(car.spriteNum,i))
+            sprite = self.objectCar.getCarSprite(car.spriteNum,i,self.carAngleNum+1)#,spriteSizeX,spriteSizeY
+            car.spriteSize = [max(w,h)+20,max(w,h)+20]
+            car.sprite.append(sprite)
             car.sizeX = w
             car.sizeY = h
         return car
@@ -524,25 +329,41 @@ class window :
     #Draw on canvas#
     ################
     
-    def drawObjList(self,objMat,objSheet,offset=[0,0],dontDisplay=False):
+    def drawObjList(self,objMat,objSheet,offset=[0,0],dontDisplay=False,useImageMap=False):
+        if useImageMap :
+            self.canvas.create_image(-offset[0],-offset[1],image=self.objMapImage, anchor="nw")
         step_x = (objSheet[1]/objSheet[3])
         step_y = (objSheet[2]/objSheet[4])
-        objIdList = []
         for obj in objMat :
-            img = self.object.getSprite(obj[0])
-            if obj[3][0]=='cabinet':
-                img2 = self.object.getSprite(obj[3][2])
-            if not dontDisplay :
-                objIdList.append(self.canvas.create_image(obj[1]*step_x-offset[0],obj[2]*step_y-offset[1], image=img, anchor="nw"))
-        self.objIdList = objIdList
+            if not useImageMap or (useImageMap and obj[3][0]!='none') :
+                img = self.object.getSprite(obj[0])
+                if obj[3][0]=='cabinet':
+                    img2 = self.object.getSprite(obj[3][2])
+                if not dontDisplay :
+                    self.canvas.create_image(obj[1]*step_x-offset[0],obj[2]*step_y-offset[1], image=img, anchor="nw")
+            
+    def saveObjList(self,objMat,objSheet,num=0):
+        mapSizeX = self.backList[0][1]
+        mapSizeY = self.backList[0][2]
+        mapImage = Image.new("RGBA", (mapSizeX, mapSizeY)) 
+        for obj in objMat :
+            if obj[3][0]=='none':
+                img = self.object.getSprite(obj[0],True)
+                mapImage.paste(img,(int(obj[1]*32),int(obj[2]*32)),img)
+        mapImage.save(self.rootPath+self.mapFolder+"map"+str(num)+"_obj.png","PNG")
     
     def drawCarObjList(self,offset=[0,0],dontDisplay=False,forceAngle=0):
         for car in self.carObjList :
             if forceAngle==0 and not dontDisplay:
                 forceAngle = car.angle
-            img = car.sprite[forceAngle]
+            
             if not dontDisplay :
-                self.canvas.create_image(car.pos[0]-offset[0],car.pos[1]-offset[1], image=img, anchor="nw")
+                #print(car.spriteSize)
+                forceAngle = car.updateAngle(self.carAngleNum)
+                if forceAngle!=None :
+                    print(forceAngle,"   ",len(car.sprite))
+                img = car.sprite[forceAngle]
+                self.canvas.create_image(car.pos[0]-offset[0]-int(car.spriteSize[0]/2),car.pos[1]-offset[1]-int(car.spriteSize[1]/2), image=img, anchor="nw")
 
         
     def drawHandObjList(self,objHandMat,offset=[0,0],inventory=False):
@@ -576,6 +397,11 @@ class window :
             self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))+80,self.height-self.menuSize[1]-15, image=self.menuImageList[3], anchor="nw")
             self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))+80,self.height-self.menuSize[1]-10, image=self.imgHealthBar, anchor="nw")
             self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))-5+self.menuBarSel*50,self.height-60, image=self.menuImageList[2], anchor="nw")
+            self.canvas.create_image(10,10, image=self.menuImageList[5], anchor="nw")
+            moneyStr = str(self.moneyCount)
+            moneySize = len(moneyStr)
+            self.canvas.create_text(94-10*moneySize+10-10,25+10+5, text=moneyStr, fill="black", font=("Helvetica 25 bold"))
+
         return None
     
     def drawCharacter(self,characterSheetSettings,img,dispX,dispY,name="",pc=False) :
@@ -601,7 +427,8 @@ class window :
     
     def drawCharacterClassList(self,characterSheetSettings,characterList,offset=[0,0]) :
         for character in characterList :
-            self.drawCharacterClass(characterSheetSettings,character,offset)
+            if character.inCar == -1 :
+                self.drawCharacterClass(characterSheetSettings,character,offset)
     
     def drawBackgroundSheet(self,backSettings,posX,posY) :
         return self.canvas.create_image(posX,posY, image=self.backList[0][0], anchor="nw")    
@@ -632,7 +459,9 @@ class window :
         for sheetNum in range(len(self.sheetList)) :
             img = Image.open(self.rootPath+self.textureFolder+self.sheetList[sheetNum][0]).convert("RGBA")
             self.sheetList[sheetNum][0] = img
-            
+    def openObjMap(self,num) :
+        self.objMapImage = ImageTk.PhotoImage(Image.open(self.rootPath+self.mapFolder+"map"+str(num)+"_obj.png").convert("RGBA"))
+                    
     def openMapList(self) :
         for mapNum in range(len(self.mapList)) :
             img = Image.open(self.rootPath+self.mapFolder+self.mapList[mapNum][0]).convert("RGB")
@@ -719,7 +548,7 @@ class window :
             self.handObjList[j].append(0)
 
     def loadImageMenuList(self,menuSheetSettings,mirror=False) :
-        for coord in range(1,6) :
+        for coord in range(1,7) :
             img = Image.open(self.rootPath+self.textureFolder+menuSheetSettings[0][0]).convert("RGBA")
             box = (menuSheetSettings[0][coord])
             img = img.crop(box)
@@ -786,6 +615,7 @@ class window :
         character_me.healthPct = myHealth
         character_me.attackRange = myAttackRange
         character_me.damageMulti = myDamageMulti
+        character_me.inCar = -1
         self.chara_list.append(character_me)
         self.offset = [character_me.posMap[0]-int(self.width/2),character_me.posMap[1]-int(self.height/2)]
         
@@ -800,19 +630,30 @@ class window :
 
     def moveCharacterList(self,chList,collisionMat=None) :
         for c in chList :
-            if self.characterCanMove(c,collisionMat,True) and not c.dead:
-                c.move()
+            if c.inCar == -1 :
+                if self.characterCanMove(c,collisionMat,True) and not c.dead:
+                    c.move()
                 if c.playerControled :
-                    screenPos = [c.posMap[0]-self.offset[0],c.posMap[1]-self.offset[1]]
-                    if screenPos[0]<self.width*self.pctScreenScroll :
-                        self.offset[0] = self.offset[0]+c.movingDir[0]
-                    if screenPos[0]>self.width-self.width*self.pctScreenScroll :
-                        self.offset[0] = self.offset[0]+c.movingDir[0]
-                    if screenPos[1]<self.height*self.pctScreenScroll :
-                        self.offset[1] = self.offset[1]+c.movingDir[1]
-                    if screenPos[1]>self.height-self.height*self.pctScreenScroll :
-                        self.offset[1] = self.offset[1]+c.movingDir[1]
-
+                    self.moveCameraPos(c)
+            else :
+                carPos = self.carObjList[c.inCar].pos
+                posDiff = [carPos[0]-c.posMap[0],carPos[1]-c.posMap[1]]
+                c.movingDir = posDiff
+                c.move()
+                self.moveCameraPos(c)
+                #c.posMap = self.carObjList[c.inCar].pos
+                
+    def moveCameraPos(self,c):
+            screenPos = [c.posMap[0]-self.offset[0],c.posMap[1]-self.offset[1]]
+            if screenPos[0]<self.width*self.pctScreenScroll :
+                self.offset[0] = self.offset[0]+c.movingDir[0]
+            if screenPos[0]>self.width-self.width*self.pctScreenScroll :
+                self.offset[0] = self.offset[0]+c.movingDir[0]
+            if screenPos[1]<self.height*self.pctScreenScroll :
+                self.offset[1] = self.offset[1]+c.movingDir[1]
+            if screenPos[1]>self.height-self.height*self.pctScreenScroll :
+                self.offset[1] = self.offset[1]+c.movingDir[1]
+                
     def characterCanMove(self,c,collisionMat=None,future=False) :
         if collisionMat==None :
             return True
@@ -827,22 +668,6 @@ class window :
                 return True
             else :
                 return False
-            
-    def changeDirCharacterList(self,p,chList,direction=[0,0],player=None) :
-        for c in chList :
-            if c.playerControled :
-                if self.keyMovePlayer :
-                    c.changeDir(direction)
-            else :
-                if c.movingPattern == 0 :
-                    c.movingDir = [0,0]
-                elif c.movingPattern == 1 :
-                    c.changeDirRand(self.changeDirectionFrequency,self.stopMovingFrequency)
-                elif c.movingPattern == 2 :
-                    c.folowPlayer(player,player.dead)
-                elif c.movingPattern == 3 :
-                    c.folowPlayer(player,player.dead,self.characterVision,self.changeDirectionFrequency,self.stopMovingFrequency)
-
             
     def getHandObjFromInventory(self,i) :
         for obj in self.handObjList :
