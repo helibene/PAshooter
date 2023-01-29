@@ -28,6 +28,7 @@ import carObject as co
 import characterAction as ca
 import openImageFiles as oi
 import windowUtil as wu
+import lootSelection as ls
 class window :
     def __init__(self,conf=None):
 
@@ -261,8 +262,8 @@ class window :
             #car.display()
 
         self.handObjList = self.generateBullets()
-        lootList = self.generateLoot(10)
-        self.handObjList.extend(lootList)
+        #lootList = self.generateLoot(10)
+        #self.handObjList.extend(lootList)
         self.handObjList.extend(self.handObjListBuff)
         self.objList = self.object.addMetadataToObjList(self.objListBuff)
 
@@ -299,11 +300,14 @@ class window :
             
         return bulletList
     
-    def generateLoot(self,num) :
+    def generateLoot(self) :
         lootList = []
-        for i in range(num) :
-            lootList.append([30,0,0,-5])
-            
+        lootSelection = ls.lootSelection()
+        for cha in self.chara_list :
+            lootNum = int(float(random.random()*float(cha.lootNumRange[1]-cha.lootNumRange[0]))+float(cha.lootNumRange[0]))
+            for i in range(lootNum) :
+                loot = lootSelection.getItemFromTemplate()
+                lootList.append(loot)
         return lootList
     
     def generateMoney(self,pos=[0,0],value=1):
