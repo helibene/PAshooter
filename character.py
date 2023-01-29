@@ -35,6 +35,7 @@ class character :
         self.inCar = -1
         self.carInteractionCooldown = 0
         self.merchand = False
+        self.lootList = [11]
         
     def applyDamage(self,damage,multi=1) :
         self.damageCooldown = 20
@@ -105,8 +106,6 @@ class character :
     def changeDir(self,direction) :
         self.movingDir = [direction[0]*self.speed,direction[1]*self.speed]
     
-    def lootItem(self) :
-        item = [30,self.posMap[0],self.posMap[1],-1]    
 def randomMove(speed=1) :
     angle = random.random()*math.pi*2
     return [speed*math.cos(angle),speed*math.sin(angle)]

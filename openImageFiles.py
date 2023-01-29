@@ -15,7 +15,7 @@ class openImageFiles :
      def __init__(self):
          pass
 
-def master(w) :
+def masterOpen(w) :
     openSheetList(w)
     openMapList(w)
     generateNewMap(w,w.generate_new_map)           
@@ -23,6 +23,13 @@ def master(w) :
     objectCarInst = ob.object_builder(w.sheetList[2])
     openBackgroundList(w)
     return objectInst, objectCarInst
+
+def masterLoad(w) :
+    loadImageCharacterList(w,w.sheetList[2])
+    loadImageHandObjList(w,w.sheetList[2])
+    loadImageMenuList(w,w.menuList)
+    loadImageAnimationList(w,w.sheetList[2])
+
 def generateNewMap(w,generate=False) :
     if generate :
         w.terrain = tb.terrain_builder(w.sheetList[1],w.sheetList[3],True)
@@ -91,7 +98,7 @@ def loadImageCharacterList(w,characterSheetSettings) :
 
             if i == 3 :
                 imgcop = img.copy()
-                mask = w.imageToMask(w,imgcop)
+                mask = imageToMask(w,imgcop)
                 img = Image.alpha_composite(img,mask)
             if i<0:
                 img = img.transpose(Image.FLIP_LEFT_RIGHT)
@@ -102,6 +109,11 @@ def loadImageCharacterList(w,characterSheetSettings) :
 
 def loadImageHandObjList(w,characterSheetSettings,mirror=False) :
     for j in range(len(w.handObjList)) :
+        moneyValue = -1
+        if w.handObjList[j][0]==31 :
+            moneyValue = w.handObjList[j][3]
+            w.handObjList[j][3] = -2
+
         x,y = w.handObjSelection(w.handObjList[j][0])
         img = characterSheetSettings[0]
         step_x = (characterSheetSettings[1]/characterSheetSettings[3])
@@ -119,7 +131,10 @@ def loadImageHandObjList(w,characterSheetSettings,mirror=False) :
         w.handObjList[j][4].append(img3)
         w.handObjList[j][4].append(img4)
         w.handObjList[j].append([0,0])
-        w.handObjList[j].append(0)
+        if moneyValue == -1 :
+            w.handObjList[j].append(0)
+        else :
+            w.handObjList[j].append(moneyValue)
         w.handObjList[j].append(0)
 
 def loadImageMenuList(w,menuSheetSettings,mirror=False) :

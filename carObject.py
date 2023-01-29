@@ -59,12 +59,8 @@ class carObject :
             return None
     
     def setAcceleration(self,acc):
-        #if acc != [0,0] :
-        #
         self.acc = [acc[0],acc[1]]
-        #else :
-        #    frict = self.getFrictionVector()
-        #    self.acc = frict
+
     def display(self) :
         print("Sprite num :",self.spriteNum)
         print("Pos :",self.pos," Speed :",self.speed," Acc :",self.acc)

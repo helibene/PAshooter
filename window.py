@@ -27,6 +27,7 @@ import objectTemplate as ot
 import carObject as co
 import characterAction as ca
 import openImageFiles as oi
+import windowUtil as wu
 class window :
     def __init__(self,conf=None):
 
@@ -119,8 +120,8 @@ class window :
         self.sheetList = [["objects2.png",800,1024,25,32],["terrain2.png",1024,992,32,31],["caracteres3.png",1200,1200,32,32],["black.png",1,1,1,1]]
         self.menuList = [["menu2.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263]]]
         self.mapList,self.backList = self.generateMapConfig(self.mapInstance)
-        self.root,self.width,self.height = self.setRoot(width,height,0,0,windowOnTop,fullscreen,True,True)       
-        self.canvas = self.getCanvasFullScreen(self.root,self.width,self.height,self.backgroundColor)
+        self.root,self.width,self.height = wu.setRoot(self,width,height,0,0,windowOnTop,fullscreen,True,True)       
+        self.canvas = wu.getCanvasFullScreen(self,self.root,self.width,self.height,self.backgroundColor)
 
         self.carList = []
         self.carObjList = []
@@ -158,19 +159,11 @@ class window :
         self.root.mainloop() 
 
     def openImageFiles(self) :
-        self.object,self.objectCar = oi.master(self)
-        # self.openSheetList()
-        # self.openMapList()
-        # self.generateNewMap(self.generate_new_map)           
-        # self.object = ob.object_builder(self.sheetList[0])
-        # self.objectCar = ob.object_builder(self.sheetList[2])
-        # self.openBackgroundList()
+        self.object,self.objectCar = oi.masterOpen(self)
+
         
     def loadSpritesFromSheets(self):
-        self.loadImageCharacterList(self.sheetList[2])
-        self.loadImageHandObjList(self.sheetList[2])
-        self.loadImageMenuList(self.menuList)
-        self.loadImageAnimationList(self.sheetList[2])
+        oi.masterLoad(self)
         
     def drawBundle(self) :
         self.drawBackgroundSheet(self.backList[0],-self.offset[0],-self.offset[1])
@@ -259,20 +252,20 @@ class window :
                 #car.display()
                 self.carList.append([i,i*100+100,150])
         if val == -5 :
-            self.handObjListBuff = []
+            self.handObjListBuff = [self.generateMoney([100,100],100),[0,100,100,-1]]
             self.objListBuff = []
             car = self.loadCarObj(co.carObject(5,[400,150]))
             car2 = self.loadCarObj(co.carObject(1,[600,150]))
             self.carObjList.append(car)
             self.carObjList.append(car2)
-            car.display()
+            #car.display()
 
         self.handObjList = self.generateBullets()
         lootList = self.generateLoot(10)
         self.handObjList.extend(lootList)
         self.handObjList.extend(self.handObjListBuff)
         self.objList = self.object.addMetadataToObjList(self.objListBuff)
-        #print(self.objList)
+
         
     #########################
     #Generate class instance#
@@ -313,6 +306,8 @@ class window :
             
         return lootList
     
+    def generateMoney(self,pos=[0,0],value=1):
+        return [31,pos[0],pos[1],value]
     def generateTrees(self,treeList=[103,104],area=[20,20,40,40],frequency=0.1) :
         objList = []
         for x in range(area[0],area[2]) :
@@ -356,12 +351,8 @@ class window :
         for car in self.carObjList :
             if forceAngle==0 and not dontDisplay:
                 forceAngle = car.angle
-            
             if not dontDisplay :
-                #print(car.spriteSize)
                 forceAngle = car.updateAngle(self.carAngleNum)
-                if forceAngle!=None :
-                    print(forceAngle,"   ",len(car.sprite))
                 img = car.sprite[forceAngle]
                 self.canvas.create_image(car.pos[0]-offset[0]-int(car.spriteSize[0]/2),car.pos[1]-offset[1]-int(car.spriteSize[1]/2), image=img, anchor="nw")
 
@@ -448,126 +439,10 @@ class window :
     def generateMapConfig(self,num) :
         return [["map"+str(num)+".png","map"+str(num)]],[["map"+str(num)+"_tex.jpeg",0,0,0,0,"map"+str(num)+"_col.png"]]
 
-    def generateNewMap(self,generate=False) :
-        if generate :
-            self.terrain = tb.terrain_builder(self.sheetList[1],self.sheetList[3],True)
-            self.terrain.mapFileToImage(self.mapList[0],self.rootPath+self.mapFolder)
-            del(self.terrain)
-            del(self.mapList)
-            
-    def openSheetList(self) :
-        for sheetNum in range(len(self.sheetList)) :
-            img = Image.open(self.rootPath+self.textureFolder+self.sheetList[sheetNum][0]).convert("RGBA")
-            self.sheetList[sheetNum][0] = img
+
     def openObjMap(self,num) :
         self.objMapImage = ImageTk.PhotoImage(Image.open(self.rootPath+self.mapFolder+"map"+str(num)+"_obj.png").convert("RGBA"))
                     
-    def openMapList(self) :
-        for mapNum in range(len(self.mapList)) :
-            img = Image.open(self.rootPath+self.mapFolder+self.mapList[mapNum][0]).convert("RGB")
-            self.mapList[mapNum][0] = img
-            sizeX, sizeY = img.size
-            self.mapList[mapNum].append(sizeX)
-            self.mapList[mapNum].append(sizeY)
-    
-    def openBackgroundList(self) :
-        for backNum in range(len(self.backList)) :
-            img = Image.open(self.rootPath+self.mapFolder+self.backList[backNum][0]).convert("RGBA")
-            sizeX, sizeY = img.size
-            self.backList[backNum][1] = sizeX
-            self.backList[backNum][2] = sizeY
-            self.backList[backNum][3] = int(sizeX/self.terrainTileSize)
-            self.backList[backNum][4] = int(sizeY/self.terrainTileSize)
-            self.backList[backNum][0] = ImageTk.PhotoImage(img)
-            if len(self.backList[backNum])>5:
-                img = Image.open(self.rootPath+self.mapFolder+self.backList[backNum][5]).convert("RGB")
-                boolMat = [[False for x in range(self.backList[backNum][4])] for y in range(self.backList[backNum][3])] 
-        
-                colorMat = np.array(list(img.getdata())).reshape((self.backList[backNum][3], self.backList[backNum][4], 3))
-                for x in range(self.backList[backNum][3]-1) :
-                    for y in range(self.backList[backNum][4]-1) :
-                        if colorMat[x][y][0]==0:
-                            boolMat[x][y] = True
-                self.backList[backNum][5] = boolMat
-            else :
-                self.backList[backNum].append(None)
-    
-    def imageToMask(self,img,transparentCol=(0,0,0,0),fillCol=(255, 0, 0, 100)) :
-        data = img.getdata()
-        newData = []
-        for item in data:
-            if item[0] > 0 or item[1] > 0 or item[2] > 0:
-                newData.append(fillCol)
-            else:
-                newData.append(transparentCol)
-        img.putdata(newData)
-        return img
-    
-    def loadImageCharacterList(self,characterSheetSettings) :
-        for j in range(len(self.chara_list)) :
-            for i in [0,1,2,-2,3] :
-                x,y = self.caracterSelection(self.chara_list[j].spriteNum,abs(i))
-                img = characterSheetSettings[0]
-
-                step_x = (characterSheetSettings[1]/characterSheetSettings[3])
-                step_y = (characterSheetSettings[2]/characterSheetSettings[4])
-                box = ([math.ceil(x*step_x),math.ceil(y*step_y),int((x+1)*step_x),int((y+1)*step_y)])
-                img = img.crop(box)
-
-                if i == 3 :
-                    imgcop = img.copy()
-                    mask = self.imageToMask(imgcop)
-                    img = Image.alpha_composite(img,mask)
-                if i<0:
-                    img = img.transpose(Image.FLIP_LEFT_RIGHT)
-                img2 = ImageTk.PhotoImage(img.resize((int(step_x*self.zoom),int(step_y*self.zoom)), resample=self.resampleType))#
-                
-                self.chara_list[j].spriteList.append(img2)
-            self.chara_list[j].setSpriteSize()
-    
-    def loadImageHandObjList(self,characterSheetSettings,mirror=False) :
-        for j in range(len(self.handObjList)) :
-            x,y = self.handObjSelection(self.handObjList[j][0])
-            img = characterSheetSettings[0]
-            step_x = (characterSheetSettings[1]/characterSheetSettings[3])
-            step_y = (characterSheetSettings[2]/characterSheetSettings[4])
-            box = ([math.ceil(x*step_x),math.ceil(y*step_y),int((x+1)*step_x),int((y+1)*step_y)])
-            img = img.crop(box)
-            if mirror:
-                img = img.transpose(Image.FLIP_LEFT_RIGHT)
-            imageSmall = img.resize((int(step_x*self.zoomHandObj),int(step_y*self.zoomHandObj)), resample=self.resampleType)
-            img2 = ImageTk.PhotoImage(imageSmall)
-            img3 = ImageTk.PhotoImage(img)
-            img4 = ImageTk.PhotoImage(imageSmall.rotate(-90))
-            self.handObjList[j].append([])
-            self.handObjList[j][4].append(img2)
-            self.handObjList[j][4].append(img3)
-            self.handObjList[j][4].append(img4)
-            self.handObjList[j].append([0,0])
-            self.handObjList[j].append(0)
-            self.handObjList[j].append(0)
-
-    def loadImageMenuList(self,menuSheetSettings,mirror=False) :
-        for coord in range(1,7) :
-            img = Image.open(self.rootPath+self.textureFolder+menuSheetSettings[0][0]).convert("RGBA")
-            box = (menuSheetSettings[0][coord])
-            img = img.crop(box)
-            if coord==5 :
-                self.menuImageList.append(img)
-            else :
-                img2 = ImageTk.PhotoImage(img)
-                self.menuImageList.append(img2)
-                
-    def loadImageAnimationList(self,characterSheetSettings):
-        for i in range(1) : 
-            x,y = self.animationSelection(i)
-            img = characterSheetSettings[0]
-            step_x = (characterSheetSettings[1]/characterSheetSettings[3])
-            step_y = (characterSheetSettings[2]/characterSheetSettings[4])
-            box = ([math.ceil(x*step_x),math.ceil(y*step_y),int((x+1)*step_x),int((y+1)*step_y)])
-            img = img.crop(box)
-            img2 = ImageTk.PhotoImage(img)#
-            self.animationList.append(img2)
    
     ###################
     #Create characters#
@@ -599,13 +474,6 @@ class window :
             if c.playerControled :
                 return c
         return None
-    
-    def createMe(self,spriteNum,pos=[0,0]) :
-        character_me = ch.character(spriteNum,pos)
-        character_me.playerControled = True
-        character_me.name = "Alex" 
-        self.chara_list.append(character_me)
-        self.offset = [pos[0]-int(self.width/2),pos[1]-int(self.height/2)]
     
     def createMeFull(self,myName,mySprite,myGender,myRandomName,mySpeed,myPosition,myHealth,myAttackRange,myDamageMulti) :
         character_me = ch.character(mySprite,myPosition,myRandomName,myName,myGender)
@@ -749,35 +617,7 @@ class window :
   
     def animationSelection(self,animNum) :
         return 10,16
-    #Window
-    def setRoot(self,width,height,offx=0,offy=0,top=True,fullscreen=False,resizable=True,zoom=True):
-        root = tk.Tk()
-        if type(width)!=type(None) :
-            width_return = width
-        else :
-            width_return = root.winfo_screenwidth()
-        if type(height)!=type(None) :
-            height_return = height
-        else :
-            height_return = root.winfo_screenheight()
-        root.geometry(str(width_return)+"x"+str(height_return)+"+"+str(offx)+"+"+str(offy))
-        if top :
-            root.attributes('-topmost',1)   
-        root.resizable(resizable, resizable)
-        if zoom :
-            root.state('zoomed')
-        root.attributes("-fullscreen",fullscreen)
-        root.attributes('-alpha', 1)
-        return root,width_return,height_return
-        
-    def getCanvasFullScreen(self,root,width,height,color,borderwidth=-2):
-        canvas = Canvas(root, width = width, height = height, bg=color,borderwidth=borderwidth)
-        canvas = self.drawBackground(canvas,width,height,color)
-        return canvas
-        
-    def drawBackground(self,canvas,width,height,color):
-        canvas.create_rectangle(-10, -10, width+10, height+10, fill=color)
-        return canvas
+    
     def pasteConf(self,confVal,defaultVal) :
         if self.useConf :
             return confVal

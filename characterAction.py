@@ -62,18 +62,22 @@ def pickUpItem(w,me,interBool) :
         if w.inventoryCount<w.maxInventory+1 and interBool : 
             for obj in w.handObjList :
                 if not takenFlag and obj[0]!=1 and obj[3]!=-4 and obj[3]!=-5:
-                    dist = math.sqrt(math.pow(obj[1]-me.getPosMapCenter()[0],2)+math.pow(obj[2]-me.getPosMapCenter()[1],2))
+                    dist = math.sqrt(math.pow(obj[1]-me.posMap[0],2)+math.pow(obj[2]-me.posMap[1],2))
                     if dist < w.distancePickup :
-                        #print(#"Picked up obj #",obj[0])
+                        print("Picked up obj #",obj[0])
                         obj[1] = -100
                         obj[2] = -100
-                        avaSpot = w.inventoryAvailableSpot()
-                        obj[3] = avaSpot
-                        if avaSpot==len(w.inventoryList):
-                            w.inventoryList.append(w.handObjList.index(obj))
+                        if obj[0]==31 :
+                            obj[3] = -5
+                            w.moneyCount = w.moneyCount + obj[6]
                         else :
-                            w.inventoryList[avaSpot] = w.handObjList.index(obj)
-                        w.inventoryCount = w.inventoryCount + 1
+                            avaSpot = w.inventoryAvailableSpot()
+                            obj[3] = avaSpot
+                            if avaSpot==len(w.inventoryList):
+                                w.inventoryList.append(w.handObjList.index(obj))
+                            else :
+                                w.inventoryList[avaSpot] = w.handObjList.index(obj)
+                            w.inventoryCount = w.inventoryCount + 1
                         takenFlag = True
                         w.pickupCooldown = 20
     else :
@@ -134,28 +138,6 @@ def interactCar(w,me,interBool) :
     else :
         me.carInteractionCooldown = me.carInteractionCooldown -1
                 
-def pickUpItem(w,me,interBool) :
-    takenFlag = False
-    if w.pickupCooldown == 0 :
-        if w.inventoryCount<w.maxInventory+1 and interBool : 
-            for obj in w.handObjList :
-                if not takenFlag and obj[0]!=1 and obj[3]!=-4 and obj[3]!=-5:
-                    dist = math.sqrt(math.pow(obj[1]-me.getPosMapCenter()[0],2)+math.pow(obj[2]-me.getPosMapCenter()[1],2))
-                    if dist < w.distancePickup :
-                        #print(#"Picked up obj #",obj[0])
-                        obj[1] = -100
-                        obj[2] = -100
-                        avaSpot = w.inventoryAvailableSpot()
-                        obj[3] = avaSpot
-                        if avaSpot==len(w.inventoryList):
-                            w.inventoryList.append(w.handObjList.index(obj))
-                        else :
-                            w.inventoryList[avaSpot] = w.handObjList.index(obj)
-                        w.inventoryCount = w.inventoryCount + 1
-                        takenFlag = True
-                        w.pickupCooldown = 20
-    else :
-        w.pickupCooldown = w.pickupCooldown - 1
 def interactWithItem(w,me,interBool):
     aniIter = 25
     distance = 60
@@ -233,9 +215,14 @@ def meleDamageCalculation(w,me,meleWepon) :
 def killCharacter(w,cha) :
     cha.dead = True
     w.animationListPos.append([0,cha.posMap[0],cha.posMap[1],cha.spriteSize[0],cha.spriteSize[1]])
+    lootList = cha.lootList
+    for lootIndex in lootList :
+        print(lootIndex)
+        w.handObjList[lootIndex][3] = -1
+        w.handObjList[lootIndex][1] = cha.posMap[0]
+        w.handObjList[lootIndex][2] = cha.posMap[1]
                 
 def moveBullets(w,me) :
-    damage = 0.6
     if w.bulletNum>0 :
         for i in range(w.bulletNum) :
             if w.handObjList[i][3] == -2 :
@@ -256,7 +243,7 @@ def moveBullets(w,me) :
                             w.handObjList[i][3]=-2
                             dead = cha.applyDamage(w.handObjList[i][6].damage,me.damageMulti)
                             if dead :
-                                w.killCharacter(w,cha)
+                                killCharacter(w,cha)
 
 def weponUseAtempt(w,me):
     weponUsedFlag = False
