@@ -35,8 +35,8 @@ class character :
         self.inCar = -1
         self.carInteractionCooldown = 0
         self.merchand = False
-        self.lootNumRange = [0,2]
-        self.lootList = [11]
+        self.lootNumRange = [0,10]
+        self.lootList = []
         
     def applyDamage(self,damage,multi=1) :
         self.damageCooldown = 20
@@ -48,8 +48,15 @@ class character :
             died = True
         return died
     
-    def generateLoot(self) :
-        lootNum = int(float(random.random()*float(self.lootNumRange[1]-self.lootNumRange[0]))+float(self.lootNumRange[0]))
+    def dropItems(self) :
+        for loot in self.lootList :
+            loot.itemType = "default"
+            randomMv = randomMove(self.spriteSize[0]*0.9)
+            loot.pos = [self.posMap[0]+randomMv[0],self.posMap[1]+randomMv[1]]
+            loot.doNotDisplayOnMap = False
+    
+    #def generateLoot(self) :
+        #lootNum = int(float(random.random()*float(self.lootNumRange[1]-self.lootNumRange[0]))+float(self.lootNumRange[0]))
         #fori in range(lootNum)
         
     def setSpriteSize(self) :

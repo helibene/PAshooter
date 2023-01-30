@@ -21,6 +21,8 @@ def getAllList() :
         returnList.append(instanceFromStats(selectStats(i)))
     return returnList
     
+def init(val) :
+    return instanceFromStats(selectStats(val))
 
 def selectStats(index) :
     defaultRange = 1000

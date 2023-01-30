@@ -106,15 +106,10 @@ def loadImageCharacterList(w,characterSheetSettings) :
             
             w.chara_list[j].spriteList.append(img2)
         w.chara_list[j].setSpriteSize()
-
+        
 def loadImageHandObjList(w,characterSheetSettings,mirror=False) :
-    for j in range(len(w.handObjList)) :
-        moneyValue = -1
-        if w.handObjList[j][0]==31 :
-            moneyValue = w.handObjList[j][3]
-            w.handObjList[j][3] = -2
-
-        x,y = w.handObjSelection(w.handObjList[j][0])
+    for j in range(len(w.handObjListClass)) :
+        x,y = w.handObjSelection(w.handObjListClass[j].spriteNum)
         img = characterSheetSettings[0]
         step_x = (characterSheetSettings[1]/characterSheetSettings[3])
         step_y = (characterSheetSettings[2]/characterSheetSettings[4])
@@ -126,16 +121,10 @@ def loadImageHandObjList(w,characterSheetSettings,mirror=False) :
         img2 = ImageTk.PhotoImage(imageSmall)
         img3 = ImageTk.PhotoImage(img)
         img4 = ImageTk.PhotoImage(imageSmall.rotate(-90))
-        w.handObjList[j].append([])
-        w.handObjList[j][4].append(img2)
-        w.handObjList[j][4].append(img3)
-        w.handObjList[j][4].append(img4)
-        w.handObjList[j].append([0,0])
-        if moneyValue == -1 :
-            w.handObjList[j].append(0)
-        else :
-            w.handObjList[j].append(moneyValue)
-        w.handObjList[j].append(0)
+        w.handObjListClass[j].spriteList.append(img2)
+        w.handObjListClass[j].spriteList.append(img3)
+        w.handObjListClass[j].spriteList.append(img4)
+
 
 def loadImageMenuList(w,menuSheetSettings,mirror=False) :
     for coord in range(1,7) :

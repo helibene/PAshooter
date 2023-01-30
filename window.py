@@ -29,6 +29,7 @@ import characterAction as ca
 import openImageFiles as oi
 import windowUtil as wu
 import lootSelection as ls
+import handObject as ho
 class window :
     def __init__(self,conf=None):
 
@@ -70,6 +71,7 @@ class window :
         self.shootWeaponsObj = [8,40,41,69,70,79,51]
         self.meleWeponsObj = [5,7,19,16,22,27,35,33,43,44,45,46,48,63,50,54,66,68,76,74]
         self.medicineObj = [2,3,25,26,39,59]
+        
         self.rwList = rw.getAllList()
         self.mwList = mw.getAllList()
         self.medList = med.getAllList()
@@ -170,11 +172,11 @@ class window :
         self.drawBackgroundSheet(self.backList[0],-self.offset[0],-self.offset[1])
         self.drawObjList(self.objList,self.sheetList[0],self.offset,False,True)  
         self.drawCarObjList(self.offset)#,False,int(self.frameCount/5)%20) 
-        self.drawHandObjList(self.handObjList,self.offset)
+        self.drawHandObjList(self.handObjListClass,self.offset)
         self.drawCharacterClassList(self.sheetList[2],self.chara_list,self.offset)
         self.drawAnimationList()
         self.drawMenu(True)
-        self.drawHandObjList(self.handObjList,self.offset,True)
+        self.drawHandObjList(self.handObjListClass,self.offset,True)
         self.drawMenu()
     
     def getAllUsefullList(self):
@@ -197,15 +199,14 @@ class window :
     #Player Action#
     ###############
     
-
     def objOutOfScreen(self,obj) :
-        if obj[1]-self.offset[0] < 0 :
+        if obj.pos[0]-self.offset[0] < 0 :
             return True
-        if obj[1]-self.offset[0] > self.width :
+        if obj.pos[0]-self.offset[0] > self.width :
             return True
-        if obj[2]-self.offset[1] < 0 :
+        if obj.pos[1]-self.offset[1] < 0 :
             return True
-        if obj[2]-self.offset[1] > self.height :
+        if obj.pos[1]-self.offset[1] > self.height :
             return True
     
     def inventoryAvailableSpot(self) :
@@ -259,14 +260,25 @@ class window :
             car2 = self.loadCarObj(co.carObject(1,[600,150]))
             self.carObjList.append(car)
             self.carObjList.append(car2)
-            #car.display()
-
-        self.handObjList = self.generateBullets()
-        #lootList = self.generateLoot(10)
-        #self.handObjList.extend(lootList)
-        self.handObjList.extend(self.handObjListBuff)
+            
+        if val == -6 :
+            obj = ho.handObject(0,[100,100])
+            weaponm = obj.initMeleWeapon(mw.init(3))
+            obj = ho.handObject(0,[200,100])
+            weaponr = obj.initRangeWeapon(rw.init(3))
+            weaponmed = ho.handObject(0,[300,100]).initMedicine(med.init(3))
+            money = ho.handObject(0,[400,100]).initMoneyBag(10)
+            self.handObjListBuff = [weaponm,weaponr,weaponmed,money] 
+            self.objListBuff = []
+        #self.handObjList = self.generateBullets()
+        self.handObjListClass = self.generateBullets()
+        lootList = self.generateLoot()
+        self.handObjListClass.extend(lootList)
+        print(self.handObjListClass)
+        self.handObjListClass.extend(self.handObjListBuff)
         self.objList = self.object.addMetadataToObjList(self.objListBuff)
-
+        self.handObjListClass = ho.getBasicInstanceList(self.handObjListClass)
+        ho.displayItemList(self.handObjListClass,True)
         
     #########################
     #Generate class instance#
@@ -292,22 +304,27 @@ class window :
             self.handObjListBuff.extend(handObjList)
             del(otinst)
         return self.objListBuff,self.handObjListBuff
-    
+       
     def generateBullets(self) :
         bulletList = []
         for i in range(self.bulletNum) :
-            bulletList.append([1,0,0,-2])
+            obj = ho.handObject()
+            bullet = obj.initBullet()
+            
+            bulletList.append(bullet)
             
         return bulletList
     
     def generateLoot(self) :
         lootList = []
-        lootSelection = ls.lootSelection()
+        lootSel = ls.lootSelection()
         for cha in self.chara_list :
             lootNum = int(float(random.random()*float(cha.lootNumRange[1]-cha.lootNumRange[0]))+float(cha.lootNumRange[0]))
+            print(lootNum)
             for i in range(lootNum) :
-                loot = lootSelection.getItemFromTemplate()
+                loot = lootSel.getItemFromTemplate(None)
                 lootList.append(loot)
+                cha.lootList.append(loot)
         return lootList
     
     def generateMoney(self,pos=[0,0],value=1):
@@ -363,21 +380,20 @@ class window :
         
     def drawHandObjList(self,objHandMat,offset=[0,0],inventory=False):
         for obj in objHandMat :
-            if obj[3]==-1 or obj[3]==-3:
+            if not obj.doNotDisplayOnMap :
                 if not inventory :
-                    img = obj[4][0]
-                    self.canvas.create_image(obj[1]-offset[0]-(int(img.width()/2)),obj[2]-offset[1]-int(img.height()/2), image=img, anchor="nw")
-            else :
-                if inventory and obj[3]>-1:
-                    img = obj[4][1]
-                    self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))+5+4+50*obj[3],self.height-self.menuSize[1]+5+4, image=img, anchor="nw")
-                    if (obj[0] in self.shootWeaponsObj or obj[0] in self.meleWeponsObj) and self.menuBarSel==obj[3]:
-                        if self.weponUsedCooldown>0 :
-                            img = obj[4][2]
-                        else :
-                            img = obj[4][0]
-                        me = self.getMe()
-                        self.canvas.create_image(me.getPosScreen(self.offset)[0]+15,me.getPosScreen(self.offset)[1]+15, image=img, anchor="nw")
+                    img = obj.spriteList[0]
+                    self.canvas.create_image(obj.pos[0]-offset[0]-(int(img.width()/2)),obj.pos[1]-offset[1]-int(img.height()/2), image=img, anchor="nw")
+            if obj.itemInInventory and obj.posInventory != -1 and inventory :
+                img = obj.spriteList[1]
+                self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))+5+4+50*obj.posInventory,self.height-self.menuSize[1]+5+4, image=img, anchor="nw")
+                if (obj.itemType == "rangeWeapon" or obj.itemType == "meleWeapon") and self.menuBarSel==obj.posInventory :
+                    if self.weponUsedCooldown>0 :
+                        img = obj.spriteList[2]
+                    else :
+                        img = obj.spriteList[0]
+                    me = self.getMe()
+                    self.canvas.create_image(me.getPosScreen(self.offset)[0]+15,me.getPosScreen(self.offset)[1]+15, image=img, anchor="nw")
                         
     def drawMenu(self,background=False) :
         if background :
@@ -542,9 +558,10 @@ class window :
                 return False
             
     def getHandObjFromInventory(self,i) :
-        for obj in self.handObjList :
-            if obj[3] == i :
-                return obj
+        for obj in self.handObjListClass :
+            if obj.itemInInventory :
+                if obj.posInventory == i :
+                    return obj
         return None
     
     #Dev display            
@@ -642,14 +659,14 @@ class window :
             
     def printRessources(self) :
         chList = get_size(self.chara_list)
-        handObj = get_size(self.handObjList)
+        handObj = get_size(self.handObjListClass)
         objList = get_size(self.objList)
         sheetList = get_size(self.sheetList)
         bgList = get_size(self.backList)
         obBuilder = get_size(self.object)
         total = obBuilder + bgList + sheetList + objList + handObj + chList
         print("Character list size :",chList,"(len :",len(self.chara_list),")")
-        print("Hand obj list size :",handObj,"(len :",len(self.handObjList),")")
+        print("Hand obj list size :",handObj,"(len :",len(self.handObjListClass),")")
         print("Obj list size :",objList,"(len :",len(self.objList),")")
         print("Sheet list size :",sheetList,"(len :",len(self.sheetList),")")
         print("Background list size :",bgList,"(len :",len(self.backList),")")
@@ -692,7 +709,7 @@ def generateHandObjList() :
     for i in range(87) :
         objList.append([i,int(x+((i%10)*35)),int(y+(int(i/10)*35)),-1])
     x = 10
-    y = 300
+    y = 400
     for i in range(32) :
         for j in range(4) :
             objList.append([((j+1)*100)+i,int(x+i*35),int(y+j*35),-1])

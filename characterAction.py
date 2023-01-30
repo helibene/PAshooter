@@ -56,33 +56,32 @@ def changeDirCharacterList(w,direction=[0,0],me=None) :
 #Pickup#
 ########
 
+
 def pickUpItem(w,me,interBool) :
     takenFlag = False
     if w.pickupCooldown == 0 :
         if w.inventoryCount<w.maxInventory+1 and interBool : 
-            for obj in w.handObjList :
-                if not takenFlag and obj[0]!=1 and obj[3]!=-4 and obj[3]!=-5:
-                    dist = math.sqrt(math.pow(obj[1]-me.posMap[0],2)+math.pow(obj[2]-me.posMap[1],2))
+            for obj in w.handObjListClass :
+                if not takenFlag and not obj.doNotDisplayOnMap and obj.itemType != "bullet" and obj.itemType != "discarded":
+                    dist = math.sqrt(math.pow(obj.pos[0]-me.posMap[0],2)+math.pow(obj.pos[1]-me.posMap[1],2))
                     if dist < w.distancePickup :
-                        print("Picked up obj #",obj[0])
-                        obj[1] = -100
-                        obj[2] = -100
-                        if obj[0]==31 :
-                            obj[3] = -5
-                            w.moneyCount = w.moneyCount + obj[6]
+                        print("Item #",obj.spriteNum,"pickedup")
+                        if obj.itemType == "money" :
+                            w.moneyCount = w.moneyCount + obj.moneyValue
+                            obj.discard()
                         else :
                             avaSpot = w.inventoryAvailableSpot()
-                            obj[3] = avaSpot
+                            obj.putInInventory(avaSpot)
                             if avaSpot==len(w.inventoryList):
-                                w.inventoryList.append(w.handObjList.index(obj))
+                                w.inventoryList.append(w.handObjListClass.index(obj))
                             else :
-                                w.inventoryList[avaSpot] = w.handObjList.index(obj)
+                                w.inventoryList[avaSpot] = w.handObjListClass.index(obj)
+                            
                             w.inventoryCount = w.inventoryCount + 1
                         takenFlag = True
                         w.pickupCooldown = 20
     else :
         w.pickupCooldown = w.pickupCooldown - 1
-        
         
 def applySprint(w,sprintBool,keyDir) :
     if sprintBool :
@@ -93,9 +92,8 @@ def healUseAtempt(w,me) :
     if w.listener.mouseVal[0]!=-1 :
         obj = w.getHandObjFromInventory(w.menuBarSel)
         if obj != None :
-            healItem = w.getUOfromSpriteNum(obj[0],w.medList)
-            if healItem != None :
-                me.healthPct = min(me.healthPct + healItem.healValue,1)
+            if obj.itemType == "medicine" :
+                me.healthPct = min(me.healthPct + obj.usefullItemInstance.healValue,1)
                 dropItem(w,obj,me,True)
     
 def dropAction(w,dropBool,me) :
@@ -107,17 +105,14 @@ def dropAction(w,dropBool,me) :
 
 def dropItem(w,item,me,delete=False) :
     if item!=None :
-        if delete :
-            item[3] = -4
-        else :
-            item[3] = -1
-        item[1] = me.posMap[0]
-        item[2] = me.posMap[1]
-        dropIndex = w.inventoryList.index(w.handObjList.index(item))
-        w.inventoryList[dropIndex] = -1
+        w.inventoryList[item.posInventory] = -1
         w.inventoryCount = w.inventoryCount - 1
         w.dropCooldown = 10
-
+        if delete :
+            item.discard()
+        else :
+            item.dropFromInventory(me.posMap)
+    
 def interactAction(w,interBool,dropBool,me) :
     dropAction(w,dropBool,me)
     pickUpItem(w,me,interBool)
@@ -186,7 +181,6 @@ def interactWithItem(w,me,interBool):
                 if obj[3][4]>0 :
                     obj[3][4] = obj[3][4] -1
                     
-        
 def damageCalculation(w,me,meleWepon):
     moveBullets(w,me)
     meleDamageCalculation(w,me,meleWepon)
@@ -216,34 +210,42 @@ def killCharacter(w,cha) :
     cha.dead = True
     w.animationListPos.append([0,cha.posMap[0],cha.posMap[1],cha.spriteSize[0],cha.spriteSize[1]])
     lootList = cha.lootList
-    for lootIndex in lootList :
-        print(lootIndex)
-        w.handObjList[lootIndex][3] = -1
-        w.handObjList[lootIndex][1] = cha.posMap[0]
-        w.handObjList[lootIndex][2] = cha.posMap[1]
+    print(lootList)
+    cha.dropItems()
+    #for lootIndex in lootList :
+    #    print(lootIndex)
+        #w.handObjListClass[lootIndex] = -1
+    #    w.handObjListClass[lootIndex].pos = cha.posMap
+        
                 
 def moveBullets(w,me) :
     if w.bulletNum>0 :
         for i in range(w.bulletNum) :
-            if w.handObjList[i][3] == -2 :
-                w.handObjList[i][1] = me.posMap[0] 
-                w.handObjList[i][2] = me.posMap[1]
+            if not w.handObjListClass[i].bulletShot :
+                w.handObjListClass[i].pos = me.posMap
 
-            if w.handObjList[i][3] == -3 :
-                w.handObjList[i][1] = w.handObjList[i][1]+w.handObjList[i][5][0]
-                w.handObjList[i][2] = w.handObjList[i][2]+w.handObjList[i][5][1]
-                w.handObjList[i][7] = w.handObjList[i][7] + w.handObjList[i][6].speed 
-                if w.objOutOfScreen(w.handObjList[i]) or w.handObjList[i][7]>w.handObjList[i][6].range:
-                    w.handObjList[i][3]=-2
-                    w.handObjList[i][7] = 0
+            if w.handObjListClass[i].bulletShot :
+                w.handObjListClass[i].pos[0] = w.handObjListClass[i].pos[0]+w.handObjListClass[i].moveVector[0]
+                w.handObjListClass[i].pos[1] = w.handObjListClass[i].pos[1]+w.handObjListClass[i].moveVector[1]
+                w.handObjListClass[i].distanceTraveled = w.handObjListClass[i].distanceTraveled+ w.handObjListClass[i].bulletRangeWeaponInstance.speed
+
+               
+                if w.objOutOfScreen(w.handObjListClass[i]) or w.handObjListClass[i].distanceTraveled>w.handObjListClass[i].bulletRangeWeaponInstance.range:
+                    w.handObjListClass[i].bulletShot = False
+                    w.handObjListClass[i].doNotDisplayOnMap = True
+                    w.handObjListClass[i].distanceTraveled = 0
+                    #w.handObjListClass[i].bulletRangeWeaponInstance = None
                 else :  
                     for cha in w.chara_list :
-                        dist = math.sqrt(math.pow(cha.posMap[0]-w.handObjList[i][1],2)+math.pow(cha.posMap[1]-w.handObjList[i][2],2))
-                        if not cha.playerControled and dist<w.handObjList[i][6].radius :
-                            w.handObjList[i][3]=-2
-                            dead = cha.applyDamage(w.handObjList[i][6].damage,me.damageMulti)
+                        dist = math.sqrt(math.pow(cha.posMap[0]-w.handObjListClass[i].pos[0],2)+math.pow(cha.posMap[1]-w.handObjListClass[i].pos[1],2))
+                        if not cha.playerControled and dist<w.handObjListClass[i].bulletRangeWeaponInstance.radius :
+                            w.handObjListClass[i].bulletShot = False
+                            w.handObjListClass[i].distanceTraveled = 0
+                            dead = cha.applyDamage(w.handObjListClass[i].bulletRangeWeaponInstance.damage,me.damageMulti)
                             if dead :
                                 killCharacter(w,cha)
+                            #w.handObjListClass[i].bulletRangeWeaponInstance = None
+                            w.handObjListClass[i].doNotDisplayOnMap = True
 
 def weponUseAtempt(w,me):
     weponUsedFlag = False
@@ -251,25 +253,26 @@ def weponUseAtempt(w,me):
     if w.listener.mouseVal[0]!=-1 :
         obj = w.getHandObjFromInventory(w.menuBarSel)
         if obj != None :
-            rangeWeapon = w.getUOfromSpriteNum(obj[0],w.rwList)
-            if rangeWeapon!=None :
+            if obj.itemType == "rangeWeapon" :
+                print("bullet fired")
+                rangeWeapon = obj.usefullItemInstance
                 speed = rangeWeapon.speed
-
                 bulletDir = [0,0]
                 bulletDir[0] = w.listener.mouseVal[0]-(me.getPosScreen(w.offset)[0])
                 bulletDir[1] = w.listener.mouseVal[1]-(me.getPosScreen(w.offset)[1])
                 distance = math.sqrt(math.pow(bulletDir[0],2)+math.pow(bulletDir[1],2))
 
-                w.handObjList[w.activeBullet][3] = -3
+                w.handObjListClass[w.activeBullet].bulletShot = True
+                w.handObjListClass[w.activeBullet].doNotDisplayOnMap = False
                 dir2 = [speed*bulletDir[0]/distance,speed*bulletDir[1]/distance]
-                w.handObjList[w.activeBullet][5] = dir2
-                w.handObjList[w.activeBullet][6] = rangeWeapon
+                w.handObjListClass[w.activeBullet].moveVector = dir2
+                w.handObjListClass[w.activeBullet].bulletRangeWeaponInstance = rangeWeapon
                 w.activeBullet = w.activeBullet + 1
                 if w.activeBullet==w.bulletNum :
                     w.activeBullet = 0
                 weponUsedFlag = True
-            else :
-                meleWeapon = w.getUOfromSpriteNum(obj[0],w.mwList)
+            elif obj.itemType == "meleWeapon" :
+                meleWeapon = obj.usefullItemInstance
                 if meleWeapon!=None :
                     weponUsedFlag = True
                     meleWeponReturn = meleWeapon

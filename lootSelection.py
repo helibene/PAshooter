@@ -9,6 +9,7 @@ import meleWeapon as mw
 import rangeWeapon as rw
 import medicine as med
 import random
+import handObject as ho
 class lootSelection :
     
     template1 = {"rangew":0.5,"melew":0.5}
@@ -18,36 +19,74 @@ class lootSelection :
         self.mwList = mw.getAllList()
         self.medList = med.getAllList()
         self.template1 = {"rangew":0.5,"melew":0.5}
+        self.template2 = {"rangew":0.1,"melew":0.1,"money":0.5,"other":0.3}
+        self.unusedHandObj = [0,1,32,47,64,65,73,75,31]
+        #self.characterIndex
         pass
     
-    def getItemFromTemplate(self,template) :
-        template=self.template1
+    def getItemFromTemplate(self,template=None) :
+        template=self.template2
         randVal = random.random()
         selectValue = 0
+        item = None
         for dictKey in template :
             selectValue = selectValue + template[dictKey]
             if randVal<selectValue :
                 if dictKey == "rangew" :
-                    return self.getRandomRW()
+                    item = self.getRandomRW()
+                    item = ho.handObject().initRangeWeapon(item)
                 elif dictKey == "melew" :
-                    return self.getRandomMW()
+                    item = self.getRandomMW()
+                    item = ho.handObject().initMeleWeapon(item)
                 elif dictKey == "med" :
-                    return self.getRandomMED()
-                else :
-                    return int(random.random()*87)
+                    item = self.getRandomMED()
+                    item = ho.handObject().initMedicine(item)
+                elif dictKey == "money" :
+                     item = ho.handObject().initMoneyBag()
+                elif dictKey == "other" :
+                    item = self.getRandomUseless()#ho.handObject(random.random()*87)
+            if item != None :
+                item.itemType = "mobDrop"
+                item.doNotDisplayOnMap = True
+                return item
+        return None
     def getRandomRW(self) :
         indexList = int(random.random()*len(self.rwList))
-        rangeWeapon = rw.selectStats(indexList)
-        return rangeWeapon[1]
+        rangeWeapon = rw.init(indexList)
+        return rangeWeapon
     
     def getRandomMW(self) :
         indexList = int(random.random()*len(self.mwList))
-        meleWeapon = mw.selectStats(indexList)
-        return meleWeapon[1]
+        meleWeapon = mw.init(indexList)
+        return meleWeapon
     
     def getRandomMED(self) :
         indexList = int(random.random()*len(self.medList))
-        medicine = med.selectStats(indexList)
-        return medicine[1]
+        medicine = med.init(indexList)
+        return medicine
     
+    def getUsefullSpriteNum(self):
+        usefullItemSprite = []
+        for rwep in self.rwList :
+            usefullItemSprite.append(rwep.spriteNum)
+        for mwep in self.mwList :
+            usefullItemSprite.append(mwep.spriteNum)
+        for medic in self.medList :
+            usefullItemSprite.append(medic.spriteNum)
+        return usefullItemSprite
     
+    def getUselessItemSprite(self) :
+        uselessList = []
+        usefullAndUnusedList = self.getUsefullSpriteNum()
+        usefullAndUnusedList.extend(self.unusedHandObj)
+        for i in range(87) :
+            if i not in usefullAndUnusedList :
+                uselessList.append(i)
+        return uselessList
+    
+    def getRandomUseless(self) :
+        uselessList = self.getUselessItemSprite()
+
+        print(uselessList)
+        randVal = int(random.random()*len(uselessList))
+        return ho.handObject(uselessList[randVal])
