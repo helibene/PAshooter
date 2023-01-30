@@ -20,7 +20,7 @@ def keyMouseAction(w) :
     me = w.getMe()
     keyDir = applySprint(w,sprint,keyDir)
     changeDirCharacterList(w,keyDir,me)
-    changeDirCarList(w,me,keyDir)
+    changeDirCarList(w,me,keyDir,0.7)
     meleWepon = weponUseAtempt(w,me)
     damageCalculation(w,me,meleWepon)
     healUseAtempt(w,me)

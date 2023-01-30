@@ -202,8 +202,9 @@ class object_builder :
         flip=False
         num2 = num+300+angle*10
         angleList = []#[0,45,90,135,180,225,270,315]
-        for i in range(angleNum) :
-            angleList.append(int((i/angleNum)*360))
+        for i in range(angleNum+1) :
+            print(int(math.ceil((i/angleNum)*360)))
+            angleList.append(int(math.ceil((i/angleNum)*360)))
         if self.spriteList[num2]!=None :
             return self.spriteList[num2]
         mapDict = {

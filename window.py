@@ -80,7 +80,7 @@ class window :
         displayFPS = False
         printResources = False
         self.objMapImage = None
-        self.carAngleNum = 40
+        self.carAngleNum = 35
         self.moneyCount = 9
         
         self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/PAshooter/sprites/")
@@ -222,7 +222,7 @@ class window :
             
     def objInit(self,val) :
         templateList1 = [[0,[3,3]],[1,[20,3]],[2,[18,24]],[3,[3,27]],[4,[3,41]]]
-        templateList2 = [[0,[119,163]],[2,[149,161]]]
+        templateList2 = [[0,[119,164]],[1,[119,191]],[2,[149,161]],[3,[103,193]],[4,[87,187]]]
         if val == 0 :
             self.handObjListBuff = []
             self.objListBuff = []
@@ -230,17 +230,23 @@ class window :
             self.objListBuff,self.handObjListBuff = self.templateListToObjList(templateList1)
         if val == 2 :
             self.objListBuff,self.handObjListBuff = self.templateListToObjList(templateList2)
+            self.carObjList.append(self.loadCarObj(co.carObject(5,[32*115,32*115])))
         if val == -1 :
             self.handObjListBuff = generateHandObjList()
             self.objListBuff = []
         if val == -2 :
             self.handObjListBuff = []
             for i in range(len(self.rwList)) :
-                self.handObjListBuff.append([self.rwList[i].spriteNum,i*35+20,20,-1])
+                handObj = ho.handObject(0,[i*35+20,20])
+                self.handObjListBuff.append(handObj.initRangeWeapon(self.rwList[i]))
             for i in range(len(self.mwList)) :
-                self.handObjListBuff.append([self.mwList[i].spriteNum,i*35+20,70,-1])
+                handObj = ho.handObject(0,[i*35+20,70])
+                self.handObjListBuff.append(handObj.initMeleWeapon(self.mwList[i]))
             for i in range(len(self.medList)) :
-                self.handObjListBuff.append([self.medList[i].spriteNum,i*35+20,120,-1])
+                handObj = ho.handObject(0,[i*35+20,120])
+                self.handObjListBuff.append(handObj.initMedicine(self.medList[i]))
+            handObj = ho.handObject(0,[20,170])    
+            self.handObjListBuff.append(handObj.initMoneyBag(10))
             self.objListBuff = []
         if val == -3 :    
             self.objListBuff = generateObjList()
@@ -270,15 +276,23 @@ class window :
             money = ho.handObject(0,[400,100]).initMoneyBag(10)
             self.handObjListBuff = [weaponm,weaponr,weaponmed,money] 
             self.objListBuff = []
+        
+        if val == -7 :
+            self.objListBuff = self.generateTrees()
+            self.handObjListBuff = []
+            car = self.loadCarObj(co.carObject(5,[32*115,32*115]))
+            car2 = self.loadCarObj(co.carObject(1,[32*115,32*125]))
+            self.carObjList.append(car)
+            self.carObjList.append(car2)
         #self.handObjList = self.generateBullets()
         self.handObjListClass = self.generateBullets()
         lootList = self.generateLoot()
         self.handObjListClass.extend(lootList)
-        print(self.handObjListClass)
+        #print(self.handObjListClass)
         self.handObjListClass.extend(self.handObjListBuff)
         self.objList = self.object.addMetadataToObjList(self.objListBuff)
         self.handObjListClass = ho.getBasicInstanceList(self.handObjListClass)
-        ho.displayItemList(self.handObjListClass,True)
+        #ho.displayItemList(self.handObjListClass,True)
         
     #########################
     #Generate class instance#
@@ -320,7 +334,7 @@ class window :
         lootSel = ls.lootSelection()
         for cha in self.chara_list :
             lootNum = int(float(random.random()*float(cha.lootNumRange[1]-cha.lootNumRange[0]))+float(cha.lootNumRange[0]))
-            print(lootNum)
+            #print(lootNum)
             for i in range(lootNum) :
                 loot = lootSel.getItemFromTemplate(None)
                 lootList.append(loot)
@@ -329,7 +343,9 @@ class window :
     
     def generateMoney(self,pos=[0,0],value=1):
         return [31,pos[0],pos[1],value]
-    def generateTrees(self,treeList=[103,104],area=[20,20,40,40],frequency=0.1) :
+    
+    
+    def generateTrees(self,treeList=[103,104],area=[30,30,100,100],frequency=0.02) :
         objList = []
         for x in range(area[0],area[2]) :
             for y in range(area[1],area[3]) :

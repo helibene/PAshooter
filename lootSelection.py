@@ -19,7 +19,7 @@ class lootSelection :
         self.mwList = mw.getAllList()
         self.medList = med.getAllList()
         self.template1 = {"rangew":0.5,"melew":0.5}
-        self.template2 = {"rangew":0.1,"melew":0.1,"money":0.5,"other":0.3}
+        self.template2 = {"rangew":0.1,"melew":0.1,"money":0.1,"other":0.7}
         self.unusedHandObj = [0,1,32,47,64,65,73,75,31]
         #self.characterIndex
         pass
@@ -87,6 +87,6 @@ class lootSelection :
     def getRandomUseless(self) :
         uselessList = self.getUselessItemSprite()
 
-        print(uselessList)
+        #print(uselessList)
         randVal = int(random.random()*len(uselessList))
         return ho.handObject(uselessList[randVal])

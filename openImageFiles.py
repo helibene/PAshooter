@@ -41,6 +41,7 @@ def openSheetList(w) :
     for sheetNum in range(len(w.sheetList)) :
         img = Image.open(w.rootPath+w.textureFolder+w.sheetList[sheetNum][0]).convert("RGBA")
         w.sheetList[sheetNum][0] = img
+        
 def openObjMap(w,num) :
     w.objMapImage = ImageTk.PhotoImage(Image.open(w.rootPath+w.mapFolder+"map"+str(num)+"_obj.png").convert("RGBA"))
                 
