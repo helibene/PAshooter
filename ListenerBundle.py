@@ -12,7 +12,7 @@ class ListenerBundle :
         self.pressedKeys = []
         self.mouseVal = [-1,-1,0]
         self.mousePos = [-1,-1]
-        self.keyMappingList = ["z","s","q","d","e","m","tab"]
+        self.keyMappingList = ["z","s","q","d","e","m","tab","x"]
         self.stopKey = keyboard.Key.esc
         self.exitFlag = False
         self.keyListener,self.mouseListener = self.startListenerBundle()
@@ -64,11 +64,9 @@ class ListenerBundle :
         else : 
             self.mouseVal[2] = 1
 
-        
     def on_move(self,x, y):
         self.mousePos[0] = x
         self.mousePos[1] = y
-
 
     def on_click(self,x, y, button, pressed):
         if pressed :
@@ -84,6 +82,7 @@ class ListenerBundle :
         interact = False
         drop = False
         sprint = False
+        toggleStatdisplay = False
         if "z" in self.pressedKeys :
             keyDir = [keyDir[0],keyDir[1]-1]
         if 's' in self.pressedKeys :
@@ -98,13 +97,16 @@ class ListenerBundle :
             drop = True
         if "tab" in self.pressedKeys :
             sprint = True
-        return keyDir,interact,drop,sprint
+        if "x" in self.pressedKeys :
+            toggleStatdisplay = True
+        return keyDir,interact,drop,sprint,toggleStatdisplay
     
     def keyActionMapped(self) :
         keyDir = [0,0]
         interact = False
         drop = False
         sprint = False
+        toggleStatdisplay = False
         if self.keyMappingList[0] in self.pressedKeys :
             keyDir = [keyDir[0],keyDir[1]-1]
         if self.keyMappingList[1] in self.pressedKeys :
@@ -119,6 +121,8 @@ class ListenerBundle :
             drop = True
         if self.keyMappingList[6] in self.pressedKeys :
             sprint = True
-        return keyDir,interact,drop,sprint
+        if self.keyMappingList[7] in self.pressedKeys :
+            sprint = True
+        return keyDir,interact,drop,sprint,toggleStatdisplay
 
     

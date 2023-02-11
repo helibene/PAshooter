@@ -18,9 +18,11 @@ class openImageFiles :
 def masterOpen(w) :
     openSheetList(w)
     openMapList(w)
-    generateNewMap(w,w.generate_new_map)           
+    #generateNewMap(w,w.generate_new_map)    
+    generateNewMap2(w,w.generate_new_map)       
     objectInst = ob.object_builder(w.sheetList[0])
-    objectCarInst = ob.object_builder(w.sheetList[2])
+    #objectCarInst = ob.object_builder(w.sheetList[2])
+    objectCarInst = ob.object_builder(w.sheetList[5])
     openBackgroundList(w)
     return objectInst, objectCarInst
 
@@ -30,12 +32,23 @@ def masterLoad(w) :
     loadImageMenuList(w,w.menuList)
     loadImageAnimationList(w,w.sheetList[2])
 
+def masterSaveObjImage(w) :
+    saveObjList(w,w.objList,w.mapInstance)
+    openObjMap(w,w.mapInstance)
+    
 def generateNewMap(w,generate=False) :
     if generate :
         w.terrain = tb.terrain_builder(w.sheetList[1],w.sheetList[3],True)
         w.terrain.mapFileToImage(w.mapList[0],w.rootPath+w.mapFolder)
-        del(w.terrain)
-        del(w.mapList)
+        #del(w.terrain)
+        #del(w.mapList)
+        
+def generateNewMap2(w,generate=False) :
+    if generate :
+        w.terrain2 = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True)
+        w.terrain2.mapFileToImageNat(w.mapList[1],w.rootPath+w.mapFolder)
+        #del(w.terrain)
+        #del(w.mapList)
         
 def openSheetList(w) :
     for sheetNum in range(len(w.sheetList)) :
@@ -44,7 +57,18 @@ def openSheetList(w) :
         
 def openObjMap(w,num) :
     w.objMapImage = ImageTk.PhotoImage(Image.open(w.rootPath+w.mapFolder+"map"+str(num)+"_obj.png").convert("RGBA"))
-                
+
+def saveObjList(w,objMat,num=0):
+    mapSizeX = w.backList[0][1]
+    mapSizeY = w.backList[0][2]
+    mapImage = Image.new("RGBA", (mapSizeX, mapSizeY)) 
+    for obj in objMat :
+        if obj[3][0]=='none':
+            print(obj[1],"  ",obj[2])
+            img = w.object.getSprite(obj[0],True)
+            mapImage.paste(img,(int(obj[1]*32),int(obj[2]*32)),img)
+    mapImage.save(w.rootPath+w.mapFolder+"map"+str(num)+"_obj.png","PNG")
+    
 def openMapList(w) :
     for mapNum in range(len(w.mapList)) :
         img = Image.open(w.rootPath+w.mapFolder+w.mapList[mapNum][0]).convert("RGB")
@@ -128,7 +152,7 @@ def loadImageHandObjList(w,characterSheetSettings,mirror=False) :
 
 
 def loadImageMenuList(w,menuSheetSettings,mirror=False) :
-    for coord in range(1,7) :
+    for coord in range(1,8) :
         img = Image.open(w.rootPath+w.textureFolder+menuSheetSettings[0][0]).convert("RGBA")
         box = (menuSheetSettings[0][coord])
         img = img.crop(box)

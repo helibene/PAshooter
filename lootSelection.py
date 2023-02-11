@@ -19,7 +19,7 @@ class lootSelection :
         self.mwList = mw.getAllList()
         self.medList = med.getAllList()
         self.template1 = {"rangew":0.5,"melew":0.5}
-        self.template2 = {"rangew":0.1,"melew":0.1,"money":0.1,"other":0.7}
+        self.template2 = {"rangew":0.1,"melew":0.1,"money":0.6,"other":0.2}
         self.unusedHandObj = [0,1,32,47,64,65,73,75,31]
         #self.characterIndex
         pass
@@ -46,9 +46,12 @@ class lootSelection :
                 elif dictKey == "other" :
                     item = self.getRandomUseless()#ho.handObject(random.random()*87)
             if item != None :
-                item.itemType = "mobDrop"
+                #item.itemType = "mobDrop"
+                item.canPickup = False
                 item.doNotDisplayOnMap = True
                 return item
+        item = self.getRandomUseless()
+        item.doNotDisplayOnMap = True
         return None
     def getRandomRW(self) :
         indexList = int(random.random()*len(self.rwList))
@@ -86,7 +89,5 @@ class lootSelection :
     
     def getRandomUseless(self) :
         uselessList = self.getUselessItemSprite()
-
-        #print(uselessList)
         randVal = int(random.random()*len(uselessList))
         return ho.handObject(uselessList[randVal])

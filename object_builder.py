@@ -28,8 +28,6 @@ class object_builder :
                 box = ([int(x*self.step_x/2),int(y*self.step_y/2),math.ceil((x+1)*self.step_x/2),math.ceil((y+1)*self.step_y/2)])
                 self.imgCrop = self.img.crop(box)
                 self.imageMat[x][y] = self.imgCrop
-       
-        ##print("obj image mat :",sys.getsizeof(self.imageMat))
     
     def deleteSpriteMatrix(self) :
         del(self.imageMat)
@@ -74,6 +72,8 @@ class object_builder :
             24 : [0,6],#Books
             25 : [1,6],
             26 : [2,6],
+            27 : [6,28],
+            28 : [6,29]
         }
         if num in mapDict :
             coord = mapDict[num]
@@ -108,10 +108,10 @@ class object_builder :
             120: [5.5,25,5.5,27],#Sofa
             121: [6.5,25,6.5,27],#Cofe table
             122: [7.5,25,7.5,27],#Big TV
-            123: [8.5,25,9.5,25.5],#Big table with plates
+            123: [8.5,25,9.5,25.5],#Big table 
             124: [8.5,26.5,8.5,27],#desk
             125: [9.5,26.5,10.5,27],
-            126: [16.5,24,17,26],
+            126: [16.5,24,17,26],#Big table with plates
             127: [9,28,11,28.5],#Bath
             128: [0,7,1,8],#Stove
             129: [2,7,3,8],
@@ -175,6 +175,46 @@ class object_builder :
             187: [19,12,19,12],#Shotgun
             188: [20,10,20,12],
             189: [21,12,21,12],
+            190: [18.5,18.5,19,19],#Shop shelf
+            191: [13.5,27,17.5,27],#church benck
+            192: [11.5,26.5,12.5,27],#church piew
+            193: [13.5,25.5,13.5,25.5],#jesus
+            194: [14.5,25.5,14.5,25.5],#chandelere
+            195: [18,22.5,19,24.5],#Small house
+            196: [20,22.5,21,24.5],#closed
+            197: [13,28.5,13,29.5],#School desk
+            198: [14,28.5,14,29.5],
+            199: [15,29,16,29.5],
+            200: [9,5,9,6],#bench press
+            201: [10,5,10,6],
+            202: [11,6,12,6],
+            203: [20,0,21,0],#Black board
+            204: [22,0,22,0],#Boom box
+            205: [23,0,23,0],#pilar
+            206: [24,0,24,0],#chess
+            207: [25,0,25,0],#comode
+            208: [26,0,26,0],#crib
+            209: [27,0,27,0],#summer chair
+            210: [23,1,23,2],#painting
+            211: [30,1,30,2],#class board
+            212: [22,21,22,21.5],#Weapon locker
+            213: [23,21,22.5,22],#Lamp
+            214: [24,1,26,2],#Workbench
+            215: [27,26,29,26.5],#
+            216: [27,27.5,29,28],#
+            217: [25,8,25,9],#squeleton
+            218: [20,1,22,2],#shop shelf
+            219: [23.5,21,25.5,21],#shop table
+            220: [28,1,29,2],#Weights rack
+            221: [24,25,24,26],#running pad
+            222: [29,21,29,22],
+            223: [22,27,23,29],
+            224: [25,10,27,10],#red bench
+            225: [28,10,30,11],#red table
+            226: [28,12,30,12.5],#park bench
+            227: [27,23,29,25],#big park bench
+            #218: [23,21,22.5,22],#
+            #219: [23,21,22.5,22],#
         }
         if num in mapDict2 :
             coord = mapDict2[num]
@@ -185,6 +225,7 @@ class object_builder :
                 self.spriteList[num2] = ImageTk.PhotoImage(image)
                 return self.spriteList[num2]
         return None
+    
     def addMetadataToObjList(self,objList):
         doorList = [[1,[-1,0]],[2,[0,1]],[3,[1,0]],[4,[0,-1]],[5,[-1,0]],[6,[0,1]],[7,[-1,0]],[8,[0,1]]]
         cabientList = [[149,[True,152]],[150,[True,153]],[151,[True,154]],[152,[False,149]],[153,[False,150]],[154,[False,151]]]
@@ -193,17 +234,16 @@ class object_builder :
             for i in range(len(doorList)) :
                 if objList[j][0] == doorList[i][0]:
                     objList[j][3]=["door",doorList[i][1],0,0,True,objList[j][1],objList[j][2]]#Obj type, direction open, unit open, counter animation, unlocked
-                    #print(objList[j][3])
             for i in range(len(cabientList)) :
                 if objList[j][0] == cabientList[i][0]:
                     objList[j][3]=["cabinet",cabientList[i][1][0],cabientList[i][1][1],True,0]
         return objList
+    
     def getCarSprite(self,num,angle=0,angleNum=10) :
         flip=False
         num2 = num+300+angle*10
-        angleList = []#[0,45,90,135,180,225,270,315]
+        angleList = []
         for i in range(angleNum+1) :
-            print(int(math.ceil((i/angleNum)*360)))
             angleList.append(int(math.ceil((i/angleNum)*360)))
         if self.spriteList[num2]!=None :
             return self.spriteList[num2]
@@ -227,6 +267,37 @@ class object_builder :
             #self.spriteList[num2] = ImageTk.PhotoImage(image)
             #○image9,carsizeX,carsizeY = self.angleImage(image,0,[sizeX,sizeY])#
             return self.spriteList[num2]
+        
+    def getCarSprite2(self,num,angle=0,angleNum=10,flip=False) :
+        angleList = []
+        for i in range(angleNum+1) :
+            angleList.append(int(math.ceil((i/angleNum)*360)))
+        mapDict = {
+            0: [0,1,2,8],#Cars
+            1: [3,0,5,8],
+            2: [6,3,8,8],
+            3: [9,3,11,8],
+            4: [12,3,14,8],
+            5: [15,2,17,8],
+            6: [18,3,20,8],
+            7: [21,2,23,8],
+            8: [0,9,8,13],#Boats
+            9: [9,9,17,13],
+            10: [18,9,26,13],
+            11: [0,14,8,18],
+            12: [0,19,8,22],#Heli
+            13: [9,19,17,22],
+            14: [18,19,26,22],
+            15: [0,23,8,26],
+            16: [9,23,17,26],
+            }
+        if num in mapDict :
+            coord = mapDict[num]
+            image = self.aggSprite(coord,flip)
+            sizeX, sizeY = image.size
+            image2 = self.angleImage(image,angleList[angle],[sizeX,sizeY])#
+            image3 = ImageTk.PhotoImage(image2)
+            return image3
         return None
     def getCarSize(self,carNum) :
         mapDict = {
@@ -238,6 +309,34 @@ class object_builder :
             5: [2.5,13.5,4,17.5],
             6: [0,20.5,1.5,24.5],
             7: [2.5,20.5,4,24.5],
+            }
+        if carNum in mapDict :
+            coord = mapDict[carNum]
+            image = self.aggSprite(coord,False)
+            sizeX, sizeY = image.size
+            return sizeX, sizeY
+        else :
+            return 0,0
+        
+    def getCarSize2(self,carNum) :
+        mapDict = {
+            0: [0,1,2,8],
+            1: [3,0,5,8],
+            2: [6,3,8,8],
+            3: [9,3,11,8],
+            4: [12,3,14,8],
+            5: [15,2,17,8],
+            6: [18,3,20,8],
+            7: [21,2,23,8],
+            8: [0,9,8,13],#Boats
+            9: [9,9,17,13],
+            10: [18,9,26,13],
+            11: [0,14,8,18],
+            12: [0,19,8,22],#Heli
+            13: [9,19,17,22],
+            14: [18,19,26,22],
+            15: [0,23,8,26],
+            16: [9,23,17,26],
             }
         if carNum in mapDict :
             coord = mapDict[carNum]

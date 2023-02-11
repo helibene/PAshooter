@@ -18,13 +18,16 @@ class handObject() :
         self.moveVector = moveVector
         self.bulletShot = bulletShot
         self.doNotDisplayOnMap = doNotDisplayOnMap
+        self.canPickup = True
         self.spriteList = []
         self.bulletRangeWeaponInstance = None
+        self.price = 1
         
     def initBullet(self):
         self.spriteNum = 1
         self.itemType = "bullet"
         self.doNotDisplayOnMap = True
+        self.canPickup = False
         return self
         
     def initRangeWeapon(self,weapon) :
@@ -54,12 +57,14 @@ class handObject() :
         self.itemInInventory = True
         self.posInventory = posInv
         self.doNotDisplayOnMap = True
+        self.canPickup = False
         self.pos = [0,0]
         
     def dropFromInventory(self,mapPos=[0,0]) :
         self.itemInInventory = False
         self.posInventory = -1
         self.doNotDisplayOnMap = False
+        self.canPickup = True
         self.pos = mapPos
         
     def discard(self) :
@@ -69,6 +74,7 @@ class handObject() :
         self.itemInInventory = False
         self.posInventory = -1
         self.usefullItemInstance = None
+        self.canPickup = False
         self.deleteSprites()
         
     def deleteSprites(self) :
@@ -96,7 +102,8 @@ def getBasicInstanceList(settingsMat) :
     handObjType = type(handObject())
     for setList in settingsMat :
         if type(setList)!=handObjType :
-            returnMat.append(getBasicInstance(setList))
+            if type(setList)!=type(None) :
+                returnMat.append(getBasicInstance(setList))
         else :
             returnMat.append(setList)
     return returnMat

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 """
 Created on Sun Jan  8 22:00:18 2023
 
@@ -34,8 +34,8 @@ class character :
         self.damageCooldown=0
         self.inCar = -1
         self.carInteractionCooldown = 0
-        self.merchand = False
-        self.lootNumRange = [0,10]
+        self.merchand = True
+        self.lootNumRange = [2,5]
         self.lootList = []
         
     def applyDamage(self,damage,multi=1) :
@@ -50,10 +50,11 @@ class character :
     
     def dropItems(self) :
         for loot in self.lootList :
-            loot.itemType = "default"
+            #loot.itemType = "default"
             randomMv = randomMove(self.spriteSize[0]*0.9)
             loot.pos = [self.posMap[0]+randomMv[0],self.posMap[1]+randomMv[1]]
             loot.doNotDisplayOnMap = False
+            loot.canPickup = True
     
     #def generateLoot(self) :
         #lootNum = int(float(random.random()*float(self.lootNumRange[1]-self.lootNumRange[0]))+float(self.lootNumRange[0]))

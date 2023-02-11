@@ -16,24 +16,38 @@ def master(w) :
     
     
 def keyMouseAction(w) :
-    keyDir,interact,drop,sprint = w.listener.keyAction()
+    keyDir,interact,drop,sprint,toggleStatDisplay = w.listener.keyAction()
     me = w.getMe()
+    if me.posMap[0]>w.shopArea[0][0] and me.posMap[0]<w.shopArea[1][0] and me.posMap[1]>w.shopArea[0][1] and me.posMap[1]<w.shopArea[1][1] :
+        print("SHOPING")
+        w.isShoping = True
+    else :
+        w.isShoping = False
     keyDir = applySprint(w,sprint,keyDir)
     changeDirCharacterList(w,keyDir,me)
-    changeDirCarList(w,me,keyDir,0.7)
+    changeDirCarList(w,me,keyDir)
     meleWepon = weponUseAtempt(w,me)
     damageCalculation(w,me,meleWepon)
     healUseAtempt(w,me)
     interactAction(w,interact,drop,me)
     w.healthPct = me.healthPct
     w.listener.resetClick()
+    if toggleStatDisplay and w.toggleStatDisplay==0:
+        w.toggleStatCooldown = 30
+        if w.toggleStatDisplay :
+            w.toggleStatDisplay = False
+            
+        else :
+            w.toggleStatDisplay = True
+    elif w.toggleStatCooldown>0 :
+        w.toggleStatCooldown = w.toggleStatCooldown - 1
 
 
-def changeDirCarList(w,me=None,direction=[0,0],accMulti=0.02) :
+def changeDirCarList(w,me=None,direction=[0,0]) :
     for i in range(len(w.carObjList)) :
         if me!=None  :
             if me.inCar == i and direction != [0,0] :
-                w.carObjList[i].setAcceleration([direction[0]*accMulti,direction[1]*accMulti])
+                w.carObjList[i].setAcceleration([direction[0]*w.carObjList[i].accMulti,direction[1]*w.carObjList[i].accMulti])
             else :
                 w.carObjList[i].setAcceleration([0,0])
                 
@@ -62,9 +76,11 @@ def pickUpItem(w,me,interBool) :
     if w.pickupCooldown == 0 :
         if w.inventoryCount<w.maxInventory+1 and interBool : 
             for obj in w.handObjListClass :
-                if not takenFlag and not obj.doNotDisplayOnMap and obj.itemType != "bullet" and obj.itemType != "discarded":
+                if not takenFlag and obj.canPickup and obj.itemType != "bullet" and obj.itemType != "discarded":
                     dist = math.sqrt(math.pow(obj.pos[0]-me.posMap[0],2)+math.pow(obj.pos[1]-me.posMap[1],2))
                     if dist < w.distancePickup :
+                        if w.isShoping :
+                            w.moneyCount = w.moneyCount - obj.price
                         print("Item #",obj.spriteNum,"pickedup")
                         if obj.itemType == "money" :
                             w.moneyCount = w.moneyCount + obj.moneyValue
@@ -79,7 +95,7 @@ def pickUpItem(w,me,interBool) :
                             
                             w.inventoryCount = w.inventoryCount + 1
                         takenFlag = True
-                        w.pickupCooldown = 20
+                        w.pickupCooldown = 5
     else :
         w.pickupCooldown = w.pickupCooldown - 1
         
@@ -99,7 +115,11 @@ def healUseAtempt(w,me) :
 def dropAction(w,dropBool,me) :
     if dropBool and w.dropCooldown==0:
         obj = w.getHandObjFromInventory(w.menuBarSel)
-        dropItem(w,obj,me)
+        if not w.isShoping :
+            dropItem(w,obj,me)
+        else :
+            w.moneyCount = w.moneyCount + obj.price
+            dropItem(w,obj,me,True)
     elif w.dropCooldown>0 :
         w.dropCooldown = w.dropCooldown - 1
 
@@ -140,7 +160,6 @@ def interactWithItem(w,me,interBool):
         if obj[3][0]!='none' :
             if obj[3][0]=='door' :
                 if obj[3][3] == 0 :
-                    #print(#w.backList[0][5][int(obj[1])][int(obj[2])],"  ",obj[1],"  ",obj[2])
                     w.backList[0][5][int(obj[3][6])][int(obj[3][5])]=True
                 else :
                     w.backList[0][5][int(obj[3][6])][int(obj[3][5])]=False
@@ -149,7 +168,6 @@ def interactWithItem(w,me,interBool):
                         dist = math.sqrt(math.pow(obj[1]*32-me.getPosMapCenter()[0],2)+math.pow(obj[2]*32-me.getPosMapCenter()[1],2))
                         if dist < distance :
                             if obj[3][2] == 0 :
-                                #print(#obj[3][3],dist)
                                 if obj[3][3] == 0 :
                                     obj[3][2] = 1
                                 if obj[3][3] == aniIter:
@@ -209,15 +227,8 @@ def meleDamageCalculation(w,me,meleWepon) :
 def killCharacter(w,cha) :
     cha.dead = True
     w.animationListPos.append([0,cha.posMap[0],cha.posMap[1],cha.spriteSize[0],cha.spriteSize[1]])
-    lootList = cha.lootList
-    print(lootList)
     cha.dropItems()
-    #for lootIndex in lootList :
-    #    print(lootIndex)
-        #w.handObjListClass[lootIndex] = -1
-    #    w.handObjListClass[lootIndex].pos = cha.posMap
         
-                
 def moveBullets(w,me) :
     if w.bulletNum>0 :
         for i in range(w.bulletNum) :
@@ -254,7 +265,6 @@ def weponUseAtempt(w,me):
         obj = w.getHandObjFromInventory(w.menuBarSel)
         if obj != None :
             if obj.itemType == "rangeWeapon" :
-                print("bullet fired")
                 rangeWeapon = obj.usefullItemInstance
                 speed = rangeWeapon.speed
                 bulletDir = [0,0]

@@ -7,7 +7,7 @@ Created on Thu Jan 19 18:34:41 2023
 
 import math
 class carObject :
-    def __init__(self,spriteNum,pos=[0,0],speed=[0,0],acc=[0,0]):
+    def __init__(self,spriteNum,pos=[0,0],speed=[0,0],acc=[0,0],frictionPct=0.05,maxSpeed=50):
         self.index = 0
         self.spriteNum = spriteNum
         self.pos = pos
@@ -17,9 +17,16 @@ class carObject :
         self.sizeY = 0
         self.spriteSize = [0,0]
         self.angle = 0
-        self.frictionPct = 0.05
+        self.frictionPct = frictionPct
         self.sprite = []
-        self.maxSpeed = 25
+        self.maxSpeed = maxSpeed
+        self.accMulti = 0.5
+        self.vehiculeType = "car"
+        if spriteNum > 7 and spriteNum <12:
+            self.vehiculeType = "boat"
+        elif spriteNum > 11:
+            self.vehiculeType = "heli"
+        
 
     def move(self) :
         self.pos = [self.pos[0]+self.speed[0],self.pos[1]+self.speed[1]]
@@ -27,25 +34,29 @@ class carObject :
     def applyAcceleration(self) :
         roof = self.maxSpeed
         frict = self.getFrictionVector()
-        # if self.acc == [0,0] :
-        #     self.acc = frict
         self.acc = [self.acc[0]+frict[0],self.acc[1]+frict[1]]
         self.speed = [self.speed[0]+self.acc[0],self.speed[1]+self.acc[1]]
         self.speed = [max(min(self.speed[0],roof),-roof),max(min(self.speed[1],roof),-roof)]
-        #self.acc = [self.acc[0]+frict[0],self.acc[1]+frict[1]]
     
     def getFrictionVector(self) :
         return [-self.speed[0]*self.frictionPct,-self.speed[1]*self.frictionPct]
     
     def updateAngle(self,maxAngle=30):
-        radAngle = self.getSpeedAngle()
-        if radAngle == None :
-            return 0
+        if self.vehiculeType=="car" :
+            radAngle = self.getSpeedAngle()
+            if radAngle == None :
+                return 0
+            else :
+                unitAngle = radAngle/(math.pi*2)
+                spriteAngle = int(math.ceil(unitAngle*maxAngle))
+                if spriteAngle == maxAngle :
+                    spriteAngle = 0
+                return spriteAngle
         else :
-            unitAngle = radAngle/(math.pi*2)
-            spriteAngle = int(math.ceil(unitAngle*maxAngle))
-            #print(spriteAngle)
-            return spriteAngle
+            if self.speed[0]>=0 :
+                return 0
+            else :
+                return 1
     def getSpeedAngle(self):
         speedAbs = (math.sqrt(math.pow(self.speed[0],2)+math.pow(self.speed[1],2)))
         if speedAbs != 0: 
@@ -56,7 +67,6 @@ class carObject :
             ang = math.acos(self.speed[0]/speedAbs)*(sign)+math.pi-math.pi/2
             if ang<0 :
                 ang = ang + 2*math.pi
-            #print(ang)
             return ang
         else :
             return None
