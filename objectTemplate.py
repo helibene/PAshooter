@@ -44,7 +44,7 @@ class objectTemplate :
                 posX = posX + stepX
             posX = pos[0]
             posY = posY + stepY
-        print("aggobj :",return_list)
+        #print("aggobj :",return_list)
         return return_list
     
     def getHandObjList(spriteNum=0,pos=[0,0],posEnd=[2,2],stepX=1,stepY=1) :
@@ -57,12 +57,12 @@ class objectTemplate :
                 posX = posX + stepX
             posX = pos[0]
             posY = posY + stepY
-        print("aggobj :",return_list)
+        #print("aggobj :",return_list)
         return return_list
     
     def extendList(list1,list2) :
         list1.extend(list2)
-        print("list1 :",list1)
+        #print("list1 :",list1)
         return list1
         
     defaultOffset0=[-11,-9]#House 1
@@ -208,7 +208,7 @@ class objectTemplate :
             return objList,handObjList
 
     def applyOffsetToTemplate(self,objList,handObjList,offset,scale=32) :
-        print(objList)
+        #print(objList)
         objListCopy = objList.copy()
         handObjListCopy = handObjList.copy()
         

@@ -17,11 +17,9 @@ class openImageFiles :
 
 def masterOpen(w) :
     openSheetList(w)
-    openMapList(w)
-    #generateNewMap(w,w.generate_new_map)    
-    generateNewMap2(w,w.generate_new_map)       
+    openMapList(w)    
+    generateNewMap(w,w.generate_new_map)       
     objectInst = ob.object_builder(w.sheetList[0])
-    #objectCarInst = ob.object_builder(w.sheetList[2])
     objectCarInst = ob.object_builder(w.sheetList[5])
     openBackgroundList(w)
     return objectInst, objectCarInst
@@ -35,20 +33,11 @@ def masterLoad(w) :
 def masterSaveObjImage(w) :
     saveObjList(w,w.objList,w.mapInstance)
     openObjMap(w,w.mapInstance)
-    
+        
 def generateNewMap(w,generate=False) :
     if generate :
-        w.terrain = tb.terrain_builder(w.sheetList[1],w.sheetList[3],True)
-        w.terrain.mapFileToImage(w.mapList[0],w.rootPath+w.mapFolder)
-        #del(w.terrain)
-        #del(w.mapList)
-        
-def generateNewMap2(w,generate=False) :
-    if generate :
-        w.terrain2 = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True)
-        w.terrain2.mapFileToImageNat(w.mapList[1],w.rootPath+w.mapFolder)
-        #del(w.terrain)
-        #del(w.mapList)
+        w.terrain = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True)
+        w.terrain.mapFileToImageNat(w.mapList[0],w.rootPath+w.mapFolder)
         
 def openSheetList(w) :
     for sheetNum in range(len(w.sheetList)) :
@@ -64,7 +53,7 @@ def saveObjList(w,objMat,num=0):
     mapImage = Image.new("RGBA", (mapSizeX, mapSizeY)) 
     for obj in objMat :
         if obj[3][0]=='none':
-            print(obj[1],"  ",obj[2])
+            #print(obj[1],"  ",obj[2])
             img = w.object.getSprite(obj[0],True)
             mapImage.paste(img,(int(obj[1]*32),int(obj[2]*32)),img)
     mapImage.save(w.rootPath+w.mapFolder+"map"+str(num)+"_obj.png","PNG")
@@ -79,25 +68,30 @@ def openMapList(w) :
 
 def openBackgroundList(w) :
     for backNum in range(len(w.backList)) :
-        img = Image.open(w.rootPath+w.mapFolder+w.backList[backNum][0]).convert("RGBA")
-        sizeX, sizeY = img.size
+        imgback = Image.open(w.rootPath+w.mapFolder+w.backList[backNum][0]).convert("RGBA")
+        sizeX, sizeY = imgback.size
         w.backList[backNum][1] = sizeX
         w.backList[backNum][2] = sizeY
         w.backList[backNum][3] = int(sizeX/w.terrainTileSize)
         w.backList[backNum][4] = int(sizeY/w.terrainTileSize)
-        w.backList[backNum][0] = ImageTk.PhotoImage(img)
+        w.backList[backNum][0] = ImageTk.PhotoImage(imgback)
         if len(w.backList[backNum])>5:
             img = Image.open(w.rootPath+w.mapFolder+w.backList[backNum][5]).convert("RGB")
-            boolMat = [[False for x in range(w.backList[backNum][4])] for y in range(w.backList[backNum][3])] 
+            colliMat = [[False for x in range(w.backList[backNum][4])] for y in range(w.backList[backNum][3])] 
+            seaMat = [[False for x in range(w.backList[backNum][4])] for y in range(w.backList[backNum][3])] 
     
             colorMat = np.array(list(img.getdata())).reshape((w.backList[backNum][3], w.backList[backNum][4], 3))
             for x in range(w.backList[backNum][3]-1) :
                 for y in range(w.backList[backNum][4]-1) :
                     if colorMat[x][y][0]==0:
-                        boolMat[x][y] = True
-            w.backList[backNum][5] = boolMat
+                        colliMat[x][y] = True
+                        if colorMat[x][y][2]==255:
+                            seaMat[x][y] = True
+            w.backList[backNum][5] = colliMat
+            w.backList[backNum][6] = seaMat
         else :
             w.backList[backNum].append(None)
+        w.backList[backNum][7] = ImageTk.PhotoImage(imgback.resize((300,300), resample=w.resampleType))
 
 def imageToMask(w,img,transparentCol=(0,0,0,0),fillCol=(255, 0, 0, 100)) :
     data = img.getdata()

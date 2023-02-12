@@ -239,36 +239,8 @@ class object_builder :
                     objList[j][3]=["cabinet",cabientList[i][1][0],cabientList[i][1][1],True,0]
         return objList
     
-    def getCarSprite(self,num,angle=0,angleNum=10) :
-        flip=False
-        num2 = num+300+angle*10
-        angleList = []
-        for i in range(angleNum+1) :
-            angleList.append(int(math.ceil((i/angleNum)*360)))
-        if self.spriteList[num2]!=None :
-            return self.spriteList[num2]
-        mapDict = {
-            0: [1,0,2,7],
-            1: [3,0,4,7],
-            2: [1,8,2,12],
-            3: [3,8,4,12],
-            4: [0,13.5,1.5,17],
-            5: [2.5,13.5,4,17.5],
-            6: [0,26,1,29.5],
-            7: [2,26,4,30.5],
-            }
-        if num in mapDict :
-            coord = mapDict[num]
-            image = self.aggSprite(coord,flip)
-            sizeX, sizeY = image.size
-            for i in range(len(angleList)) :
-                image2 = self.angleImage(image,angleList[i],[sizeX,sizeY])#
-                self.spriteList[num2+10*i] = ImageTk.PhotoImage(image2)
-            #self.spriteList[num2] = ImageTk.PhotoImage(image)
-            #○image9,carsizeX,carsizeY = self.angleImage(image,0,[sizeX,sizeY])#
-            return self.spriteList[num2]
-        
-    def getCarSprite2(self,num,angle=0,angleNum=10,flip=False) :
+       
+    def getCarSprite(self,num,angle=0,angleNum=10,flip=False) :
         angleList = []
         for i in range(angleNum+1) :
             angleList.append(int(math.ceil((i/angleNum)*360)))
@@ -299,26 +271,8 @@ class object_builder :
             image3 = ImageTk.PhotoImage(image2)
             return image3
         return None
+    
     def getCarSize(self,carNum) :
-        mapDict = {
-            0: [1,0,2,7],
-            1: [3,0,4,7],
-            2: [1,8,2,12],
-            3: [3,8,4,12],
-            4: [0,13.5,1.5,17],
-            5: [2.5,13.5,4,17.5],
-            6: [0,20.5,1.5,24.5],
-            7: [2.5,20.5,4,24.5],
-            }
-        if carNum in mapDict :
-            coord = mapDict[carNum]
-            image = self.aggSprite(coord,False)
-            sizeX, sizeY = image.size
-            return sizeX, sizeY
-        else :
-            return 0,0
-        
-    def getCarSize2(self,carNum) :
         mapDict = {
             0: [0,1,2,8],
             1: [3,0,5,8],

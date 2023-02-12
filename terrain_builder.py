@@ -6,7 +6,7 @@ Created on Mon Jan  9 13:06:32 2023
 """
 
 import math
-from PIL import ImageTk,Image 
+from PIL import ImageTk,Image,ImageColor
 import numpy 
 import random
 from tkinter import Canvas 
@@ -31,44 +31,6 @@ class terrain_builder :
                 self.imageMat[x][y] = ImageTk.PhotoImage(self.imgCrop)
                 self.imageMat2[x][y] = self.imgCrop
 
-    def mapFileToImage(self,mapSetting,path) :
-        if self.printLog :
-            print("TB : generating map image")
-        mapTemplate = mapSetting[0]
-        colorMat = numpy.array(list(mapTemplate.getdata())).reshape((mapSetting[2], mapSetting[3], 3))
-        tileMat = [[[-1,-1] for x in range(mapSetting[3])] for y in range(mapSetting[2])] 
-        tileMatDeco = [[[-1,-1] for x in range(mapSetting[3])] for y in range(mapSetting[2])] 
-        tileMatColision = [[False for x in range(mapSetting[3])] for y in range(mapSetting[2])] 
-        image = Image.new("RGB", (mapSetting[2]*self.step_x, mapSetting[3]*self.step_y)) 
-        imageCol = Image.new("RGB", (mapSetting[2], mapSetting[3]),color='white') 
-        for x in range(mapSetting[2]) :
-            for y in range(mapSetting[3]) :
-                redVal = colorMat[y][x][0]
-                greenVal = colorMat[y][x][1]
-                if redVal>=100 :
-                    tileMatColision[x][y] = True
-                    tileMat[x][y] = terrainMapping(redVal,wallMapping(greenVal))
-                else :
-                    tileMat[x][y] = terrainMapping(redVal)
-                    if redVal==18 :
-                        tileMatColision[x][y] = True
-                if redVal<100 and greenVal!=0:
-                    tileMatDeco[x][y] = decoMapping(greenVal)
-                    
-        for x in range(mapSetting[2]) :
-            for y in range(mapSetting[3]) :
-                x2,y2 = tileMat[x][y]
-                x3,y3 = tileMatDeco[x][y]
-                bool1 = tileMatColision[x][y]
-                image.paste(self.imageMat2[x2][y2],(int(x*self.step_x),int(y*self.step_y)))
-                if x3!=-1 and y3!=-1 :
-                    image.paste(self.imageMat2[x3][y3],(int(x*self.step_x),int(y*self.step_y)),self.imageMat2[x3][y3])
-                if bool1 :
-                    imageCol.paste(self.black,(x,y))
-
-        image.save(path+mapSetting[1]+"_tex."+self.imageFormat,self.imageFormat.upper())
-        imageCol.save(path+mapSetting[1]+"_col.png","PNG")
-        return image,imageCol
 
     def mapFileToImageNat(self,mapSetting,path) :
         if self.printLog :
@@ -76,9 +38,9 @@ class terrain_builder :
         mapTemplate = mapSetting[0]
         treeList = []
         for i in range(9) :
-            print("tree num",i)
             treeList.append(self.aggSprite([i*2,0,i*2+2,2]))
-            
+        blackpix = Image.new("RGB",(1,1),(0,0,0))
+        seapix = Image.new("RGB",(1,1),(0,0,255))
         colorMat = numpy.array(list(mapTemplate.getdata())).reshape((mapSetting[2], mapSetting[3], 3))
         tileMat = [[[-1,-1] for x in range(mapSetting[3])] for y in range(mapSetting[2])] 
         image = Image.new("RGB", (mapSetting[2]*self.step_x, mapSetting[3]*self.step_y)) 
@@ -88,11 +50,13 @@ class terrain_builder :
                 redVal = colorMat[y][x][0]
                 greenVal = colorMat[y][x][1]
                 blueVal = colorMat[y][x][2]
-                tileMat[x][y] = terrainMapping2(redVal,greenVal,blueVal)
+                tileMat[x][y] = terrainMapping(redVal,greenVal,blueVal)
                 x2,y2 = tileMat[x][y]
                 image.paste(self.imageMat2[x2][y2],(int(x*self.step_x),int(y*self.step_y)))
                 if colorMat[y][x][0]>=100 :
-                    imageCol.paste(self.black,(x,y))
+                    imageCol.paste(blackpix,(x,y))
+                if colorMat[y][x][0] in [9,10,11] :
+                    imageCol.paste(seapix,(x,y))
         for x in range(mapSetting[2]) :
             for y in range(mapSetting[3]) :
                 redVal = colorMat[y][x][0]
@@ -146,61 +110,14 @@ class terrain_builder :
         image = Image.new("RGBA", (int(size[0]*self.step_x), int(size[1]*self.step_y))) 
         for x in range(int(point[0]),int(point[2])) :
             for y in range(int(point[1]),int(point[3])) :
-                print("x:",x,"y:",y)
+                #print("x:",x,"y:",y)
                 image.paste(self.imageMat2[x][y],(int((x-(point[0]))*self.step_x),int((y-(point[1]))*self.step_y)),self.imageMat2[x][y])
         if flip :
             image = image.transpose(Image.FLIP_LEFT_RIGHT)#FLIP_TOP_BOTTOM)
         return image
                 
-    #def newNature()
-def terrainMapping(redVal,addPoint=[0,0]) :
-    mapDict = {
-        0: randPointRange(0,4,5,2),
-        1: randPointRange(5,4,5,2),
-        2: randPointRange(10,4,5,2),
-        3: randPointRange(15,4,5,2),
-        4: randPointRange(20,4,5,2),
-        5: randPointRange(25,4,5,2),
-        6: randPointRange(0,6,5,2),
-        7: randPointRange(5,6,5,2),
-        8: randPointRange(10,6,2,2),
-        9: randPointRange(15,6,2,2),#Road
-        10: randPointRange(20,6,5,2),
-        11: randPointRange(25,6,5,2),
-        12: randPointRange(15,8,5,2),
-        13: randPointRange(25,8,5,2),
-        14: randPointRange(30,6,2,2),
-        15: randPointRange(20,8,2,2),
-        16: randPointRange(20,12,2,4),
-        17: randPointRange(22,12,2,4),
-        18: randPointRange(0,26,6,0),
-        19: randPointRange(0,29,6,0),
-        20: randPointRange(17,6,1,2),#left
-        21: randPointRange(18,6,1,2),#right
-        22: randPointRange(19,6,1,2),#middle vert
-        23: randPointRange(15,10,2,0),#up
-        24: randPointRange(15,11,2,0),#down
-        25: randPointRange(17,10,2,0),#middle hor
-        26: randPointRange(13,6,1,2),#PAvement left
-        27: randPointRange(14,6,1,2),#right
-        28: randPointRange(19,10,2,0),#up
-        29: randPointRange(19,11,2,0),#down
-        30: randPointRange(22,8,0,0),
-        31: randPointRange(22,9,0,0),
-        100: [0+addPoint[0],0+addPoint[1]],
-        101: [13+addPoint[0],0+addPoint[1]],
-        102: [8+addPoint[0],8+addPoint[1]],
-        103: [0+addPoint[0],12+addPoint[1]],
-        104: [8+addPoint[0],12+addPoint[1]],
-        105: [0+addPoint[0],16+addPoint[1]],
-        106: [8+addPoint[0],16+addPoint[1]],
-    }
-    if redVal in mapDict :
-        return mapDict[redVal]
-    else :
-        return [-1,-1]
     
-def terrainMapping2(redVal,greenVal,blueVal) :
+def terrainMapping(redVal,greenVal,blueVal) :
     if redVal<50 :
         return randPointRange(int((redVal%12)*2),5+int(redVal/12)*4,2,4)
     elif redVal<100 :
@@ -235,32 +152,6 @@ def terrainMapping2(redVal,greenVal,blueVal) :
         
     else :
         return [0+((redVal-100)%3)*7+wallMapping(greenVal)[0],19+int((redVal-100)/3)*4+wallMapping(greenVal)[1]] 
-    
-def decoMapping(greenVal) :
-    mapDict = {
-        1: randPointRange(4,3,3,0),#Grass
-        2: [11,0],
-        3: randPointRange(23,10,3,2),
-        4: randPointRange(29,10,3,2),
-        
-        5: [10,0],#Flower
-        6: [12,0],
-        
-        7: randPointRange(26,10,3,2),#Rocks
-        8: randPointRange(26,12,3,2),
-        9: randPointRange(29,13,3,0),
-        
-        10: randPointRange(7,0,3,0),#Dust
-        11: randPointRange(7,1,3,0),
-        12: randPointRange(10,3,3,0),
-        13: randPointRange(7,2,3,0),
-        
-        14: [9,3]#Hole
-    }
-    if greenVal in mapDict :
-        return mapDict[greenVal]
-    else :
-        return [-1,-1]
     
 def wallMapping(val) :
     posX = 0

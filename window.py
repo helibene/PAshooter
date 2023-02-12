@@ -123,11 +123,10 @@ class window :
         #Sprites conf
         
         self.sheetList = [["objects3.png",1216,1024,38,32],["terrain3.png",1024,992,32,31],["caracteres3.png",1200,1200,32,32],["black.png",1,1,1,1],["nature.png",768,864,24,27],["vehicule.png",864,864,27,27]]#["objects2.png",800,1024,25,32]
-        self.menuList = [["menu3.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263],[736,0,896,160]]]
+        self.menuList = [["menu3.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263],[704,0,896,192]]]
         self.mapList,self.backList = self.generateMapConfig(self.mapInstance)
         self.root,self.width,self.height = wu.setRoot(self,width,height,0,0,windowOnTop,fullscreen,True,True)       
         self.canvas = wu.getCanvasFullScreen(self,self.root,self.width,self.height,self.backgroundColor)
-        self.mapList2 = []
         self.carList = []
         self.carObjList = []
         self.object,self.objectCar = oi.masterOpen(self)
@@ -192,7 +191,9 @@ class window :
             
     def moveCarList(self) :
         for i in range(len(self.carObjList)) :
+            #self.carObjList[i].getMapPixel(self.backList[0][6])
             self.carObjList[i].applyAcceleration()
+            self.carObjList[i].canMove(self.backList[0][6])
             self.carObjList[i].move()
     ###############
     #Player Action#
@@ -225,6 +226,9 @@ class window :
         if val == 0 :
             self.handObjListBuff = []
             self.objListBuff = []
+            car = self.loadCarObj(co.carObject(9,[700,700]))
+            self.carObjList.append(car)
+            car.getMapPixel(self.backList[0][6])
         if val == 1 :
             self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(0)
             self.shopArea = shopAreaList[0]
@@ -254,7 +258,7 @@ class window :
                 if i<8 :
                     car = self.loadCarObj(co.carObject(i,[200+i*200,200]))
                 elif i<12 :
-                    car = self.loadCarObj(co.carObject(i,[200+(i-8)*500,600]))
+                    car = self.loadCarObj(co.carObject(i,[2500,600+(i-8)*400]))
                 else :
                     car = self.loadCarObj(co.carObject(i,[200+(i-12)*500,1000]))
                 self.carObjList.append(car)
@@ -273,14 +277,14 @@ class window :
     def loadCarObj(self,car) :
         if car.vehiculeType == "car" :
             for i in range(self.carAngleNum) :
-                sprite = self.objectCar.getCarSprite2(car.spriteNum,i,self.carAngleNum+1)#,spriteSizeX,spriteSizeY
+                sprite = self.objectCar.getCarSprite(car.spriteNum,i,self.carAngleNum+1)#,spriteSizeX,spriteSizeY
                 car.sprite.append(sprite)
         else :
-            sprite2 = self.objectCar.getCarSprite2(car.spriteNum,0,self.carAngleNum+1)
-            sprite3 = self.objectCar.getCarSprite2(car.spriteNum,0,self.carAngleNum+1,True)
+            sprite2 = self.objectCar.getCarSprite(car.spriteNum,0,self.carAngleNum+1)
+            sprite3 = self.objectCar.getCarSprite(car.spriteNum,0,self.carAngleNum+1,True)
             car.sprite.append(sprite2)
             car.sprite.append(sprite3)
-        w,h = self.objectCar.getCarSize2(car.spriteNum)
+        w,h = self.objectCar.getCarSize(car.spriteNum)
         car.spriteSize = [max(w,h)+20,max(w,h)+20]
         car.sizeX = w
         car.sizeY = h
@@ -309,18 +313,6 @@ class window :
                 cha.lootList.append(loot)
         return lootList
     
-    def generateMoney(self,pos=[0,0],value=1):
-        return [31,pos[0],pos[1],value]
-    
-    
-    def generateTrees(self,treeList=[103,104],area=[5,5,70,70],frequency=0.02) :
-        objList = []
-        for x in range(area[0],area[2]) :
-            for y in range(area[1],area[3]) :
-                if random.random()<frequency :
-                    objList.append([treeList[int(random.random()*len(treeList))],x,y])
-        return objList
-
     #def generateNature(self)
     def resetMemAndCanvas(self):
         self.canvas.delete("all")
@@ -384,7 +376,7 @@ class window :
             self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))+80,self.height-self.menuSize[1]-10, image=self.imgHealthBar, anchor="nw")
             self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))-5+self.menuBarSel*50,self.height-60, image=self.menuImageList[2], anchor="nw")
             self.canvas.create_image(10,10, image=self.menuImageList[5], anchor="nw")
-            #self.canvas.create_image(500,500, image=self.menuImageList[6], anchor="nw")
+            self.canvas.create_image(self.width-200,50, image=self.menuImageList[6], anchor="nw")
             moneyStr = str(self.moneyCount)
             moneySize = len(moneyStr)
             self.canvas.create_text(94-10*moneySize+10-10,25+10+5, text=moneyStr, fill="black", font=("Helvetica 25 bold"))
@@ -432,8 +424,9 @@ class window :
                 self.drawCharacterClass(characterSheetSettings,character,offset)
     
     def drawBackgroundSheet(self,backSettings,posX,posY) :
-        return self.canvas.create_image(posX,posY, image=self.backList[0][0], anchor="nw")    
-    
+        self.canvas.create_image(posX,posY, image=self.backList[0][0], anchor="nw")    
+        self.canvas.create_image(50,50, image=self.backList[0][7], anchor="nw")
+        
     def drawAnimationList(self) :
         for i in self.animationListPos :
             img = self.animationList[i[0]]
@@ -447,7 +440,7 @@ class window :
     ##############
     
     def generateMapConfig(self,num) :
-        return [["map"+str(num)+".png","map"+str(num)],["map10.png","map10"]],[["map"+str(10)+"_tex.jpeg",0,0,0,0,"map"+str(10)+"_col.png"]]
+        return [["map"+str(num)+".png","map"+str(num)]],[["map"+str(num)+"_tex.jpeg",0,0,0,0,"map"+str(num)+"_col.png",0,0]]
    
     ###################
     #Create characters#
@@ -490,8 +483,12 @@ class window :
         character_me.damageMulti = myDamageMulti
         character_me.inCar = -1
         self.chara_list.append(character_me)
-        self.offset = [character_me.posMap[0]-int(self.width/2),character_me.posMap[1]-int(self.height/2)]
-        
+        self.centerCameraOn(character_me)
+        #self.offset = [character_me.posMap[0]-int(self.width/2),character_me.posMap[1]-int(self.height/2)]
+    
+    def centerCameraOn(self,me) :
+        self.offset = [me.posMap[0]-int(self.width/2),me.posMap[1]-int(self.height/2)]
+    
     def getAllChList(self) :
         ch_list = []
         for i in range(100) :

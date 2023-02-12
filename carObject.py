@@ -73,6 +73,66 @@ class carObject :
     
     def setAcceleration(self,acc):
         self.acc = [acc[0],acc[1]]
+        
+    def getMapPixel(self,mapMat) :
+        sizeX = int(self.spriteSize[0]/32)
+        sizeY = int(self.spriteSize[1]/32)
+        posX = int((self.pos[0]/32)-3.5)
+        posY = int((self.pos[1]/32)-2.5)
+        colSizeY = len(mapMat)-1
+        colSizeX = len(mapMat[0])-1
+        print("size :",[sizeX,sizeY])
+        print("pos :",[posX,posY])
+        print("mapMat size :",[colSizeX,colSizeY])
+        boolMap = [[0 for x in range(sizeX)] for y in range(sizeY)] 
+        for x in range(sizeX) :
+            for y in range(sizeY) :
+                if mapMat[min(max(posY+y,0),colSizeY)][min(max(posX+x,0),colSizeX)] :
+                    boolMap[x][y] = 1
+                else :
+                    boolMap[x][y] = 0
+                #boolMap[x][y] = mapMat[min(max(posY+y,0),colSizeY)][min(max(posX+x,0),colSizeX)]
+        cntMat = [0,0,0,0]
+        sumMat = [0,0,0,0]
+        avgMat = [0,0,0,0]
+        for x in range(sizeX) :
+            for y in range(sizeY) :
+                if x<int(sizeX/2) :
+                    if y<int(sizeY/2) :
+                        sumMat[0] = sumMat[0] + boolMap[x][y]
+                        cntMat[0] = cntMat[0] +1
+                    else :
+                        sumMat[2] = sumMat[2] + boolMap[x][y]
+                        cntMat[2] = cntMat[2] +1
+                else :
+                    if y<int(sizeY/2) :
+                        sumMat[1] = sumMat[1] + boolMap[x][y]
+                        cntMat[1] = cntMat[1] +1
+                    else :
+                        sumMat[3] = sumMat[3] + boolMap[x][y]
+                        cntMat[3] = cntMat[3] +1
+        for i in range(len(sumMat)) :
+            avgMat[i]=sumMat[i]/cntMat[i]
+                
+        print(avgMat)
+        print(sum(avgMat)/4)
+        return sum(avgMat)/4,avgMat
+    
+    def canMove(self,matMap,threold=0.5) :
+        validAvg,avgMat = self.getMapPixel(matMap)
+        if validAvg<threold :
+            defaultval = 10
+            self.acc = [0,0]
+            self.speed = [0,0]
+            minAvg = min(avgMat) 
+            if avgMat[0]==minAvg :
+                self.speed = [defaultval,defaultval]
+            if avgMat[1]==minAvg :
+                self.speed = [-defaultval,defaultval]
+            if avgMat[2]==minAvg :
+                self.speed = [defaultval,-defaultval]
+            if avgMat[3]==minAvg :
+                self.speed = [-defaultval,-defaultval]
 
     def display(self) :
         print("Sprite num :",self.spriteNum)

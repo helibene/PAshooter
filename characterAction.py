@@ -5,7 +5,7 @@ Created on Fri Jan 27 01:08:32 2023
 @author: Alexandre
 """
 import math
-
+import random
 class characterAction :
     def __init__(self):
         pass
@@ -140,16 +140,31 @@ def interactAction(w,interBool,dropBool,me) :
     interactWithItem(w,me,interBool)
 
 def interactCar(w,me,interBool) :
+    carPickupDist = 32*6
+    boatDropOff = 32*4
     if me.carInteractionCooldown == 0 :
         if interBool :
             for i in range(len(w.carObjList)) :
                 dist = math.sqrt(math.pow(w.carObjList[i].pos[0]-me.posMap[0],2)+math.pow(w.carObjList[i].pos[1]-me.posMap[1],2))
-                if dist<100 :
+                if dist<carPickupDist :
                     me.carInteractionCooldown = 50
                     if me.inCar==-1 :
                         me.inCar = i
                     elif me.inCar==i:
-                        me.inCar = -1
+                        if w.characterCanMove(me,w.backList[0][5]) :
+                            me.inCar = -1
+                        else :
+                            ogpos = me.posMap
+                            exitFlag=False
+                            for off in [[-boatDropOff,0],[boatDropOff,0],[0,-boatDropOff],[0,boatDropOff]] :
+                                if not exitFlag :
+                                    me.posMap = [int(me.posMap[0]+off[0]),int(me.posMap[1]+off[1])]
+                                    if w.characterCanMove(me,w.backList[0][5]) :
+                                        me.inCar = -1
+                                        exitFlag = True
+                                        w.centerCameraOn(me)
+                                    else :
+                                        me.posMap = ogpos
     else :
         me.carInteractionCooldown = me.carInteractionCooldown -1
                 
