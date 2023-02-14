@@ -36,6 +36,7 @@ class object_builder :
         del(self.img)
         
     def getSprite(self,num,rawImage=False) :
+        #print(num)
         num2 = num
         flip = False
         if num <0 :
@@ -72,8 +73,14 @@ class object_builder :
             24 : [0,6],#Books
             25 : [1,6],
             26 : [2,6],
-            27 : [6,28],
-            28 : [6,29]
+            27 : [6,28],#Bush
+            28 : [6,29],
+            29 : [5,1],#Phone
+            30 : [6,1],
+            31 : [7,1],
+            32 : [6,2],#Trash
+            33 : [7,2],
+            34 : [8,2],
         }
         if num in mapDict :
             coord = mapDict[num]
@@ -96,7 +103,7 @@ class object_builder :
             108: [15,7.5,16,7.5],#Sofa
             109: [17,7.5,18,7.5],
             110: [19,6.5,19,7.5],
-            111: [5,9,8.5,10],#Table
+            111: [5,9.5,8.5,10],#Table
             112: [9.5,7,10,10],
             113: [0,25,0.5,26],#Big bed vBig bed and tables
             114: [1.5,25,1.5,25],#h
@@ -173,7 +180,7 @@ class object_builder :
             185: [20,11,20,11],
             186: [21,11,21,11],
             187: [19,12,19,12],#Shotgun
-            188: [20,10,20,12],
+            188: [20,12,20,12],
             189: [21,12,21,12],
             190: [18.5,18.5,19,19],#Shop shelf
             191: [13.5,27,17.5,27],#church benck
@@ -207,12 +214,46 @@ class object_builder :
             219: [23.5,21,25.5,21],#shop table
             220: [28,1,29,2],#Weights rack
             221: [24,25,24,26],#running pad
-            222: [29,21,29,22],
-            223: [22,27,23,29],
+            222: [29,21,29,22],#punching ball
+            223: [22,27,23,29],#ping pong
             224: [25,10,27,10],#red bench
             225: [28,10,30,11],#red table
             226: [28,12,30,12.5],#park bench
             227: [27,23,29,25],#big park bench
+            228: [28,0,28,0],#dog food
+            229: [29,0,29,0],#mat
+            230: [27,1,27,2],#dog crate
+            231: [20,3,23,4.5],#bleachers
+            232: [24,3,26,3.5],#Computer
+            233: [27,3,29,4.5],#Computer 2
+            234: [26,8,26,9],#coat hanger
+            235: [27,8,27,9],#old computer
+            236: [28,8,28,9],#fan
+            237: [29,8,29,9],#baril
+            238: [31,8,31,8],#heater
+            239: [25,11,26,11.5],#small coffe table
+            240: [25,13,26,16],#street lamp
+            241: [26.5,21,26.5,22],#med cabinet
+            242: [23.5,22,23.5,22],#mat child
+            243: [25,25,25,26],#tires
+            244: [31,0,31,1],#wind meter
+            245: [32,0,32,1],#sea meter
+            246: [33,0,33,1],#sea boue
+            247: [34,0,34,0],#bite amarage
+            248: [35,0,35,0],#statue 1
+            249: [36,0,36,0],#statue2
+            250: [37,0,37,0],#drawer
+            251: [38,0,38,0],#barrel
+            252: [30,0,30,0],#barb wire
+            253: [35,1,35,1],#flamingo
+            254: [36,1,36,1],#can machine
+            255: [37,1,37,1],#plant 1
+            256: [35,2,35,2],#cacti
+            257: [36,2,36,2],#grave
+            258: [37,2,37,2],#yoga mat
+            259: [35,3,36,3],#red sofa
+            260: [37,3,37,3],#red sofa chair
+            
             #218: [23,21,22.5,22],#
             #219: [23,21,22.5,22],#
         }
@@ -224,7 +265,9 @@ class object_builder :
             else :
                 self.spriteList[num2] = ImageTk.PhotoImage(image)
                 return self.spriteList[num2]
-        return None
+        else :
+            return self.spriteList[0]
+
     
     def addMetadataToObjList(self,objList):
         doorList = [[1,[-1,0]],[2,[0,1]],[3,[1,0]],[4,[0,-1]],[5,[-1,0]],[6,[0,1]],[7,[-1,0]],[8,[0,1]]]

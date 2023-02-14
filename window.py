@@ -47,7 +47,7 @@ class window :
         self.inventoryCount = 0
         fpsList = []
         self.keyMovePlayer = True
-        self.pctScreenScroll = 0.3  
+        self.pctScreenScroll = 0.3
         displayCharaTest = False
         self.zoom = 1
         self.offset = [1000,1000]
@@ -84,12 +84,14 @@ class window :
         self.moneyCount = 9
         self.currentFPS = 0
         self.toggleStatCooldown = 0
+        self.saveObjImage = True
         
         self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/PAshooter/sprites/")
         self.textureFolder = self.pasteConf(self.conf.textureFolder,"texture/")
         self.mapFolder = self.pasteConf(self.conf.mapFolder,"map/")
         self.terrainTileSize = self.pasteConf(self.conf.terrainTileSize,32)
         self.mapInstance = self.pasteConf(self.conf.mapInstance,1)
+        self.splitMapImage = self.pasteConf(self.conf.splitMapImage,[0,0])
         self.zoomHandObj = self.pasteConf(self.conf.itemSize,0.7)
         self.generate_new_map = self.pasteConf(self.conf.generateNewMap,False)
         self.maxInventory = self.pasteConf(self.conf.maxInventorySize,12)
@@ -119,12 +121,13 @@ class window :
         myHealth = self.pasteConf(self.conf.myHealth,1)
         myDamageMulti = self.pasteConf(self.conf.myDamageMulti,1)
         myAttackRange = self.pasteConf(self.conf.myAttackRange,30)
-
+        #print(self.splitMapImage)
         #Sprites conf
         
-        self.sheetList = [["objects3.png",1216,1024,38,32],["terrain3.png",1024,992,32,31],["caracteres3.png",1200,1200,32,32],["black.png",1,1,1,1],["nature.png",768,864,24,27],["vehicule.png",864,864,27,27]]#["objects2.png",800,1024,25,32]
+        self.sheetList = [["objects3.png",1504,1024,47,32],["terrain3.png",1024,992,32,31],["caracteres3.png",1200,1200,32,32],["black.png",1,1,1,1],["nature2.png",896,992,28,31],["vehicule.png",864,864,27,27]]#["objects2.png",800,1024,25,32]
         self.menuList = [["menu3.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263],[704,0,896,192]]]
         self.mapList,self.backList = self.generateMapConfig(self.mapInstance)
+        self.mapList2 = []
         self.root,self.width,self.height = wu.setRoot(self,width,height,0,0,windowOnTop,fullscreen,True,True)       
         self.canvas = wu.getCanvasFullScreen(self,self.root,self.width,self.height,self.backgroundColor)
         self.carList = []
@@ -136,13 +139,15 @@ class window :
         oi.masterLoad(self)
 
         self.listener = lb.ListenerBundle()
-        oi.masterSaveObjImage(self)
+        if self.saveObjImage :
+            oi.masterSaveObjImage(self)
         self.drawObjList(self.objList,self.sheetList[0],self.offset,True)
         self.drawCarObjList(self.offset,True)
         self.object.deleteSpriteMatrix()
         self.objectCar.deleteSpriteMatrix()
         self.shopArea = [[27*32,54*32],[37*32,64*32]]
         self.isShoping = False 
+        #print(len(self.backList))
         if printResources :
             self.printRessources()
         
@@ -165,8 +170,8 @@ class window :
 
         
     def drawBundle(self) :
-        self.drawBackgroundSheet(self.backList[0],-self.offset[0],-self.offset[1])
-        self.drawObjList(self.objList,self.sheetList[0],self.offset,False,True)  
+        self.drawBackgroundSheet(self.backList,-self.offset[0],-self.offset[1])
+        self.drawObjList(self.objList,self.sheetList[0],self.offset,False,self.saveObjImage)  
         self.drawCarObjList(self.offset)
         self.drawHandObjList(self.handObjListClass,self.offset)
         self.drawCharacterClassList(self.sheetList[2],self.chara_list,self.offset)
@@ -191,9 +196,11 @@ class window :
             
     def moveCarList(self) :
         for i in range(len(self.carObjList)) :
-            #self.carObjList[i].getMapPixel(self.backList[0][6])
             self.carObjList[i].applyAcceleration()
-            self.carObjList[i].canMove(self.backList[0][6])
+            if self.carObjList[i].vehiculeType=="boat" :
+                self.carObjList[i].canMove(self.backList[0][6],True)
+            if self.carObjList[i].vehiculeType=="car" :
+                self.carObjList[i].canMove(self.backList[0][5],False,0.9)
             self.carObjList[i].move()
     ###############
     #Player Action#
@@ -226,11 +233,12 @@ class window :
         if val == 0 :
             self.handObjListBuff = []
             self.objListBuff = []
-            car = self.loadCarObj(co.carObject(9,[700,700]))
+            car = self.loadCarObj(co.carObject(0,[2500,2500]))
             self.carObjList.append(car)
-            car.getMapPixel(self.backList[0][6])
+            #car.getMapPixel(self.backList[0][6])
         if val == 1 :
             self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(0)
+            #self.handObjListBuff = []
             self.shopArea = shopAreaList[0]
         if val == 2 :
             self.objListBuff,self.handObjListBuff = ot.objectTemplate(0).templateListToObjList(1)
@@ -254,15 +262,21 @@ class window :
         if val == -4 :
             self.handObjListBuff = []
             self.objListBuff = []
-            for i in range(17) :
+            for i in range(3) :
                 if i<8 :
                     car = self.loadCarObj(co.carObject(i,[200+i*200,200]))
                 elif i<12 :
-                    car = self.loadCarObj(co.carObject(i,[2500,600+(i-8)*400]))
+                    pass
+                    #car = self.loadCarObj(co.carObject(i,[2500,600+(i-8)*400]))
                 else :
-                    car = self.loadCarObj(co.carObject(i,[200+(i-12)*500,1000]))
+                    pass
+                    #car = self.loadCarObj(co.carObject(i,[200+(i-12)*500,1000]))
                 self.carObjList.append(car)
-        
+        if val == -5 :
+            self.handObjListBuff = []
+            self.objListBuff = []
+            car = self.loadCarObj(co.carObject(10,[500,50*32]))
+            self.carObjList.append(car)
         self.handObjListClass = self.generateBullets()
         lootList = self.generateLoot()
         self.handObjListClass.extend(lootList)
@@ -376,8 +390,8 @@ class window :
             self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))+80,self.height-self.menuSize[1]-10, image=self.imgHealthBar, anchor="nw")
             self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))-5+self.menuBarSel*50,self.height-60, image=self.menuImageList[2], anchor="nw")
             self.canvas.create_image(10,10, image=self.menuImageList[5], anchor="nw")
-            self.canvas.create_image(self.width-200,50, image=self.menuImageList[6], anchor="nw")
-            moneyStr = str(self.moneyCount)
+            #self.canvas.create_image(self.width-(896-704),0, image=self.menuImageList[6], anchor="nw")
+            moneyStr = str(self.moneyCount)#[704,0,896,192]
             moneySize = len(moneyStr)
             self.canvas.create_text(94-10*moneySize+10-10,25+10+5, text=moneyStr, fill="black", font=("Helvetica 25 bold"))
             #if self.toggleFPSdisplay : 
@@ -424,8 +438,15 @@ class window :
                 self.drawCharacterClass(characterSheetSettings,character,offset)
     
     def drawBackgroundSheet(self,backSettings,posX,posY) :
-        self.canvas.create_image(posX,posY, image=self.backList[0][0], anchor="nw")    
-        self.canvas.create_image(50,50, image=self.backList[0][7], anchor="nw")
+        if self.splitMapImage==[0,0] :
+            back = backSettings[0]
+            self.canvas.create_image(posX,posY, image=back[0], anchor="nw")    
+        else :
+            for i in range(1,len(backSettings)) :
+                back = backSettings[i]  
+                self.canvas.create_image(posX+back[8]*32,posY+back[9]*32, image=back[0], anchor="nw")  
+
+        #self.canvas.create_image(50,50, image=backSettings[0][7], anchor="nw")
         
     def drawAnimationList(self) :
         for i in self.animationListPos :
@@ -440,7 +461,7 @@ class window :
     ##############
     
     def generateMapConfig(self,num) :
-        return [["map"+str(num)+".png","map"+str(num)]],[["map"+str(num)+"_tex.jpeg",0,0,0,0,"map"+str(num)+"_col.png",0,0]]
+        return [["map"+str(num)+".png","map"+str(num)]],[["map"+str(num)+"_tex.jpeg",0,0,0,0,"map"+str(num)+"_col.png",0,0,0,0]]
    
     ###################
     #Create characters#
@@ -704,11 +725,11 @@ def generateObjList() :
     x = 1
     y = 1
     objList = []
-    for i in range(29) :
+    for i in range(35) :
         objList.append([i,int(x+i),int(y)])
     x = 1
     y = 3
-    for i in range(118) :
+    for i in range(160) :
         objList.append([i+100,int(x+(i%15)*3),int(y+int(i/15)*3)])
     return objList
-sl = window(cf.configLoader())
+#sl = window(cf.configLoader())

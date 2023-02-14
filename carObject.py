@@ -17,15 +17,13 @@ class carObject :
         self.sizeY = 0
         self.spriteSize = [0,0]
         self.angle = 0
-        self.frictionPct = frictionPct
         self.sprite = []
+        vehiculeType,frictionPct,accMulti,maxSpeed = selectStats(spriteNum)
+        self.frictionPct = frictionPct
+        self.accMulti = accMulti
         self.maxSpeed = maxSpeed
-        self.accMulti = 0.5
-        self.vehiculeType = "car"
-        if spriteNum > 7 and spriteNum <12:
-            self.vehiculeType = "boat"
-        elif spriteNum > 11:
-            self.vehiculeType = "heli"
+        self.vehiculeType = vehiculeType
+
         
 
     def move(self) :
@@ -74,7 +72,12 @@ class carObject :
     def setAcceleration(self,acc):
         self.acc = [acc[0],acc[1]]
         
-    def getMapPixel(self,mapMat) :
+    def getMapPixel(self,mapMat,seaBool=False) :
+        tileTrue = 0
+        tileFalse = 1
+        if seaBool :
+            tileTrue = 1
+            tileFalse = 0
         sizeX = int(self.spriteSize[0]/32)
         sizeY = int(self.spriteSize[1]/32)
         posX = int((self.pos[0]/32)-3.5)
@@ -88,9 +91,9 @@ class carObject :
         for x in range(sizeX) :
             for y in range(sizeY) :
                 if mapMat[min(max(posY+y,0),colSizeY)][min(max(posX+x,0),colSizeX)] :
-                    boolMap[x][y] = 1
+                    boolMap[x][y] = tileTrue
                 else :
-                    boolMap[x][y] = 0
+                    boolMap[x][y] = tileFalse
                 #boolMap[x][y] = mapMat[min(max(posY+y,0),colSizeY)][min(max(posX+x,0),colSizeX)]
         cntMat = [0,0,0,0]
         sumMat = [0,0,0,0]
@@ -114,14 +117,13 @@ class carObject :
         for i in range(len(sumMat)) :
             avgMat[i]=sumMat[i]/cntMat[i]
                 
-        print(avgMat)
         print(sum(avgMat)/4)
         return sum(avgMat)/4,avgMat
     
-    def canMove(self,matMap,threold=0.5) :
-        validAvg,avgMat = self.getMapPixel(matMap)
+    def canMove(self,matMap,seaBool=False,threold=0.5) :
+        validAvg,avgMat = self.getMapPixel(matMap,seaBool)
         if validAvg<threold :
-            defaultval = 10
+            defaultval = 5
             self.acc = [0,0]
             self.speed = [0,0]
             minAvg = min(avgMat) 
@@ -139,3 +141,33 @@ class carObject :
         print("Pos :",self.pos," Speed :",self.speed," Acc :",self.acc)
         print("Size :",[self.sizeX,self.sizeY])
         print("Sprite list len :",len(self.sprite))
+        
+        
+def selectStats(index) :
+    frictionDefault = 0.05
+    accMultiDefault = 0.5
+    maxSpeedDefault = 50
+    mapDict = {
+            0: ["car",1,1,1],
+            1: ["car",1.5,2,0.5],
+            2: ["car",0.5,1,5],
+            3: ["car",1,1,1],
+            4: ["car",1,1,1],
+            5: ["car",1,1,1],
+            6: ["car",1,1,1],
+            7: ["car",1,1,1],
+            8: ["boat",2,0.5,0.5],
+            9: ["boat",2,0.5,0.5],
+            10: ["boat",2,0.5,0.5],
+            11: ["boat",2,0.5,0.5],
+            12: ["heli",1,1,1],
+            13: ["heli",1,1,1],
+            14: ["heli",1,1,1],
+            15: ["heli",1,1,1],
+            16: ["heli",1,1,1],
+        }
+    if index in mapDict :
+        stats = mapDict[index]
+        return [stats[0],stats[1]*frictionDefault,stats[2]*accMultiDefault,stats[3]*maxSpeedDefault]
+    else :
+        return ["car",frictionDefault,accMultiDefault,maxSpeedDefault]

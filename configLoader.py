@@ -7,14 +7,23 @@ Created on Wed Jan 18 20:25:33 2023
 import json
 
 class configLoader :
-    def __init__(self,jsonPath="C:/Users/Alexandre/Desktop/PAshooter/config.json"):
-        f = open(jsonPath)
+    def __init__(self,pjPath="C:/Users/Alexandre/Desktop/PAshooter",width=None,height=None):
+        f = open(pjPath+"/config.json")
         configJson = json.load(f)
-        self.screenWidth = castValue(configJson.get("screenWidth"),"int")
-        self.screenHeight = castValue(configJson.get("screenHeight"),"int")
+        if width!=None :
+            self.screenWidth = castValue(int(width),"int")
+        else :
+            self.screenWidth = castValue(configJson.get("screenWidth"),"int")
+        if height!=None :
+            self.screenHeight = castValue(int(height),"int")
+        else :
+            self.screenHeight = castValue(configJson.get("screenHeight"),"int")
         self.fullscreen = castValue(configJson.get("fullscreen"),"bool")
         self.windowOnTop = castValue(configJson.get("windowOnTop"),"bool")
-        self.spritePath = castValue(configJson.get("spritePath"),"string")
+        if False :
+            self.spritePath = castValue(configJson.get("spritePath"),"string")
+        else :
+            self.spritePath = pjPath+"/sprites/"
         self.maxInventorySize = castValue(configJson.get("maxInventorySize"),"int")
         self.itemSize = castValue(configJson.get("itemSize"),"int")
         self.sleepPerFrame = castValue(configJson.get("sleepPerFrame"),"int")
@@ -44,6 +53,7 @@ class configLoader :
         self.mapFolder = castValue(configJson.get("mapFolder"),"string")
         self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"int")
         self.mapInstance = castValue(configJson.get("mapInstance"),"int")
+        self.splitMapImage = castValue(configJson.get("splitMapImage"),"list")
         # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
         # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
         # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
@@ -67,4 +77,4 @@ def castValue(val,valType) :
             return False
     return val
 
-cl = configLoader()
+#cl = configLoader()
