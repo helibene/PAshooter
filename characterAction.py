@@ -19,7 +19,6 @@ def keyMouseAction(w) :
     keyDir,interact,drop,sprint,toggleStatDisplay = w.listener.keyAction()
     me = w.getMe()
     if me.posMap[0]>w.shopArea[0][0] and me.posMap[0]<w.shopArea[1][0] and me.posMap[1]>w.shopArea[0][1] and me.posMap[1]<w.shopArea[1][1] :
-        print("SHOPING")
         w.isShoping = True
     else :
         w.isShoping = False

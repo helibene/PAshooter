@@ -19,7 +19,7 @@ class terrain_builder :
         self.imageMat2 = [[None for x in range(self.terrainSheetSetting[4])] for y in range(self.terrainSheetSetting[3])] 
         self.printLog = printLog
         self.imageFormat = "jpeg"
-        self.jpegQuality = 75
+        self.jpegQuality = 20
         self.step_x = int(self.terrainSheetSetting[1]/self.terrainSheetSetting[3])
         self.step_y = int(self.terrainSheetSetting[2]/self.terrainSheetSetting[4])
         self.img = self.terrainSheetSetting[0]
@@ -61,42 +61,43 @@ class terrain_builder :
                     imageCol.paste(blackpix,(x,y))
                 if colorMat[y][x][0] in [9,10,11] :
                     imageCol.paste(seapix,(x,y))
-        for x in range(1,mapSetting[2]-1) :
-            for y in range(1,mapSetting[3]-1) :
-                if colorMat[y][x][0] not in [9,10,11] :
-                    tileX = 0
-                    tileY = 0
-                    colorMatSmall = [[colorMat[y+y2][x+x2][0] for x2 in range(-1,2)] for y2 in range(-1,2)]
-                    if self.seaAngle(colorMatSmall,[[2,2]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,0,0)
-                    if self.seaAngle(colorMatSmall,[[0,2]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,0,1)
-                    if self.seaAngle(colorMatSmall,[[0,0]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,0,2)
-                    if self.seaAngle(colorMatSmall,[[2,0]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,0,3)
-                    if self.seaAngle(colorMatSmall,[[1,2]],[[0,2],[2,2]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,1,0)
-                    if self.seaAngle(colorMatSmall,[[0,1]],[[0,0],[0,2]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,1,1)
-                    if self.seaAngle(colorMatSmall,[[1,0]],[[0,0],[2,0]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,1,2)
-                    if self.seaAngle(colorMatSmall,[[2,1]],[[2,0],[2,2]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,1,3)
-                    if self.seaAngle(colorMatSmall,[[1,2],[2,1]],[[2,2],[0,2],[2,0]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,2,0)
-                    if self.seaAngle(colorMatSmall,[[0,1],[1,2]],[[0,2],[0,0],[2,2]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,2,1)
-                    if self.seaAngle(colorMatSmall,[[1,0],[0,1]],[[0,0],[0,2],[2,0]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,2,2)
-                    if self.seaAngle(colorMatSmall,[[1,0],[2,1]],[[2,0],[0,0],[2,2]]) :
-                        tileX,tileY=seaMapping(self.waterColor-9,2,3)
-                        
-                    if tileX!=0 and tileY!=0 :
-                        image.paste(self.imageMat2[tileX][tileY],(int(x*self.step_x),int(y*self.step_y)),self.imageMat2[tileX][tileY])
+        if not onlyCol :
+            for x in range(1,mapSetting[2]-1) :
+                for y in range(1,mapSetting[3]-1) :
+                    if colorMat[y][x][0] not in [9,10,11] :
+                        tileX = 0
+                        tileY = 0
+                        colorMatSmall = [[colorMat[y+y2][x+x2][0] for x2 in range(-1,2)] for y2 in range(-1,2)]
+                        if self.seaAngle(colorMatSmall,[[2,2]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,0,0)
+                        if self.seaAngle(colorMatSmall,[[0,2]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,0,1)
+                        if self.seaAngle(colorMatSmall,[[0,0]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,0,2)
+                        if self.seaAngle(colorMatSmall,[[2,0]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,0,3)
+                        if self.seaAngle(colorMatSmall,[[1,2]],[[0,2],[2,2]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,1,0)
+                        if self.seaAngle(colorMatSmall,[[0,1]],[[0,0],[0,2]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,1,1)
+                        if self.seaAngle(colorMatSmall,[[1,0]],[[0,0],[2,0]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,1,2)
+                        if self.seaAngle(colorMatSmall,[[2,1]],[[2,0],[2,2]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,1,3)
+                        if self.seaAngle(colorMatSmall,[[1,2],[2,1]],[[2,2],[0,2],[2,0]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,2,0)
+                        if self.seaAngle(colorMatSmall,[[0,1],[1,2]],[[0,2],[0,0],[2,2]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,2,1)
+                        if self.seaAngle(colorMatSmall,[[1,0],[0,1]],[[0,0],[0,2],[2,0]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,2,2)
+                        if self.seaAngle(colorMatSmall,[[1,0],[2,1]],[[2,0],[0,0],[2,2]]) :
+                            tileX,tileY=seaMapping(self.waterColor-9,2,3)
+                            
+                        if tileX!=0 and tileY!=0 :
+                            image.paste(self.imageMat2[tileX][tileY],(int(x*self.step_x),int(y*self.step_y)),self.imageMat2[tileX][tileY])
 
                     
-        if not onlyCol :
+        
             for x in range(mapSetting[2]) :
                 for y in range(mapSetting[3]) :
                     redVal = colorMat[y][x][0]
@@ -111,8 +112,8 @@ class terrain_builder :
                             img = img.resize((int(self.step_x+(self.step_x*maxSizeChangePct)*randVal),int(self.step_y+(self.step_y*maxSizeChangePct)*randVal)))
                             image.paste(img,(int(x*self.step_x),int(y*self.step_y)),img)
             div = 2
-            for x in range(int(mapSetting[2]/div)) :
-                for y in range(int(mapSetting[3]/div)) :
+            for x in range(2,int(mapSetting[2]/div)) :
+                for y in range(2,int(mapSetting[3]/div)) :
                     redVal = colorMat[y*div][x*div][0]
                     greenVal = colorMat[y*div][x*div][1]
                     freq = float(greenVal/50)  
@@ -174,7 +175,6 @@ class terrain_builder :
                         return_count = return_count + 1
                     else :
                         if [x,y] in onlyList :
-                            #print([x,y])
                             if tileMat[y][x] in [9,10,11] :
                                 waterColor = tileMat[y][x]
                                 return_count = return_count + 1

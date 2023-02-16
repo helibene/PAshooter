@@ -23,4 +23,4 @@ def getFolderLocation() :
 
 def invertSlash(string) : 
     return string.replace("\\","/")
-ma = main()
+ma = main() 

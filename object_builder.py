@@ -17,7 +17,8 @@ class object_builder :
         self.step_x = int(self.objSheetSetting[1]/self.objSheetSetting[3])
         self.step_y = int(self.objSheetSetting[2]/self.objSheetSetting[4])
         self.img = self.objSheetSetting[0]
-        self.spriteList = [None for x in range(1000)]
+        self.spriteList = [None for x in range(350)]
+        self.spriteListFlip = [None for x in range(350)]
         for x in range(self.objSheetSetting[3]) :
             for y in range(self.objSheetSetting[4]) :
                 box = ([int(x*self.step_x),int(y*self.step_y),int((x+1)*self.step_x),int((y+1)*self.step_y)])
@@ -36,15 +37,14 @@ class object_builder :
         del(self.img)
         
     def getSprite(self,num,rawImage=False) :
-        #print(num)
-        num2 = num
         flip = False
         if num <0 :
             num = abs(num)
-            num2 = num + 100
             flip = True
-        if self.spriteList[num2]!=None and not rawImage :
-            return self.spriteList[num2]
+        if self.spriteList[num]!=None and not rawImage and not flip :
+            return self.spriteList[num]
+        if self.spriteListFlip[num]!=None and not rawImage and flip:
+            return self.spriteListFlip[num]
         mapDict = {
             0: [0,0],
             1: [1,0],#Door h1
@@ -81,15 +81,31 @@ class object_builder :
             32 : [6,2],#Trash
             33 : [7,2],
             34 : [8,2],
+            35 : [12,7],#Sofa
+            36 : [13,7],
+            37 : [14,7],
+            38 : [12,5],#Sofa brown
+            39 : [13,5],
+            40 : [14,5],
+            41: [8,20],#Chair red
+            42: [9,20],
+            43: [10,20],
+            44: [11,20],
         }
         if num in mapDict :
             coord = mapDict[num]
             image = self.imageMat2[coord[0]][coord[1]]
+            if flip :
+                image = image.transpose(Image.FLIP_LEFT_RIGHT)
             if rawImage :
                 return image
             else :
-                self.spriteList[num] = ImageTk.PhotoImage(image)#.transpose(Image.FLIP_LEFT_RIGHT)
-                return self.spriteList[num]
+                tkimg = ImageTk.PhotoImage(image)
+                if not flip :
+                    self.spriteList[num] = tkimg
+                else :
+                    self.spriteListFlip[num] = tkimg
+                return tkimg
         
         mapDict2 = {
             100: [0,3,0,4],#Bed
@@ -100,9 +116,9 @@ class object_builder :
             105: [4,28,5,29],
             106: [0,30,1,31],
             107: [2,30,3,31],
-            108: [15,7.5,16,7.5],#Sofa
-            109: [17,7.5,18,7.5],
-            110: [19,6.5,19,7.5],
+            108: [15,7,16,7],#Sofa
+            109: [17,7,18,7],
+            110: [19,6,19,7],
             111: [5,9.5,8.5,10],#Table
             112: [9.5,7,10,10],
             113: [0,25,0.5,26],#Big bed vBig bed and tables
@@ -253,7 +269,18 @@ class object_builder :
             258: [37,2,37,2],#yoga mat
             259: [35,3,36,3],#red sofa
             260: [37,3,37,3],#red sofa chair
-            
+            261: [0,11,1,11.5],#small sink
+            262: [2,11,3,11.5],
+            263: [4,11,4,12],
+            264: [0,13,1,13.5],#white table
+            265: [3,13,3,14],
+            266: [2,13,2,13.5],#small white table
+            267: [5,17,5.5,17],#Big TV
+            268: [6.5,17,7,17],
+            269: [8,16.5,8,17],
+            270: [15,5,16,5],#Sofa brown
+            271: [17,5,18,5],
+            272: [19,4,19,5],
             #218: [23,21,22.5,22],#
             #219: [23,21,22.5,22],#
         }
@@ -263,8 +290,12 @@ class object_builder :
             if rawImage :
                 return image
             else :
-                self.spriteList[num2] = ImageTk.PhotoImage(image)
-                return self.spriteList[num2]
+                tkimg = ImageTk.PhotoImage(image)
+                if not flip :
+                    self.spriteList[num] = tkimg
+                else :
+                    self.spriteListFlip[num] = tkimg
+                return tkimg
         else :
             return self.spriteList[0]
 

@@ -84,7 +84,7 @@ class window :
         self.moneyCount = 9
         self.currentFPS = 0
         self.toggleStatCooldown = 0
-        self.saveObjImage = True
+        self.saveObjImage = False
         
         self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/PAshooter/sprites/")
         self.textureFolder = self.pasteConf(self.conf.textureFolder,"texture/")
@@ -123,7 +123,7 @@ class window :
         myAttackRange = self.pasteConf(self.conf.myAttackRange,30)
         #print(self.splitMapImage)
         #Sprites conf
-        
+        self.shopArea = [[0*32,0*32],[0*32,0*32]]#[[27*32,54*32],[37*32,64*32]]
         self.sheetList = [["objects3.png",1504,1024,47,32],["terrain3.png",1024,992,32,31],["caracteres3.png",1200,1200,32,32],["black.png",1,1,1,1],["nature2.png",896,992,28,31],["vehicule.png",864,864,27,27]]#["objects2.png",800,1024,25,32]
         self.menuList = [["menu3.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263],[704,0,896,192]]]
         self.mapList,self.backList = self.generateMapConfig(self.mapInstance)
@@ -145,7 +145,7 @@ class window :
         self.drawCarObjList(self.offset,True)
         self.object.deleteSpriteMatrix()
         self.objectCar.deleteSpriteMatrix()
-        self.shopArea = [[27*32,54*32],[37*32,64*32]]
+        
         self.isShoping = False 
         #print(len(self.backList))
         if printResources :
@@ -237,12 +237,18 @@ class window :
             self.carObjList.append(car)
             #car.getMapPixel(self.backList[0][6])
         if val == 1 :
-            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(0)
+            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList2(0)
             #self.handObjListBuff = []
+            print(shopAreaList)
             self.shopArea = shopAreaList[0]
         if val == 2 :
-            self.objListBuff,self.handObjListBuff = ot.objectTemplate(0).templateListToObjList(1)
+            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(1)
+        
             self.carObjList.append(self.loadCarObj(co.carObject(5,[32*115,32*150])))
+        if val == 3 :
+            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList2(2)
+            print(shopAreaList)
+            self.shopArea = shopAreaList[0]
         if val == -1 :
             self.handObjListBuff = generateHandObjList()
             self.objListBuff = []
@@ -725,11 +731,11 @@ def generateObjList() :
     x = 1
     y = 1
     objList = []
-    for i in range(35) :
+    for i in range(50) :
         objList.append([i,int(x+i),int(y)])
     x = 1
     y = 3
-    for i in range(160) :
+    for i in range(180) :
         objList.append([i+100,int(x+(i%15)*3),int(y+int(i/15)*3)])
     return objList
 #sl = window(cf.configLoader())
