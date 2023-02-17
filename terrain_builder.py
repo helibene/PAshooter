@@ -12,20 +12,20 @@ import random
 from tkinter import Canvas 
 
 class terrain_builder :
-    def __init__(self,terrainSheetSetting,black,printLog=False):
+    def __init__(self,terrainSheetSetting,black,printLog=False,jpegQuality=75):
         self.terrainSheetSetting = terrainSheetSetting
         self.black = black[0]
         self.imageMat = [[None for x in range(self.terrainSheetSetting[4])] for y in range(self.terrainSheetSetting[3])] 
         self.imageMat2 = [[None for x in range(self.terrainSheetSetting[4])] for y in range(self.terrainSheetSetting[3])] 
         self.printLog = printLog
         self.imageFormat = "jpeg"
-        self.jpegQuality = 20
+        self.jpegQuality = jpegQuality
         self.step_x = int(self.terrainSheetSetting[1]/self.terrainSheetSetting[3])
         self.step_y = int(self.terrainSheetSetting[2]/self.terrainSheetSetting[4])
         self.img = self.terrainSheetSetting[0]
         self.waterColor = 9
         if self.printLog :
-            print("TB : spliting sprite sheet")
+            print("Terrain builder : spliting sprite sheet")
         for x in range(self.terrainSheetSetting[3]) :
             for y in range(self.terrainSheetSetting[4]) :
                 box = ([int(x*self.step_x),int(y*self.step_y),int((x+1)*self.step_x),int((y+1)*self.step_y)])
@@ -34,9 +34,7 @@ class terrain_builder :
                 self.imageMat2[x][y] = self.imgCrop
 
 
-    def mapFileToImageNat(self,mapSetting,path,onlyCol=False) :
-        if self.printLog :
-            print("TB : generating map image")
+    def mapFileToImageNat(self,mapSetting,pathTex,pathCol,onlyCol=False) :
         mapTemplate = mapSetting[0]
         treeList = []
         for i in range(9) :
@@ -124,11 +122,11 @@ class terrain_builder :
                         img = img.resize((int(self.step_x*2+(self.step_x*2*maxSizeChangePct)*randVal),int(self.step_y*2+(self.step_y*2*maxSizeChangePct)*randVal)))
                         image.paste(img,(int(x*div*self.step_x-self.step_x/2),int(y*div*self.step_y-self.step_y)),img)
         if not onlyCol :
-            image.save(path+mapSetting[1]+"_tex."+self.imageFormat,self.imageFormat.upper(), dpi=(10, 10),quality=self.jpegQuality)
-        imageCol.save(path+mapSetting[1]+"_col.png","PNG")
+            image.save(pathTex+mapSetting[1]+"_tex."+self.imageFormat,self.imageFormat.upper(), dpi=(10, 10),quality=self.jpegQuality)
+        imageCol.save(pathCol+mapSetting[1]+"_col.png","PNG")
     
     
-    def splitImage(self,imageRoot,imageFilename,fileFormat,splitNumX,splitNumY,justBackSetList=False) :
+    def splitImage(self,imageRoot,imageFilename,fileFormat,splitNumX,splitNumY,splitFolder,justBackSetList=False) :
         img = Image.open(imageRoot+imageFilename+"."+fileFormat).convert("RGB")
         sizeX,sizeY = img.size
         stepX = int(sizeX/splitNumX)
@@ -150,8 +148,8 @@ class terrain_builder :
                 else :
                     stry=str(y)
                 if not justBackSetList :
-                    imgLoop.save(imageRoot+imageFilename+"_"+strx+"_"+stry+"."+fileFormat)
-                    mapSetList.append([imageFilename+"_"+strx+"_"+stry+".png",imageFilename+"_"+strx+"_"+stry])
+                    imgLoop.save(imageRoot+splitFolder+imageFilename+"_"+strx+"_"+stry+"."+fileFormat)
+                    mapSetList.append([splitFolder+imageFilename+"_"+strx+"_"+stry+".png",imageFilename+"_"+strx+"_"+stry])
                 backSetList.append([imageFilename+"_"+strx+"_"+stry+"_tex.jpeg",0,0,0,0,imageFilename+"_"+strx+"_"+stry+"_col.png",0,0,x*stepX,y*stepY])
         return mapSetList,backSetList
     

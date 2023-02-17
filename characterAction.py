@@ -18,10 +18,11 @@ def master(w) :
 def keyMouseAction(w) :
     keyDir,interact,drop,sprint,toggleStatDisplay = w.listener.keyAction()
     me = w.getMe()
-    if me.posMap[0]>w.shopArea[0][0] and me.posMap[0]<w.shopArea[1][0] and me.posMap[1]>w.shopArea[0][1] and me.posMap[1]<w.shopArea[1][1] :
-        w.isShoping = True
-    else :
-        w.isShoping = False
+    w.isShoping = False
+    for shopArea in w.shopAreaList :
+        if me.posMap[0]>shopArea[0][0] and me.posMap[0]<shopArea[1][0] and me.posMap[1]>shopArea[0][1] and me.posMap[1]<shopArea[1][1] :
+            w.isShoping = True
+            
     keyDir = applySprint(w,sprint,keyDir)
     changeDirCharacterList(w,keyDir,me)
     changeDirCarList(w,me,keyDir)

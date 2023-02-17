@@ -80,11 +80,18 @@ class window :
         displayFPS = False
         printResources = False
         self.objMapImage = None
+        self.objMapImageRaw = None
         self.carAngleNum = 35
         self.moneyCount = 9
         self.currentFPS = 0
+        self.currentFPSavg = 0
         self.toggleStatCooldown = 0
         self.saveObjImage = False
+        self.mapRawFolder = "raw/"
+        self.mapTextureFolder = "texture/"
+        self.mapObjectFolder = "object/"
+        self.mapCollisionFolder = "collision/"
+        self.mapRawSplitFolder = "split/"
         
         self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/PAshooter/sprites/")
         self.textureFolder = self.pasteConf(self.conf.textureFolder,"texture/")
@@ -123,7 +130,7 @@ class window :
         myAttackRange = self.pasteConf(self.conf.myAttackRange,30)
         #print(self.splitMapImage)
         #Sprites conf
-        self.shopArea = [[0*32,0*32],[0*32,0*32]]#[[27*32,54*32],[37*32,64*32]]
+        self.shopAreaList = []#[[0*32,0*32],[0*32,0*32]]#[[27*32,54*32],[37*32,64*32]]
         self.sheetList = [["objects3.png",1504,1024,47,32],["terrain3.png",1024,992,32,31],["caracteres3.png",1200,1200,32,32],["black.png",1,1,1,1],["nature2.png",896,992,28,31],["vehicule.png",864,864,27,27]]#["objects2.png",800,1024,25,32]
         self.menuList = [["menu3.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263],[704,0,896,192]]]
         self.mapList,self.backList = self.generateMapConfig(self.mapInstance)
@@ -136,11 +143,12 @@ class window :
         self.chara_list = self.getRandChList(peopleSpawnNum,[peopleSpawnRangeX,peopleSpawnRangeY],self.backList[0][5],peopleSpeedRange,peopleAttackRange,peopleDamageMultiRange)
         self.createMeFull(myName,mySprite,myGender,myRandomName,mySpeed,myPosition,myHealth,myAttackRange,myDamageMulti)
         self.objInit(objInitInstance)
-        oi.masterLoad(self)
 
-        self.listener = lb.ListenerBundle()
+        oi.masterLoad(self)
         if self.saveObjImage :
             oi.masterSaveObjImage(self)
+        self.listener = lb.ListenerBundle()
+
         self.drawObjList(self.objList,self.sheetList[0],self.offset,True)
         self.drawCarObjList(self.offset,True)
         self.object.deleteSpriteMatrix()
@@ -228,27 +236,24 @@ class window :
             self.listener.mouseVal[2] = 0
             
     def objInit(self,val) :
-        templateList1 = [[0,[3,3]],[1,[20,3]],[2,[18,24]],[3,[3,27]],[4,[3,41]],[5,[27,54]],[6,[44,36]],[7,[48,58]],[8,[59,36]],[9,[60,53]]]
-        templateList2 = [[0,[119,164]],[1,[119,190]],[2,[149,161]],[3,[103,193]],[4,[87,187]]]
         if val == 0 :
             self.handObjListBuff = []
             self.objListBuff = []
-            car = self.loadCarObj(co.carObject(0,[2500,2500]))
-            self.carObjList.append(car)
-            #car.getMapPixel(self.backList[0][6])
         if val == 1 :
-            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList2(0)
-            #self.handObjListBuff = []
-            print(shopAreaList)
-            self.shopArea = shopAreaList[0]
+            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(0)
+            self.shopAreaList = shopAreaList
         if val == 2 :
             self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(1)
-        
             self.carObjList.append(self.loadCarObj(co.carObject(5,[32*115,32*150])))
         if val == 3 :
-            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList2(2)
-            print(shopAreaList)
-            self.shopArea = shopAreaList[0]
+            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(2)
+            self.shopAreaList = shopAreaList
+        if val == 4 :
+            self.handObjListBuff = []
+            self.objListBuff = []
+            car = self.loadCarObj(co.carObject(10,[500,1500]))
+            self.carObjList.append(car)
+            #car.getMapPixel(self.backList[0][6])
         if val == -1 :
             self.handObjListBuff = generateHandObjList()
             self.objListBuff = []
@@ -268,15 +273,13 @@ class window :
         if val == -4 :
             self.handObjListBuff = []
             self.objListBuff = []
-            for i in range(3) :
+            for i in range(7) :
                 if i<8 :
                     car = self.loadCarObj(co.carObject(i,[200+i*200,200]))
                 elif i<12 :
-                    pass
-                    #car = self.loadCarObj(co.carObject(i,[2500,600+(i-8)*400]))
+                    car = self.loadCarObj(co.carObject(i,[2500,600+(i-8)*400]))
                 else :
-                    pass
-                    #car = self.loadCarObj(co.carObject(i,[200+(i-12)*500,1000]))
+                    car = self.loadCarObj(co.carObject(i,[200+(i-12)*500,1000]))
                 self.carObjList.append(car)
         if val == -5 :
             self.handObjListBuff = []
@@ -410,7 +413,7 @@ class window :
         posY = 20
         incY = 20
         me = self.getMe()
-        self.canvas.create_text(posX,posY+incY*0, text="FPS : "+str(self.currentFPS), fill="black", font=("Helvetica 10 bold"))
+        self.canvas.create_text(posX,posY+incY*0, text="FPS : "+str(self.currentFPS)+" (avg : "+str(self.currentFPSavg)+")", fill="black", font=("Helvetica 10 bold"))
         self.canvas.create_text(posX,posY+incY*1, text="Position pixel: ("+str(me.posMap[0])+","+str(me.posMap[1])+")", fill="black", font=("Helvetica 10 bold"))
         self.canvas.create_text(posX,posY+incY*2, text="Position tile : ("+str(int(me.posMap[0]/self.terrainTileSize))+","+str(int(me.posMap[1]/self.terrainTileSize))+")", fill="black", font=("Helvetica 10 bold"))
         self.canvas.create_text(posX,posY+incY*3, text="In shopping zone : "+str(self.isShoping), fill="black", font=("Helvetica 10 bold"))
@@ -450,8 +453,20 @@ class window :
         else :
             for i in range(1,len(backSettings)) :
                 back = backSettings[i]  
-                self.canvas.create_image(posX+back[8]*32,posY+back[9]*32, image=back[0], anchor="nw")  
-
+                if self.isBackgroundOnScreen(back) :
+                #print("x",back[8],"y",back[9])
+                    self.canvas.create_image(posX+back[8]*32,posY+back[9]*32, image=back[0], anchor="nw")  
+    
+    def isBackgroundOnScreen(self,back) :
+        minX = -self.offset[0]+back[8]*32
+        minY = -self.offset[1]+back[9]*32
+        maxX = minX+back[1]
+        maxY = minY+back[2]
+        border = 200
+        if maxX<-border or maxY<-border or minX>self.width+border or minY>self.height+border :
+            return False
+        else :
+            return True
         #self.canvas.create_image(50,50, image=backSettings[0][7], anchor="nw")
         
     def drawAnimationList(self) :
@@ -586,6 +601,7 @@ class window :
                 self.canvas.create_image(35*i,35*l, image=self.chara_list[i].spriteList[l], anchor="nw")#int(sheetList[0][1]/2),int(sheetList[0][2]/2)
                 self.canvas.create_text(35*i+10,35*l+5, text=str(i), fill="black", font=('Helvetica 10'))
     
+
     #Selections
     def caracterSelection(self,cara_num,sprite_num) :
         startPoint = [10,17]
@@ -656,12 +672,18 @@ class window :
     
     #Print
     def fpsHandeling(self,start,end,displayFPS,fpsList) : 
-        fpsNum = 1/max((end-start),0.0001)
+        fpsNum = 0
+        if end!=start :
+            fpsNum = float(1/float((float(end)-float(start))))
+        else :
+            fpsNum = 150
         fpsList.append(fpsNum)
-        if self.frameCount%30==0 :
+        if self.frameCount%10==0 :
             self.currentFPS = int(fpsNum)
+            if len(fpsList)>300 :
+                self.currentFPSavg = round(sum(fpsList[-300:])/300,3)
         if self.listener.exitFlag :
-            print("AVG FPS : "+str(round(sum(fpsList)/len(fpsList),3)))
+            print("FPS => (avg:"+str(round(sum(fpsList)/len(fpsList),3))+") (min:"+str(round(min(fpsList),3))+") (max:"+str(round(max(fpsList),3))+")")
             self.listener.killListener()
             self.root.destroy()
             sys.exit(0)

@@ -29,6 +29,7 @@ def masterLoad(w) :
     loadImageHandObjList(w,w.sheetList[2])
     loadImageMenuList(w,w.menuList)
     loadImageAnimationList(w,w.sheetList[2])
+    
 
 def masterSaveObjImage(w) :
     saveObjList(w,w.objList,w.mapInstance)
@@ -38,18 +39,20 @@ def generateNewMap(w,generate=False) :
     splitBool = w.splitMapImage!=[0,0]
     if generate :
         w.terrain = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True)
-        w.terrain.mapFileToImageNat(w.mapList[0],w.rootPath+w.mapFolder,splitBool)
+        w.terrain.mapFileToImageNat(w.mapList[0],w.rootPath+w.mapFolder+w.mapTextureFolder,w.rootPath+w.mapFolder+w.mapCollisionFolder,splitBool)
         if splitBool :
-            mapSetList,backSetList = w.terrain.splitImage(w.rootPath+w.mapFolder,w.mapList[0][1],"png",w.splitMapImage[0],w.splitMapImage[1])
+            mapSetList,backSetList = w.terrain.splitImage(w.rootPath+w.mapFolder+w.mapRawFolder,w.mapList[0][1],"png",w.splitMapImage[0],w.splitMapImage[1],w.mapRawSplitFolder)
             w.backList.extend(backSetList)
             w.mapList2=mapSetList
+            print("Generating splited terain texture files :",len(w.mapList2))
             openMapList2(w)
             for i in range(len(w.mapList2)):
-                w.terrain.mapFileToImageNat(w.mapList2[i],w.rootPath+w.mapFolder)
+                w.terrain.mapFileToImageNat(w.mapList2[i],w.rootPath+w.mapFolder+w.mapTextureFolder,w.rootPath+w.mapFolder+w.mapCollisionFolder)
     else :
         if splitBool :
             w.terrain = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True)
-            mapSetList,backSetList = w.terrain.splitImage(w.rootPath+w.mapFolder,w.mapList[0][1],"png",w.splitMapImage[0],w.splitMapImage[1],True)
+            mapSetList,backSetList = w.terrain.splitImage(w.rootPath+w.mapFolder+w.mapRawFolder,w.mapList[0][1],"png",w.splitMapImage[0],w.splitMapImage[1],w.mapRawSplitFolder,True)
+            print("Generating terain texture files :",len(mapSetList))
             w.backList.extend(backSetList)
             
 def openSheetList(w) :
@@ -58,8 +61,9 @@ def openSheetList(w) :
         w.sheetList[sheetNum][0] = img
         
 def openObjMap(w,num) :
-    w.objMapImage = ImageTk.PhotoImage(Image.open(w.rootPath+w.mapFolder+"map"+str(num)+"_obj.png").convert("RGBA"))
-
+    w.objMapImageRaw = Image.open(w.rootPath+w.mapFolder+w.mapObjectFolder+"map"+str(num)+"_obj.png").convert("RGBA")
+    w.objMapImage = ImageTk.PhotoImage(w.objMapImageRaw)
+    
 def saveObjList(w,objMat,num=0):
     mapSizeX = w.backList[0][1]
     mapSizeY = w.backList[0][2]
@@ -68,11 +72,11 @@ def saveObjList(w,objMat,num=0):
         if obj[3][0]=='none':
             img = w.object.getSprite(obj[0],True)
             mapImage.paste(img,(int(obj[1]*32),int(obj[2]*32)),img)
-    mapImage.save(w.rootPath+w.mapFolder+"map"+str(num)+"_obj.png","PNG")
+    mapImage.save(w.rootPath+w.mapFolder+w.mapObjectFolder+"map"+str(num)+"_obj.png","PNG")
     
 def openMapList(w) :
     for mapNum in range(len(w.mapList)) :
-        img = Image.open(w.rootPath+w.mapFolder+w.mapList[mapNum][0]).convert("RGB")
+        img = Image.open(w.rootPath+w.mapFolder+w.mapRawFolder+w.mapList[mapNum][0]).convert("RGB")
         w.mapList[mapNum][0] = img
         sizeX, sizeY = img.size
         w.mapList[mapNum].append(sizeX)
@@ -80,7 +84,7 @@ def openMapList(w) :
 
 def openMapList2(w) :
     for mapNum in range(len(w.mapList2)) :
-        img = Image.open(w.rootPath+w.mapFolder+w.mapList2[mapNum][0]).convert("RGB")
+        img = Image.open(w.rootPath+w.mapFolder+w.mapRawFolder+w.mapList2[mapNum][0]).convert("RGB")
         w.mapList2[mapNum][0] = img
         sizeX, sizeY = img.size
         w.mapList2[mapNum].append(sizeX)
@@ -88,12 +92,12 @@ def openMapList2(w) :
 
 def openBackgroundList(w) :
     splitBool = w.splitMapImage!=[0,0]
+    print("Opening terain texture files :",len(w.backList))
     for backNum in range(len(w.backList)) :
-        print("TB : opening map image")
         if not(backNum==0 and splitBool) :
-            imgback = Image.open(w.rootPath+w.mapFolder+w.backList[backNum][0]).convert("RGB")
+            imgback = Image.open(w.rootPath+w.mapFolder+w.mapTextureFolder+w.backList[backNum][0]).convert("RGB")
             w.backList[backNum][0] = ImageTk.PhotoImage(imgback)
-        imgCol = Image.open(w.rootPath+w.mapFolder+w.backList[backNum][5]).convert("RGB")
+        imgCol = Image.open(w.rootPath+w.mapFolder+w.mapCollisionFolder+w.backList[backNum][5]).convert("RGB")
         sizeX, sizeY = imgCol.size
         w.backList[backNum][1] = sizeX*w.terrainTileSize
         w.backList[backNum][2] = sizeY*w.terrainTileSize
@@ -110,7 +114,6 @@ def openBackgroundList(w) :
                         seaMat[x][y] = True
         w.backList[backNum][5] = colliMat
         w.backList[backNum][6] = seaMat
-        #w.backList[backNum][7] = ImageTk.PhotoImage(imgback.resize((300,300), resample=w.resampleType))
 
 def imageToMask(w,img,transparentCol=(0,0,0,0),fillCol=(255, 0, 0, 100)) :
     data = img.getdata()
@@ -122,6 +125,10 @@ def imageToMask(w,img,transparentCol=(0,0,0,0),fillCol=(255, 0, 0, 100)) :
             newData.append(transparentCol)
     img.putdata(newData)
     return img
+
+def fuseTextureAndObj(w) :
+    for backNum in range(len(w.backList)) :
+        imgback = Image.open(w.rootPath+w.mapFolder+w.mapTextureFolder+w.backList[backNum][0]).convert("RGB")
 
 def loadImageCharacterList(w,characterSheetSettings) :
     for j in range(len(w.chara_list)) :

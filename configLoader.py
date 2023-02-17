@@ -8,7 +8,7 @@ import json
 
 class configLoader :
     def __init__(self,pjPath="C:/Users/Alexandre/Desktop/PAshooter",width=None,height=None):
-        f = open(pjPath+"/config.json")
+        f = open(pjPath+"/config3.json")
         configJson = json.load(f)
         if width!=None :
             self.screenWidth = castValue(int(width),"int")
