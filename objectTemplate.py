@@ -54,7 +54,10 @@ class objectTemplate :
     
     masterTemplate1 = [[0,[3,3]],[1,[20,3]],[2,[18,24]],[3,[3,27]],[4,[3,41]],[5,[27,54]],[6,[44,36]],[7,[3,56]],[8,[59,36]],[9,[60,53]],[10,[37,55]],[11,[72,38]]]
     masterTemplate2 = [[0,[119,164]],[1,[119,190]],[2,[149,161]],[3,[103,193]],[4,[87,187]]]
-    masterTemplate3 = [[12,[3,3]]]
+    masterTemplate3 = [[50,[2,2],0],[50,[2,27],1],[50,[2,52],2],[50,[2,77],3],
+                       [51,[27,2],0],[51,[27,27],1],[51,[27,52],2],[51,[27,77],3],
+                       [52,[52,2],0],[52,[52,27],1],[52,[52,52],2],[52,[52,77],3],
+                       [53,[76,1],0],[53,[76,26],1],[53,[76,51],2],[53,[76,76],3]]#,[12,[3,28]]
     
     def __init__(self,index,offset=[0,0]):
 
@@ -204,39 +207,71 @@ class objectTemplate :
 	            "handObjList":[],
 	            "shopArea":[]
             },
-			12 : {
+# 			12 : {
+# 	            "name": "defa",
+# 	            "defOffset": [0,0],
+# 	            "objList": [],
+#                 "size": [9,15],
+#                 "objListRot": [[50,1,1,0],[51,7,12,3],[0,4,0,0],[3,2,2,0],[4,3,3,0],[5,4,4,0],[52,5,5,0]],#,[2,0,12,1],[1,0,4,1]],#],#[self.obj(3,0,0),self.obj(4,5,11,1)],#[[101,0,11],[130,6,0],[-263,6,1.7],[109,0.5,3],[18,1,0],[-141,6,11],[44,4.7,11.5]],
+# 	            "handObjList":[getHandObject(108,[2*32,2*32])],
+# 	            "shopArea":[]
+#             },
+            50 : {
 	            "name": "defa",
 	            "defOffset": [0,0],
-	            "objList": [[101,0,11],[130,6,0],[-263,6,1.7],[109,0.5,3],[18,1,0],[-141,6,11],[44,4.7,11.5]],
+	            "objList": [],
+                "size": [8,14],
+                "objListRot": [[8,0,0,0],[8,8,0,1],[8,0,14,2],[8,8,14,3],
+                               [4,1,1,0],[4,7,1,1],[4,1,13,2],[4,7,13,3],
+                               [5,3,3,0],[5,5,3,1],[5,3,11,2],[5,5,11,3],[50,1,1,0],[52,7,12,1],[51,1,12,3]],#,[2,0,12,1],[1,0,4,1]],#],#[self.obj(3,0,0),self.obj(4,5,11,1)],#[[101,0,11],[130,6,0],[-263,6,1.7],[109,0.5,3],[18,1,0],[-141,6,11],[44,4.7,11.5]],
 	            "handObjList":[getHandObject(108,[2*32,2*32])],
-	            "shopArea":[[[0,0],[2,2]]]
+	            "shopArea":[]
             },
-			13 : {
+            51 : {
 	            "name": "defa",
 	            "defOffset": [0,0],
 	            "objList": [],
+                "size": [10,19],
+                "objListRot": [[8,0,0,0],[8,10,0,1],[8,0,19,2],[8,10,19,3],
+                               [4,1,1,0],[4,9,1,1],[4,1,18,2],[4,9,18,3],
+                               [5,3,3,0],[5,7,3,1],[5,3,16,2],[5,7,16,3],[50,1,1,0],[52,9,17,1],[51,1,17,3]],
 	            "handObjList":[],
 	            "shopArea":[]
             },
-			14 : {
+			52 : {
 	            "name": "defa",
 	            "defOffset": [0,0],
 	            "objList": [],
+                "size": [16,19],
+                "objListRot": [[8,0,0,0],[8,16,0,1],[8,0,19,2],[8,16,19,3],
+                               [4,1,1,0],[4,15,1,1],[4,1,18,2],[4,15,18,3],
+                               [5,3,3,0],[5,13,3,1],[5,3,16,2],[5,13,16,3],[50,1,1,0],[52,15,17,1],[51,1,17,3]],#[[50,1,1,0],[51,15,17,3],[0,5,0,0]],
 	            "handObjList":[],
 	            "shopArea":[]
-            }
+            },
+            53 : {
+	            "name": "defa",
+	            "defOffset": [0,0],
+	            "objList": [],
+                "size": [21,19],
+                "objListRot": [[8,0,0,0],[8,21,0,1],[8,0,19,2],[8,21,19,3],[0,10,0,0]],
+	            "handObjList":[],
+	            "shopArea":[]
+            },
+
         }
         self.index = index
         self.offset = offset
         self.masterTemplateList = [objectTemplate.masterTemplate1,objectTemplate.masterTemplate2,objectTemplate.masterTemplate3]
     
     def applyOffsetToTemplate(self,objList,handObjList,shopAreaList,offset,scale=32) :
-        objListCopy = objList.copy()
+        #print(offset)
+        objListCopy = objList
         handObjListCopy = handObjList.copy()
         shopAreaListCopy = shopAreaList.copy()
-        for i in range(len(objList)) :
-            objListCopy[i][1] = objListCopy[i][1] + offset[0]
-            objListCopy[i][2] = objListCopy[i][2] + offset[1]
+        for i in range(len(objListCopy)) :  
+            objListCopy[i][1] = objList[i][1] + offset[0]
+            objListCopy[i][2] = objList[i][2] + offset[1]
         for i in range(len(shopAreaListCopy)) :
             shopAreaListCopy[i][0][0] = (shopAreaListCopy[i][0][0] + offset[0])*scale
             shopAreaListCopy[i][1][0] = (shopAreaListCopy[i][1][0] + offset[0])*scale
@@ -259,26 +294,227 @@ class objectTemplate :
 
     def templateListToObjList(self,masterTemplateNum) :
         tempList = self.masterTemplateList[masterTemplateNum]
+        
         objListBuff = []
         handObjListBuff = []
         shopAreaListBuff = []
         for temp in tempList :
+            currentTemplate = self.templateList[temp[0]]
+            
             if temp[0] in self.templateList.keys() :
-                offset = [self.offset[0] + self.templateList[temp[0]]["defOffset"][0]+temp[1][0],self.offset[1] + self.templateList[temp[0]]["defOffset"][1]+temp[1][1]]
-                objList = self.templateList[temp[0]]["objList"]
-                handObjList = self.templateList[temp[0]]["handObjList"]
-                shopAreaList  = self.templateList[temp[0]]["shopArea"]
-                #objList = self.objListRot(objList)
-                objList,handObjList,shopAreaList = self.applyOffsetToTemplate(objList,handObjList,shopAreaList,offset)
-                objListBuff.extend(objList)
+                
+                offset = [self.offset[0] + currentTemplate["defOffset"][0]+temp[1][0],self.offset[1] + currentTemplate["defOffset"][1]+temp[1][1]]
+                
+                #print(offset)
+                objListt = []
+                for i in currentTemplate["objList"]:
+                    objListt.append(i)
+                #print(objListt)
+                #objListt = list(currentTemplate["objList"]).copy()
+                if "objListRot" in currentTemplate.keys() :
+                    objListRot = currentTemplate["objListRot"]
+                    size = currentTemplate["size"]
+                    objListDef = self.fromRotToStandardList(objListRot,temp[2])
+                    extend2(objListt,objListDef)
+                    objListt = self.objListRotaa(objListt,temp[2],size)
+                    
+                handObjList = currentTemplate["handObjList"]
+                shopAreaList  = currentTemplate["shopArea"]
+                
+                objList2,handObjList,shopAreaList = self.applyOffsetToTemplate(objListt,handObjList,shopAreaList,offset)
+                extend2(objListBuff,objList2)
                 handObjListBuff.extend(handObjList)
-                shopAreaListBuff.extend(shopAreaList)          
+                shopAreaListBuff.extend(shopAreaList)
+                del(objListt)
+                objListt = []
         return objListBuff,handObjListBuff,shopAreaListBuff
 
-    def objListRot(self,objList) :
+    def objListRotaa(self,objList,angle=0,size=[0,0]) :
         for obj in objList :
-            x = obj[1]
-            y = obj[2]
-            obj[1] = y
-            obj[2] = x
+            # if len(obj)>3 :
+            #     sizeobj = [obj[3][0],obj[3][1]]
+            #     obj[1] = obj[1] - sizeobj[0]/2
+            #     obj[2] = obj[2] - sizeobj[1]/2
+            if angle == 2 or angle == 3:
+                obj = self.mirrorObj(obj,size,angle)
+                obj[1] = obj[1]#+0.5
+            #if angle == 1 or angle == 3:
+            #     obj = self.mirrorObjX(obj,size)
+            #     obj = self.mirrorObj2(obj,size)
+
+                #obj = self.mirrorObjX(obj,size)
+                #obj = self.mirrorObjY(obj,size)
+            if angle == 1 or angle == 3:
+                obj = self.mirrorObjY(obj,size,angle)
+                obj = self.mirrorObj2(obj,size)
+                obj[1] = obj[1]#+0.5#int(obj[2])#+0.5
+            #obj[1] = int(obj[1])
+            #obj[2] = int(obj[2])
+            # if len(obj)>3 :
+            #     sizeobj = [obj[3][0],obj[3][1]]
+            #     obj[1] = obj[1] + sizeobj[0]/2
+            #     obj[2] = obj[2] + sizeobj[1]/2
+            #obj[1] = int(obj[1])
+            #obj[2] = int(obj[2])
+                #x = -(obj[1]-int(size[0]/2))+int(size[0]/2)
+                #y = -(obj[2]-int(size[1]/2))+int(size[1]/2)
+                # sizeobj = [1,1]
+                # if len(obj)>3 :
+                #     sizeobj = [obj[3][0],obj[3][1]]
+                # x = round(-(obj[1]-size[0]/2)+(size[0]/2)-(sizeobj[0]/2))#)#
+                # y = round(-(obj[2]-size[1]/2)+(size[1]/2)-(sizeobj[1]/2))#)#
+                # obj[1] = x
+                # obj[2] = y
+        # if angle == 1 or angle == 3:
+        #     for obj in objList :
+        #         sizeobj = [1,1]
+        #         if len(obj)>3 :
+        #             sizeobj = [obj[3][0],obj[3][1]]
+        #         x = obj[1]
+        #         y = obj[2]
+        #         obj[1] = round(-(obj[2]-size[0]/2)+(size[0]/2)-(sizeobj[0]/2))
+        #         obj[2] = round(-(obj[1]-size[1]/2)+(size[1]/2)-(sizeobj[1]/2))
+        #         #obj[1] = x-sizeobj[0]
+        #         #obj[2] = y-sizeobj[1]
         return objList
+    
+    def mirrorObj(self,obj,size,angle):
+        sizeobj = [1,1]
+        if len(obj)>3 :
+            sizeobj = [obj[3][0],obj[3][1]]
+        x = -(obj[1]-(size[0]/2))+(size[0]/2)#-(sizeobj[0]/2)#)#
+        y = -(obj[2]-(size[1]/2))+(size[1]/2)#-(sizeobj[1]/2)#)#
+        if angle!=3 :
+            if sizeobj[1]==2 :
+                y = y-1
+            if sizeobj[0]==2 :
+                #x = x+1
+                y = y-1
+        obj[1] = x
+        obj[2] = y
+        return obj
+    
+    def mirrorObjX(self,obj,size):
+        sizeobj = [1,1]
+        if len(obj)>3 :
+            sizeobj = [obj[3][0],obj[3][1]]
+        x = -(obj[1]-size[0]/2)+(size[0]/2)-(sizeobj[0]/2)
+        obj[1] = x
+        return obj
+    
+    def mirrorObjY(self,obj,size,angle):
+        sizeobj = [1,1]
+        if len(obj)>3 :
+            sizeobj = [obj[3][0],obj[3][1]]
+        y = -(obj[2]-size[1]/2)+(size[1]/2)#-(sizeobj[1]-1)#)#
+        x = obj[1]
+        if angle!=3 :
+            if sizeobj[0]==2 or sizeobj[1]==2:
+        #if obj[0] == 128 or obj[0] == 129 or obj[0] == 130 :
+            #print("cacaca",obj[0],"  ",sizeobj[0])
+                y = y - 1
+                #print("loool",sizeobj[0],"   ",obj[0])
+        #if sizeobj[1]==2 :
+            #x = x -10
+        obj[2] = y
+        obj[1] = x
+        return obj
+    
+    def mirrorObj2(self,obj,size):
+        x = obj[1]
+        y = obj[2]
+        obj[1] = y
+        obj[2] = x
+        return obj
+    
+    def mirrorObj3(self,obj,size):
+        sizeobj = [1,1]
+        if len(obj)>3 :
+            sizeobj = [obj[3][0],obj[3][1]]
+        x = round(-(obj[1]-size[0]/2)+(size[0]/2)-(sizeobj[0]/2))#)#
+        y = round(-(obj[2]-size[1]/2)+(size[1]/2)-(sizeobj[1]/2))#)#
+        obj[1] = x
+        obj[2] = y
+        return obj
+    def getObjSettingFromID(self,idnum=0,name=None) :
+        
+        mapDict = {
+            0: {"name":"door",
+				"idList":[1,2,3,4],
+				"size":[1,1]
+                },
+            1: {"name":"prison_door",
+				"idList":[5,6,5,6],
+				"size":[1,1]
+                },
+            2: {"name":"strong_door",
+				"idList":[7,8,7,8],
+				"size":[1,1]
+                },
+            3: {"name":"chair",
+				"idList":[14,16,15,17],
+				"size":[1,1]
+                },
+            4: {"name":"red_chair",
+				"idList":[41,43,42,44],
+				"size":[1,1]
+                },
+            5: {"name":"tv",
+				"idList":[18,-20,19,20],
+				"size":[1,1]
+                },
+            6: {"name":"radio",
+				"idList":[21,23,22,-23],
+				"size":[1,1]
+                },
+            7: {"name":"books",
+				"idList":[24,25,26,-25],
+				"size":[1,1]
+                },
+            8: {"name":"phone",
+				"idList":[29,30,31,-31],
+				"size":[1,1]
+                },
+			50: {"name":"bed",
+				"idList":[100,102,101,-102],
+				"size":[1,2]
+                },
+            51: {"name":"stove",
+				"idList":[128,130,129,-130],
+				"size":[1,2]
+                },
+            52: {"name":"sofa",
+				"idList":[108,110,109,-110],
+				"size":[2,1]
+                },
+            53: {"name":"big_table",
+				"idList":[111,112,111,-112],
+				"size":[2,1]
+                },
+				}
+        if idnum in mapDict :
+            return mapDict[idnum]
+        else :
+            return None
+        
+    def obj(self,objid,posx=0,posy=0,angle=0) :
+        ret = [self.getObjSettingFromID(objid)["idList"][self.angleAdd(angle,1)],posx,posy]
+        return ret
+    
+    def angleAdd(self,baseAngle,delta) :
+        return (baseAngle+delta)%4
+    
+    def fromRotToStandardList(self,rotList,angle=0) :
+        objList = []
+        for item in rotList :
+            angleNum = self.angleAdd(item[3],angle)
+            objSize = self.getObjSettingFromID(item[0])["size"]
+            if angleNum==1 or angleNum==3 :
+                objSize = [objSize[1],objSize[0]]
+                print(item[0])
+            objList.append(list([self.getObjSettingFromID(item[0])["idList"][angleNum],item[1],item[2],objSize]))
+        return objList
+def extend2(list1,list2) :
+    for ele in list2 :
+        list1.append(list(ele))
+    return list1

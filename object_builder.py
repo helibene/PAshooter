@@ -35,7 +35,10 @@ class object_builder :
         del(self.imageMat2)
         del(self.objSheetSetting)
         del(self.img)
-        
+    
+    
+
+    
     def getSprite(self,num,rawImage=False) :
         flip = False
         if num <0 :
@@ -136,8 +139,8 @@ class object_builder :
             125: [9.5,26.5,10.5,27],
             126: [16.5,24,17,26],#Big table with plates
             127: [9,28,11,28.5],#Bath
-            128: [0,7,1,8],#Stove
-            129: [2,7,3,8],
+            128: [0,7.5,1,8],#Stove
+            129: [2,7.5,3,8],
             130: [4,7,4,8],
             131: [0,9,1,10],#Fridge
             132: [2,9,3,10],
