@@ -54,9 +54,6 @@ class configLoader :
         self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"int")
         self.mapInstance = castValue(configJson.get("mapInstance"),"int")
         self.splitMapImage = castValue(configJson.get("splitMapImage"),"list")
-        # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
-        # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
-        # self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"string")
         self.confVars = vars()
 
 
