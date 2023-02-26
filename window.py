@@ -32,12 +32,13 @@ import lootSelection as ls
 import handObject as ho
 class window :
     def __init__(self,conf=None):
-
+        print(" ==== PROGRAM START ====")
+        startTimeInit = time.time()
         self.conf = conf
         self.useConf = False
         if conf!=None :
             self.useConf = True
-        self.handObjUsefullList = self.getAllUsefullList()
+        #self.handObjUsefullList = self.getAllUsefullList()
 
         #Constants
         self.exitFlag = False
@@ -92,6 +93,7 @@ class window :
         self.mapObjectFolder = "object/"
         self.mapCollisionFolder = "collision/"
         self.mapRawSplitFolder = "split/"
+        self.packAllBack = False
         
         self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/PAshooter/sprites/")
         self.textureFolder = self.pasteConf(self.conf.textureFolder,"texture/")
@@ -107,6 +109,7 @@ class window :
         self.bulletNum = self.pasteConf(self.conf.maxBulletOnScreen,10)
         self.sprintFactor = self.pasteConf(self.conf.sprintMultiplier,2)
         self.weponUsedCooldownReset = self.pasteConf(self.conf.weponFrameCooldown,10)
+        self.jpegQuality = self.pasteConf(self.conf.jpegQuality,0.5)
         width = self.pasteConf(self.conf.screenWidth,1366)
         height = self.pasteConf(self.conf.screenHeight,768)
         fullscreen = self.pasteConf(self.conf.fullscreen,True) 
@@ -128,6 +131,7 @@ class window :
         myHealth = self.pasteConf(self.conf.myHealth,1)
         myDamageMulti = self.pasteConf(self.conf.myDamageMulti,1)
         myAttackRange = self.pasteConf(self.conf.myAttackRange,30)
+        
         #print(self.splitMapImage)
         #Sprites conf
         self.shopAreaList = []#[[0*32,0*32],[0*32,0*32]]#[[27*32,54*32],[37*32,64*32]]
@@ -158,7 +162,8 @@ class window :
         #print(len(self.backList))
         if printResources :
             self.printRessources()
-        
+        endTimeInit = time.time()
+        print("Init done in ",round(float(endTimeInit)-float(startTimeInit),2),"sec")
         while True :
             self.frameCount = self.frameCount + 1
             start = time.time()
@@ -236,6 +241,7 @@ class window :
             self.listener.mouseVal[2] = 0
             
     def objInit(self,val) :
+        #print("objInit   val :",val)
         if val == 0 :
             self.handObjListBuff = []
             self.objListBuff = []
@@ -246,14 +252,16 @@ class window :
             self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(1)
             self.carObjList.append(self.loadCarObj(co.carObject(5,[32*115,32*150])))
         if val == 3 :
-            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(2)
+            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(3)
             self.shopAreaList = shopAreaList
         if val == 4 :
             self.handObjListBuff = []
             self.objListBuff = []
             car = self.loadCarObj(co.carObject(10,[500,1500]))
             self.carObjList.append(car)
-            #car.getMapPixel(self.backList[0][6])
+        if val == 5 :
+            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(4)
+            self.shopAreaList = shopAreaList
         if val == -1 :
             self.handObjListBuff = generateHandObjList()
             self.objListBuff = []
@@ -453,9 +461,13 @@ class window :
         else :
             for i in range(1,len(backSettings)) :
                 back = backSettings[i]  
-                if self.isBackgroundOnScreen(back) :
+                if self.packAllBack:
+                    self.canvas.create_image(posX+back[8]*32,posY+back[9]*32, image=back[0], anchor="nw") 
+                else :
+                    if self.isBackgroundOnScreen(back) :
+                        self.canvas.create_image(posX+back[8]*32,posY+back[9]*32, image=back[0], anchor="nw") 
                 #print("x",back[8],"y",back[9])
-                    self.canvas.create_image(posX+back[8]*32,posY+back[9]*32, image=back[0], anchor="nw")  
+                 
     
     def isBackgroundOnScreen(self,back) :
         minX = -self.offset[0]+back[8]*32
@@ -684,6 +696,7 @@ class window :
                 self.currentFPSavg = round(sum(fpsList[-300:])/300,3)
         if self.listener.exitFlag :
             print("FPS => (avg:"+str(round(sum(fpsList)/len(fpsList),3))+") (min:"+str(round(min(fpsList),3))+") (max:"+str(round(max(fpsList),3))+")")
+            print(" ==== PROGRAM STOP ====")
             self.listener.killListener()
             self.root.destroy()
             sys.exit(0)
@@ -757,7 +770,7 @@ def generateObjList() :
         objList.append([i,int(x+i),int(y)])
     x = 1
     y = 3
-    for i in range(180) :
+    for i in range(200) :
         objList.append([i+100,int(x+(i%15)*3),int(y+int(i/15)*3)])
     return objList
 #sl = window(cf.configLoader())

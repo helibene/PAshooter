@@ -38,19 +38,19 @@ def masterSaveObjImage(w) :
 def generateNewMap(w,generate=False) :
     splitBool = w.splitMapImage!=[0,0]
     if generate :
-        w.terrain = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True)
+        w.terrain = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True,int(w.jpegQuality*95))
         w.terrain.mapFileToImageNat(w.mapList[0],w.rootPath+w.mapFolder+w.mapTextureFolder,w.rootPath+w.mapFolder+w.mapCollisionFolder,splitBool)
         if splitBool :
             mapSetList,backSetList = w.terrain.splitImage(w.rootPath+w.mapFolder+w.mapRawFolder,w.mapList[0][1],"png",w.splitMapImage[0],w.splitMapImage[1],w.mapRawSplitFolder)
             w.backList.extend(backSetList)
             w.mapList2=mapSetList
-            print("Generating splited terain texture files :",len(w.mapList2))
+            print("Gen splited files :",len(w.mapList2))
             openMapList2(w)
             for i in range(len(w.mapList2)):
                 w.terrain.mapFileToImageNat(w.mapList2[i],w.rootPath+w.mapFolder+w.mapTextureFolder,w.rootPath+w.mapFolder+w.mapCollisionFolder)
     else :
         if splitBool :
-            w.terrain = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True)
+            w.terrain = tb.terrain_builder(w.sheetList[4],w.sheetList[3],True,int(w.jpegQuality*95))
             mapSetList,backSetList = w.terrain.splitImage(w.rootPath+w.mapFolder+w.mapRawFolder,w.mapList[0][1],"png",w.splitMapImage[0],w.splitMapImage[1],w.mapRawSplitFolder,True)
             print("Generating terain texture files :",len(mapSetList))
             w.backList.extend(backSetList)
@@ -73,6 +73,7 @@ def saveObjList(w,objMat,num=0):
             img = w.object.getSprite(obj[0],True)
             mapImage.paste(img,(int(obj[1]*32),int(obj[2]*32)),img)
     mapImage.save(w.rootPath+w.mapFolder+w.mapObjectFolder+"map"+str(num)+"_obj.png","PNG")
+    
     
 def openMapList(w) :
     for mapNum in range(len(w.mapList)) :

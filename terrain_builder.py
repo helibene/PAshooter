@@ -52,8 +52,10 @@ class terrain_builder :
                     redVal = colorMat[y][x][0]
                     greenVal = colorMat[y][x][1]
                     blueVal = colorMat[y][x][2]
+                    #print("red",redVal)
                     tileMat[x][y] = terrainMapping(redVal,greenVal,blueVal)
                     x2,y2 = tileMat[x][y]
+                    #print("x",x2,"  y",y2)
                     image.paste(self.imageMat2[x2][y2],(int(x*self.step_x),int(y*self.step_y)))
                 if colorMat[y][x][0]>=100 :
                     imageCol.paste(blackpix,(x,y))
@@ -188,20 +190,30 @@ class terrain_builder :
     
 def terrainMapping(redVal,greenVal,blueVal) :
     if redVal<50 :
-        return randPointRange(int((redVal%12)*2),5+int(redVal/12)*4,2,4)
+        if redVal<37 :
+            return randPointRange(int((redVal%12)*2),5+int(redVal/12)*4,2,4)
+        else :
+            return [5,5]
     elif redVal<100 :
-        if redVal==50 :
-            return randPointRange(0,17,2,2)
-        elif redVal==51 :
-            return randPointRange(2,17,2,2)
-        elif redVal==52 :
-            return randPointRange(4,17,2,2)
-        elif redVal==53 :
-            return randPointRange(6,17,1,2)
-        elif redVal==54 :
-            return randPointRange(7,17,1,2)
-        elif redVal>54 :
-            return [8+int((redVal-55)/2),17+(redVal-55)%2]
+        addX=0
+        if redVal>64 and redVal<80 :
+            redVal = redVal - 15
+            addX = 12
+        if redVal<65 :
+            if redVal==50 :
+                return randPointRange(0+addX,17,2,2)
+            elif redVal==51 :
+                return randPointRange(2+addX,17,2,2)
+            elif redVal==52 :
+                return randPointRange(4+addX,17,2,2)
+            elif redVal==53 :
+                return randPointRange(6+addX,17,1,2)
+            elif redVal==54 :
+                return randPointRange(7+addX,17,1,2)
+            elif redVal>54 and redVal<63 :
+                return [8+addX+int((redVal-55)/2),17+(redVal-55)%2]
+            else :
+                return [5,5]
         else :
             return [5,5]
         

@@ -22,7 +22,7 @@
 	"peopleAttackRange":[30,30],
 	"peopleDamageMultiRange":[0.01,0.01],
 	"objInitInstance":0,
-	"mapInstance":0,
+	"mapInstance":13,
 	"terrainTileSize":32,
 	"myName":"Alex",
 	"mySprite":34,
@@ -34,5 +34,6 @@
 	"myDamageMulti":1,
 	"myAttackRange":30,
 	"textureFolder":"texture//",
-	"mapFolder":"map//"
+	"mapFolder":"map//",
+	"jpegQuality":0.05
 }

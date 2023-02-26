@@ -36,9 +36,6 @@ class object_builder :
         del(self.objSheetSetting)
         del(self.img)
     
-    
-
-    
     def getSprite(self,num,rawImage=False) :
         flip = False
         if num <0 :
@@ -94,6 +91,16 @@ class object_builder :
             42: [9,20],
             43: [10,20],
             44: [11,20],
+            45 : [0,5],#Toilet
+            46 : [1,5],
+            47 : [2,5],
+            48 : [4,4],#Shower
+            49 : [5,4],
+            50 : [6,4],
+            51 : [26,6],#Divider
+            52 : [27,6],
+            53 : [28,6],
+            54 : [29,6],
         }
         if num in mapDict :
             coord = mapDict[num]
@@ -142,8 +149,8 @@ class object_builder :
             128: [0,7.5,1,8],#Stove
             129: [2,7.5,3,8],
             130: [4,7,4,8],
-            131: [0,9,1,10],#Fridge
-            132: [2,9,3,10],
+            131: [0,9.5,1,10],#Fridge
+            132: [2,9.5,3,10],
             133: [4,9,4,10],
             134: [4,4,4,3.5],#Shower
             135: [9,29.5,9,29.5],#Fancy chair
@@ -284,8 +291,20 @@ class object_builder :
             270: [15,5,16,5],#Sofa brown
             271: [17,5,18,5],
             272: [19,4,19,5],
+            273: [15,0,17,1],#medium white table
+            274: [18,0,19,2],
+            275: [13,2,15,3],#big white table
+            276: [16,2,17,4],
+            277: [41,0,43,1],#medium wood table
+            278: [44,0,45,2],
+            279: [39,2,41,3],#big wood table
+            280: [42,2,43,4],
+            281: [26,8,26,9],#coathanger
+            282: [28,8,28,9],#fan
+            283: [37,6,37,7],#water tower
             #218: [23,21,22.5,22],#
             #219: [23,21,22.5,22],#
+            #251: [38,0,38,0],#barrel
         }
         if num in mapDict2 :
             coord = mapDict2[num]
