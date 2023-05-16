@@ -1,0 +1,581 @@
+{
+  "Object": [
+    {
+      "Name": "GuardDog",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "GuardDog",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardDirewoof",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardDirewoof",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardHusky",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardHusky",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardCat",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardCat",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardCompanion",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardCompanion",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardDalmation",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardDalmation",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardBeagle",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardBeagle",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardBlackSetter",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardBlackSetter",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardBlackShepherd",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardBlackShepherd",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardBowtieBandit",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardBowtieBandit",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardByte",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardByte",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardChocolateLabrador",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardChocolateLabrador",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardCorgi",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardCorgi",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardDoberman",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardDoberman",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardShepherd",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardShepherd",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardShiba",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardShiba",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardSiberianHusky",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardSiberianHusky",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "GuardSubwoofer",      
+	  "MoveSpeedFactor": "1.00000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+      "ViewRange": "12",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Research": "Dogs",
+      "Sprite": "d_GuardSubwoofer",
+      "Properties": [
+		"Dog",
+        "Entity",
+        "Staff"
+      ],
+      "ZombieTier": "Medium"
+    }, 
+	{
+      "Name": "GuardTowerFullEdit",
+      "RenderDepth": "3",
+      "RenderPostOffset": "1",
+      "Width": "2",
+      "Height": "2",
+      "Sprite": "GuardTowerFull",
+      "ConstructionTime": "60.0",
+      "MoveSpeedFactor": "0.25",
+      "Toughness": "1000",
+      "NumSlots": "3",
+      "Price": "-3000",
+      "Filter": "Security",
+      "Group": "StaticObject",
+      "BlockedBy": [
+        "MustBeOutdoor",
+        "StaticObject",
+        "UtilityStation",
+        "Wall"
+      ],
+      "MadeOf": "Composite",
+      "Properties": [
+        "StaticObject",
+        "BlockMovement"
+      ],
+      "Research": "GuardTowers"
+    }, 
+	{
+      "Name": "HeadFromFig",
+      "RenderDepth": "3",
+      "RenderPostOffset": "1",
+      "Sprite": "Fig",
+      "ConstructionTime": "60.0",
+      "MoveSpeedFactor": "0.25",
+      "Toughness": "1000",
+      "NumSlots": "3",
+      "Price": "-3000",
+      "Filter": "Security",
+      "Group": "StaticObject",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Properties": [
+		"Head",
+		"BodyPartaa"
+      ],
+      "ZombieTier": "Medium"
+    },
+	{
+      "Name": "BodyFromFig",
+      "RenderDepth": "3",
+      "RenderPostOffset": "1",
+      "Sprite": "Fig",
+      "ConstructionTime": "60.0",
+      "MoveSpeedFactor": "0.25",
+      "Toughness": "1000",
+      "NumSlots": "3",
+      "Price": "-3000",
+      "Filter": "Security",
+      "Group": "StaticObject",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Properties": [
+		"Body",
+		"BodyPartaa"
+      ],
+      "ZombieTier": "Medium"
+    },
+    {
+      "Name": "PrisonerX",
+      "MoveSpeedFactor": "0.500000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+	  "SpriteVariants": "4",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Sprite": "Prisoner",
+      "Properties": [
+		"Body",
+		"BodyPart"
+      ],
+      "ZombieTier": "Low"
+    },
+    {
+      "Name": "PrisonerNaked",
+      "MoveSpeedFactor": "0.500000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+	  "SpriteVariants": "4",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Sprite": "PrisonerNaked",
+      "Properties": [
+		"Body",
+		"BodyPart"
+      ],
+      "ZombieTier": "Low"
+    },
+    {
+      "Name": "PrisonerFemale",
+      "MoveSpeedFactor": "0.500000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+	  "SpriteVariants": "4",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Sprite": "PrisonerFemale",
+      "Properties": [
+		"Body",
+		"BodyPart"
+      ],
+      "ZombieTier": "Low"
+    },
+    {
+      "Name": "PrisonerNakedFemale",
+      "MoveSpeedFactor": "0.500000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+	  "SpriteVariants": "4",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Sprite": "PrisonerNakedFemale",
+      "Properties": [
+		"Body",
+		"BodyPart"
+      ],
+      "ZombieTier": "Low"
+    },
+    {
+      "Name": "Head",
+      "MoveSpeedFactor": "0.500000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+	  "SpriteVariants": "40",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Sprite": "Head1",
+      "Properties": [
+		"Head",
+		"BodyPart"
+      ],
+      "ZombieTier": "Low"
+    },
+    {
+      "Name": "FemaleHead",
+      "MoveSpeedFactor": "0.500000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+	  "SpriteVariants": "25",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Sprite": "FemaleHead1",
+      "Properties": [
+		"Head",
+		"BodyPart"
+      ],
+      "ZombieTier": "Low"
+    },
+    {
+      "Name": "FaceOldMan",
+      "MoveSpeedFactor": "0.500000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+	  "SpriteVariants": "5",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Sprite": "FaceOldMan1",
+      "Properties": [
+		"Head",
+		"BodyPart"
+      ],
+      "ZombieTier": "Low"
+    },
+    {
+      "Name": "FaceOldWoman",
+      "MoveSpeedFactor": "0.500000",
+      "Toughness": "20.0000",
+      "RenderDepth": "2",
+	  "SpriteVariants": "3",
+      "BlockedBy": [
+        "Wall",
+        "StaticObject",
+        "UtilityStation"
+      ],
+      "Sprite": "FaceOldWoman1",
+      "Properties": [
+		"Head",
+		"BodyPart"
+      ],
+      "ZombieTier": "Low"
+    }
+  ]
+}

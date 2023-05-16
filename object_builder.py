@@ -35,6 +35,7 @@ class object_builder :
         del(self.imageMat2)
         del(self.objSheetSetting)
         del(self.img)
+        return self
     
     def getSprite(self,num,rawImage=False) :
         flip = False
@@ -46,7 +47,7 @@ class object_builder :
         if self.spriteListFlip[num]!=None and not rawImage and flip:
             return self.spriteListFlip[num]
         mapDict = {
-            0: [0,0],
+            0: [0,0],#Crate
             1: [1,0],#Door h1
             2: [3,0],#v1
             3: [5,0],#h2
@@ -102,21 +103,25 @@ class object_builder :
             53 : [28,6],
             54 : [29,6],
         }
-        if num in mapDict :
-            coord = mapDict[num]
-            image = self.imageMat2[coord[0]][coord[1]]
-            if flip :
-                image = image.transpose(Image.FLIP_LEFT_RIGHT)
-            if rawImage :
-                return image
-            else :
-                tkimg = ImageTk.PhotoImage(image)
-                if not flip :
-                    self.spriteList[num] = tkimg
+        if num < 100 :
+            if num in mapDict :
+                coord = mapDict[num]
+                image = self.imageMat2[coord[0]][coord[1]]
+                if flip :
+                    image = image.transpose(Image.FLIP_LEFT_RIGHT)
+                if rawImage :
+                    return image
                 else :
-                    self.spriteListFlip[num] = tkimg
-                return tkimg
-        
+                    tkimg = ImageTk.PhotoImage(image)
+                    if not flip :
+                        self.spriteList[num] = tkimg
+                    else :
+                        self.spriteListFlip[num] = tkimg
+                    return tkimg
+            else :
+                print("obj not found")
+                return None
+            
         mapDict2 = {
             100: [0,3,0,4],#Bed
             101: [1,3,1,4],
@@ -302,6 +307,23 @@ class object_builder :
             281: [26,8,26,9],#coathanger
             282: [28,8,28,9],#fan
             283: [37,6,37,7],#water tower
+            
+            284: [39,5,39.5,6],
+            285: [40.5,5,41,6],
+            286: [42,5,43,6],
+            287: [39,7,39.5,8],
+            288: [40.5,7,41,8],
+            289: [42,7,43,8],
+            290: [39,9,39.5,10],
+            291: [40.5,9,41,10],
+            292: [42,9,43,10],
+            293: [39,11,39.5,12],
+            294: [40.5,11,41,12],
+            295: [42,11,43,12],
+            296: [39,13,39.5,14],
+            297: [40.5,13,41,14],
+            298: [42,13,43,14],
+            
             #218: [23,21,22.5,22],#
             #219: [23,21,22.5,22],#
             #251: [38,0,38,0],#barrel
@@ -319,7 +341,7 @@ class object_builder :
                     self.spriteListFlip[num] = tkimg
                 return tkimg
         else :
-            return self.spriteList[0]
+            return None
 
     
     def addMetadataToObjList(self,objList):

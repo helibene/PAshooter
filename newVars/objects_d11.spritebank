@@ -1,0 +1,574 @@
+
+BEGIN Sprites    
+    Size                 325  
+    BEGIN "[i 0]"      Name RoadGate1  x 17  y 62  w 14  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 1]"      Name RoadGate2  x 2  y 44  w 2  h 14  RotateType 4  TopAligned false  END
+    BEGIN "[i 2]"      Name RoadGate3  x 0  y 44  w 2  h 14  RotateType 4  TopAligned false  END
+    BEGIN "[i 3]"      Name RoadGatePosts1  x 17  y 58  w 14  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 4]"      Name RoadGatePosts2  x 6  y 42  w 2  h 16  RotateType 4  TopAligned false  END
+    BEGIN "[i 5]"      Name RoadGatePosts3  x 4  y 42  w 2  h 16  RotateType 4  TopAligned false  END
+    BEGIN "[i 6]"      Name WorkshopPress3  x 0  y 58  w 4  h 6  RotateType 4  TopAligned false  END
+    BEGIN "[i 7]"      Name WorkshopPressDown1  x 8  y 56  w 6  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 8]"      Name WorkshopPressDown2  x 4  y 58  w 4  h 6  RotateType 4  TopAligned false  END
+    BEGIN "[i 9]"      Name WorkshopPressDown3  x 8  y 45  w 4  h 6  RotateType 4  TopAligned false  END
+    BEGIN "[i 10]"     Name WorkshopSaw3  x 14  y 58  w 3  h 6  RotateType 4  TopAligned false  END
+    BEGIN "[i 11]"     Name d_AnatomyModel  x 50  y 6  w 2  h 4  RotateType 3  TopAligned false  END
+    BEGIN "[i 12]"     Name d_AnatomyModelToolbar  x 50  y 7  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 13]"     Name d_ArmourySign  x 19  y 22  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 14]"     Name d_BambooGate  x 0  y 42  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 15]"     Name d_BathroomSink  x 14  y 4  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 16]"     Name d_BathroomSinkToolbar  x 19  y 2  w 1  h 1  RotateType 4  TopAligned false  END
+    BEGIN "[i 17]"     Name d_BirdCage  x 34  y 35  w 2  h 4  RotateType 3  TopAligned false  END
+    BEGIN "[i 18]"     Name d_BirdCageToolbar  x 34  y 35  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 19]"     Name d_Bleachers  x 0  y 29  w 8  h 5  RotateType 1  TopAligned false  END
+    BEGIN "[i 20]"     Name d_BleachersToolbar  x 17  y 30  w 4  h 4  RotateType 0  TopAligned false  END
+    BEGIN "[i 21]"     Name d_BoilingBarBorder  x 12  y 8  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 22]"     Name d_BookshelfShort  x 18  y 19  w 4  h 3  RotateType 3  TopAligned false  END
+    BEGIN "[i 23]"     Name d_BookshelfShortToolbar  x 18  y 19  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 24]"     Name d_BouyToolbar  x 49  y 28  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 25]"     Name d_BoxingRing  x 49  y 50  w 9  h 10  RotateType 4  TopAligned false  END
+    BEGIN "[i 26]"     Name d_Bucket  x 16  y 0  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 27]"     Name d_Buoy  x 49  y 28  w 2  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 28]"     Name d_Bush  x 0  y 8  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 29]"     Name d_CameraPillar  x 50  y 26  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 30]"     Name d_CanteenSign  x 24  y 4  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 31]"     Name d_Canvas  x 18  y 34  w 2  h 4  RotateType 3  TopAligned false  END
+    BEGIN "[i 32]"     Name d_CanvasToolbar  x 18  y 35  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 33]"     Name d_ChessTable  x 21  y 8  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 34]"     Name d_ChestOfDrawers  x 20  y 0  w 2  h 3  RotateType 3  TopAligned false  END
+    BEGIN "[i 35]"     Name d_ChestOfDrawersToolbar  x 20  y 1  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 36]"     Name d_CoatStand  x 4  y 21  w 2  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 37]"     Name d_CoatStandToolbar  x 4  y 21  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 38]"     Name d_CoffeeMachine  x 26  y 35  w 2  h 3  RotateType 3  TopAligned false  END
+    BEGIN "[i 39]"     Name d_CoffeeMachineToolbar  x 26  y 36  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 40]"     Name d_ComputerStation  x 45  y 32  w 4  h 4  RotateType 1  TopAligned false  END
+    BEGIN "[i 41]"     Name d_DeckChair  x 49  y 44  w 2  h 2  RotateType 3  TopAligned false  END
+    BEGIN "[i 42]"     Name d_DockIcon  x 47  y 25  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 43]"     Name d_DogBowl  x 6  y 21  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 44]"     Name d_DoorMat  x 8  y 42  w 2  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 45]"     Name d_DoubleDoorVisitorToolbar  x 47  y 27  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 46]"     Name d_DumbbellRack  x 56  y 46  w 4  h 4  RotateType 2  TopAligned false  END
+    BEGIN "[i 47]"     Name d_DumbbellRackToolbar  x 56  y 46  w 4  h 3  RotateType 0  TopAligned false  END
+    BEGIN "[i 48]"     Name d_FenceGateGuard  x 8  y 21  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 49]"     Name d_FenceGateStaff  x 0  y 21  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 50]"     Name d_FenceGateStandard  x 0  y 25  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 51]"     Name d_FenceGateVisitor  x 0  y 23  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 52]"     Name d_Flipboard  x 50  y 14  w 2  h 4  RotateType 3  TopAligned false  END
+    BEGIN "[i 53]"     Name d_FlipboardToolbar  x 50  y 14  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 54]"     Name d_FloodLight  x 0  y 19  w 2  h 2  RotateType 3  TopAligned false  END
+    BEGIN "[i 55]"     Name d_FloodLightToolbar  x 4  y 14  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 56]"     Name d_FloodLightTop  x 0  y 14  w 2  h 5  RotateType 3  TopAligned false  END
+    BEGIN "[i 57]"     Name d_FoamMattress  x 58  y 54  w 2  h 4  RotateType 7  TopAligned false  END
+    BEGIN "[i 58]"     Name d_FoamMattressToolbar  x 58  y 54  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 59]"     Name d_Footbridge  x 42  y 20  w 2  h 5  RotateType 2  TopAligned false  END
+    BEGIN "[i 60]"     Name d_FootbridgeBIcon  x 40  y 20  w 5  h 5  RotateType 0  TopAligned false  END
+    BEGIN "[i 61]"     Name d_FootbridgeBStairHor1  x 37  y 28  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 62]"     Name d_FootbridgeBStairHor2  x 35  y 28  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 63]"     Name d_FootbridgeBStairHor2Top  x 52  y 18  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 64]"     Name d_FootbridgeBStairHorL1  x 33  y 31  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 65]"     Name d_FootbridgeBStairHorL2  x 33  y 28  w 2  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 66]"     Name d_FootbridgeBStairHorLTop  x 50  y 18  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 67]"     Name d_FootbridgeBStairVert1  x 40  y 25  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 68]"     Name d_FootbridgeBStairVertL  x 40  y 20  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 69]"     Name d_FootbridgeBStairVertUp1  x 38  y 39  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 70]"     Name d_FootbridgeBStairVertUp2  x 38  y 41  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 71]"     Name d_FootbridgeBStairVertUp3  x 38  y 43  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 72]"     Name d_FootbridgeBStairVertUpL  x 38  y 45  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 73]"     Name d_FootbridgeIcon  x 42  y 20  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 74]"     Name d_FootbridgeStairsHorizontal1  x 48  y 20  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 75]"     Name d_FootbridgeStairsHorizontal2  x 46  y 20  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 76]"     Name d_FootbridgeStairsVertical1  x 56  y 10  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 77]"     Name d_FootbridgeStairsVertical2  x 56  y 8  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 78]"     Name d_FootbridgeSteel  x 32  y 20  w 2  h 5  RotateType 2  TopAligned false  END
+    BEGIN "[i 79]"     Name d_FootbridgeSteelBIcon  x 30  y 20  w 5  h 5  RotateType 0  TopAligned false  END
+    BEGIN "[i 80]"     Name d_FootbridgeSteelBStairHor1  x 31  y 28  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 81]"     Name d_FootbridgeSteelBStairHor2  x 29  y 28  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 82]"     Name d_FootbridgeSteelBStairHor2Top  x 23  y 28  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 83]"     Name d_FootbridgeSteelBStairHorL1  x 27  y 31  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 84]"     Name d_FootbridgeSteelBStairHorL2  x 27  y 28  w 2  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 85]"     Name d_FootbridgeSteelBStairHorLTop  x 21  y 28  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 86]"     Name d_FootbridgeSteelBStairVert1  x 30  y 25  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 87]"     Name d_FootbridgeSteelBStairVertL  x 30  y 20  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 88]"     Name d_FootbridgeSteelBStairVertUp1  x 30  y 12  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 89]"     Name d_FootbridgeSteelBStairVertUp2  x 30  y 14  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 90]"     Name d_FootbridgeSteelBStairVertUp3  x 30  y 16  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 91]"     Name d_FootbridgeSteelBStairVertUpL  x 30  y 18  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 92]"     Name d_FootbridgeSteelIcon  x 32  y 20  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 93]"     Name d_FootbridgeSteelStairsHorizontal1  x 38  y 20  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 94]"     Name d_FootbridgeSteelStairsHorizontal2  x 36  y 20  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 95]"     Name d_FootbridgeSteelStairsVertical1  x 24  y 36  w 2  h 2  RotateType 4  TopAligned true  END
+    BEGIN "[i 96]"     Name d_FootbridgeSteelStairsVertical2  x 24  y 34  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 97]"     Name d_FootbridgeSteelStrut  x 34  y 20  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 98]"     Name d_FootbridgeSteelVert  x 60  y 0  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 99]"     Name d_FootbridgeStrut  x 44  y 20  w 2  h 5  RotateType 4  TopAligned false  END
+    BEGIN "[i 100]"    Name d_FootbridgeVert  x 62  y 0  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 101]"    Name d_FountainPen  x 10  y 8  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 102]"    Name d_GoldPocketWatch  x 8  y 8  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 103]"    Name d_GuardCat  x 48  y 2  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 104]"    Name d_GuardCatDigging  x 48  y 0  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 105]"    Name d_GuardCatSitting  x 30  y 6  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 106]"    Name d_GuardCatSleeping  x 48  y 4  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 107]"    Name d_GuardCompanion  x 54  y 2  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 108]"    Name d_GuardCompanionDigging  x 54  y 0  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 109]"    Name d_GuardCompanionSitting  x 36  y 6  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 110]"    Name d_GuardCompanionSleeping  x 54  y 4  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 111]"    Name d_GuardDalmation  x 20  y 49  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 112]"    Name d_GuardDalmationDigging  x 22  y 47  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 113]"    Name d_GuardDalmationSitting  x 20  y 53  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 114]"    Name d_GuardDalmationSleeping  x 20  y 51  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 115]"    Name d_GuardDirewoof  x 36  y 2  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 116]"    Name d_GuardDirewoofDigging  x 36  y 0  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 117]"    Name d_GuardDirewoofSitting  x 24  y 6  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 118]"    Name d_GuardDirewoofSleeping  x 36  y 4  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 119]"    Name d_GuardHusky  x 42  y 2  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 120]"    Name d_GuardHuskyDigging  x 42  y 0  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 121]"    Name d_GuardHuskySitting  x 42  y 6  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 122]"    Name d_GuardHuskySleeping  x 42  y 4  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 123]"    Name d_GuardPavCorner  x 22  y 41  w 6  h 6  RotateType 11  TopAligned false  END
+    BEGIN "[i 124]"    Name d_GuardPavCornerFull  x 31  y 55  w 9  h 9  RotateType 11  TopAligned false  END
+    BEGIN "[i 125]"    Name d_GuardPavCornerLeftA  x 19  y 49  w 1  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 126]"    Name d_GuardPavCornerLeftB  x 17  y 49  w 1  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 127]"    Name d_GuardPavCornerLeftC  x 15  y 49  w 1  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 128]"    Name d_GuardPavCornerLeftD  x 13  y 49  w 1  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 129]"    Name d_GuardPavCornerMiddleA  x 22  y 41  w 6  h 4  RotateType 11  TopAligned false  END
+    BEGIN "[i 130]"    Name d_GuardPavCornerMiddleB  x 28  y 41  w 6  h 4  RotateType 11  TopAligned false  END
+    BEGIN "[i 131]"    Name d_GuardPavCornerMiddleC  x 22  y 41  w 6  h 4  RotateType 0  TopAligned false  END
+    BEGIN "[i 132]"    Name d_GuardPavCornerMiddleD  x 28  y 41  w 6  h 4  RotateType 0  TopAligned false  END
+    BEGIN "[i 133]"    Name d_GuardPavCornerRightA  x 18  y 49  w 1  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 134]"    Name d_GuardPavCornerRightB  x 16  y 49  w 1  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 135]"    Name d_GuardPavCornerRightC  x 14  y 49  w 1  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 136]"    Name d_GuardPavCornerRightD  x 12  y 49  w 1  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 137]"    Name d_GuardPavCornerTopA  x 22  y 38  w 6  h 3  RotateType 0  TopAligned false  END
+    BEGIN "[i 138]"    Name d_GuardPavCornerTopB  x 28  y 38  w 6  h 3  RotateType 0  TopAligned false  END
+    BEGIN "[i 139]"    Name d_GuardPavCornerTopC  x 20  y 55  w 6  h 3  RotateType 0  TopAligned false  END
+    BEGIN "[i 140]"    Name d_GuardPavCornerTopD  x 14  y 55  w 6  h 3  RotateType 0  TopAligned false  END
+    BEGIN "[i 141]"    Name d_GuardPavFull  x 12  y 38  w 10  h 11  RotateType 4  TopAligned false  END
+    BEGIN "[i 142]"    Name d_GuardPavLeft  x 12  y 38  w 2  h 11  RotateType 0  TopAligned false  END
+    BEGIN "[i 143]"    Name d_GuardPavMiddle  x 14  y 43  w 6  h 4  RotateType 0  TopAligned false  END
+    BEGIN "[i 144]"    Name d_GuardPavRight  x 20  y 38  w 2  h 11  RotateType 0  TopAligned false  END
+    BEGIN "[i 145]"    Name d_GuardPavTop  x 14  y 38  w 6  h 5  RotateType 0  TopAligned false  END
+    BEGIN "[i 146]"    Name d_GuardPavilion  x 14  y 43  w 6  h 6  RotateType 4  TopAligned false  END
+    BEGIN "[i 147]"    Name d_GuardPavilionTop  x -64  y -64  w 1  h 1  RotateType 0  TopAligned false  END
+    BEGIN "[i 148]"    Name d_GymMat  x 26  y 0  w 2  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 149]"    Name d_HandDryer  x 14  y 6  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 150]"    Name d_HandDryerToolbar  x 18  y 2  w 1  h 1  RotateType 4  TopAligned false  END
+    BEGIN "[i 151]"    Name d_HeliIcon  x 45  y 25  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 152]"    Name d_IndoorTreePlanter  x 50  y 23  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 153]"    Name d_InfirmarySign  x 8  y 23  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 154]"    Name d_InsaneInmate  x 62  y 2  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 155]"    Name d_IroningBoardShort  x 18  y 11  w 5  h 2  RotateType 9  TopAligned false  END
+    BEGIN "[i 156]"    Name d_IroningBoardShortToolbar  x -13  y -38  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 157]"    Name d_JailDoorGrey  x 6  y 38  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 158]"    Name d_JailDoorLargeGrey  x 6  y 40  w 4  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 159]"    Name d_JailDoorLargeGreyToolbar  x 8  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 160]"    Name d_JailDoorLargeOrange  x 0  y 40  w 4  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 161]"    Name d_JailDoorLargeOrangeToolbar  x 2  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 162]"    Name d_JailDoorLargeRed  x 0  y 36  w 4  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 163]"    Name d_JailDoorLargeRedToolbar  x 2  y 36  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 164]"    Name d_JailDoorLargeToolbar2  x -54  y -52  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 165]"    Name d_JailDoorLargeWhite  x 43  y 45  w 4  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 166]"    Name d_JailDoorLargeWhiteToolbar  x 45  y 45  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 167]"    Name d_JailDoorLargeYellow  x 6  y 36  w 4  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 168]"    Name d_JailDoorLargeYellowToolbar  x 8  y 36  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 169]"    Name d_JailDoorOrange  x 0  y 38  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 170]"    Name d_JailDoorRed  x 0  y 34  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 171]"    Name d_JailDoorWhite  x 43  y 43  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 172]"    Name d_JailDoorYellow  x 6  y 34  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 173]"    Name d_Lamp  x 6  y 6  w 2  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 174]"    Name d_LampToolbar  x 6  y 6  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 175]"    Name d_LeatherChair  x 56  y 6  w 2  h 2  RotateType 3  TopAligned false  END
+    BEGIN "[i 176]"    Name d_LeatherSofa  x 58  y 10  w 4  h 2  RotateType 7  TopAligned false  END
+    BEGIN "[i 177]"    Name d_LeatherSofaToolbar  x 58  y 10  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 178]"    Name d_LeftArrowSign  x 14  y 25  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 179]"    Name d_LifeRing  x 51  y 28  w 2  h 4  RotateType 3  TopAligned false  END
+    BEGIN "[i 180]"    Name d_LifeRingToolbar  x 51  y 29  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 181]"    Name d_LightGreen  x 8  y 53  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 182]"    Name d_LightRed  x 10  y 53  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 183]"    Name d_MedicineCabinetPsych  x 50  y 10  w 2  h 4  RotateType 3  TopAligned false  END
+    BEGIN "[i 184]"    Name d_MedicineCabinetPsychToolbar  x 50  y 11  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 185]"    Name d_MetalBarrel  x 34  y 25  w 2  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 186]"    Name d_MetalBarrelToolbar  x 34  y 26  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 187]"    Name d_MooringBollard  x 26  y 49  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 188]"    Name d_MooseHead  x 33  y 10  w 2  h 2  RotateType 8  TopAligned false  END
+    BEGIN "[i 189]"    Name d_MoreContraband  x 40  y 27  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 190]"    Name d_OakBench  x 27  y 33  w 6  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 191]"    Name d_OakBenchToolbar  x 39  y 33  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 192]"    Name d_OakTable  x 28  y 47  w 6  h 4  RotateType 11  TopAligned false  END
+    BEGIN "[i 193]"    Name d_OakTableToolbar  x 28  y 47  w 6  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 194]"    Name d_OfficeLeatherChair  x 49  y 60  w 4  h 4  RotateType 1  TopAligned false  END
+    BEGIN "[i 195]"    Name d_OfficeLeatherChairToolbar  x 50  y 61  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 196]"    Name d_OldBed  x 41  y 47  w 2  h 4  RotateType 7  TopAligned false  END
+    BEGIN "[i 197]"    Name d_OldBedToolbar  x 41  y 47  w 2  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 198]"    Name d_Orderly  x 56  y 16  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 199]"    Name d_OrderlyToolbar  x 60  y 2  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 200]"    Name d_OutdoorPicnicTable  x 18  y 13  w 6  h 6  RotateType 2  TopAligned false  END
+    BEGIN "[i 201]"    Name d_OutdoorPicnicTableToolbar  x 18  y 13  w 6  h 6  RotateType 0  TopAligned false  END
+    BEGIN "[i 202]"    Name d_OvalStaffTable  x 12  y 21  w 3  h 4  RotateType 2  TopAligned false  END
+    BEGIN "[i 203]"    Name d_OvalStaffTableToolbar  x 17  y 23  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 204]"    Name d_PASystem  x 40  y 36  w 3  h 7  RotateType 3  TopAligned false  END
+    BEGIN "[i 205]"    Name d_PASystemToolBar  x 40  y 36  w 3  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 206]"    Name d_Painting1  x 26  y 54  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 207]"    Name d_Painting2  x 28  y 54  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 208]"    Name d_ParkBench  x 26  y 51  w 6  h 3  RotateType 1  TopAligned false  END
+    BEGIN "[i 209]"    Name d_ParkBenchToolbar  x 14  y 8  w 3  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 210]"    Name d_Plant  x 2  y 8  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 211]"    Name d_PlantCactus  x 4  y 8  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 212]"    Name d_Psychiatrist  x 56  y 12  w 2  h 2  RotateType 3  TopAligned false  END
+    BEGIN "[i 213]"    Name d_PunchBag  x 32  y 25  w 2  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 214]"    Name d_PunchBagToolbar  x 32  y 25  w 2  h 3  RotateType 0  TopAligned false  END
+    BEGIN "[i 215]"    Name d_RightArrowSign  x 12  y 25  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 216]"    Name d_RoadIcon  x 45  y 27  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 217]"    Name d_RorschachTest  x 12  y 34  w 2  h 4  RotateType 3  TopAligned false  END
+    BEGIN "[i 218]"    Name d_RorschachTestToolbar  x 12  y 35  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 219]"    Name d_SecretDoor  x 6  y 27  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 220]"    Name d_SecureDoor  x 8  y 10  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 221]"    Name d_ShowerPillar  x 6  y 4  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 222]"    Name d_ShowerSign  x 30  y 0  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 223]"    Name d_SignLetterA  x 57  y 28  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 224]"    Name d_SignLetterB  x 59  y 28  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 225]"    Name d_SignLetterC  x 61  y 28  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 226]"    Name d_SignLetterD  x 57  y 30  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 227]"    Name d_SignLetterE  x 59  y 30  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 228]"    Name d_SignLetterF  x 61  y 30  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 229]"    Name d_SignLetterG  x 57  y 32  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 230]"    Name d_SignLetterH  x 59  y 32  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 231]"    Name d_SignLetterI  x 61  y 32  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 232]"    Name d_SignLetterJ  x 57  y 34  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 233]"    Name d_SignLetterK  x 59  y 34  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 234]"    Name d_SignLetterL  x 61  y 34  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 235]"    Name d_SignLetterM  x 49  y 36  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 236]"    Name d_SignLetterN  x 51  y 36  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 237]"    Name d_SignLetterO  x 53  y 36  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 238]"    Name d_SignLetterP  x 55  y 36  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 239]"    Name d_SignLetterQ  x 57  y 36  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 240]"    Name d_SignLetterR  x 59  y 36  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 241]"    Name d_SignLetterS  x 61  y 36  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 242]"    Name d_SignLetterT  x 49  y 38  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 243]"    Name d_SignLetterU  x 51  y 38  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 244]"    Name d_SignLetterV  x 53  y 38  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 245]"    Name d_SignLetterW  x 55  y 38  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 246]"    Name d_SignLetterX  x 57  y 38  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 247]"    Name d_SignLetterY  x 59  y 38  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 248]"    Name d_SignLetterZ  x 61  y 38  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 249]"    Name d_SignNumber0  x 49  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 250]"    Name d_SignNumber1  x 51  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 251]"    Name d_SignNumber2  x 53  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 252]"    Name d_SignNumber3  x 55  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 253]"    Name d_SignNumber4  x 57  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 254]"    Name d_SignNumber5  x 59  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 255]"    Name d_SignNumber6  x 61  y 40  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 256]"    Name d_SignNumber7  x 49  y 42  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 257]"    Name d_SignNumber8  x 51  y 42  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 258]"    Name d_SignNumber9  x 53  y 42  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 259]"    Name d_SinkMirror  x 20  y 6  w 2  h 2  RotateType 7  TopAligned false  END
+    BEGIN "[i 260]"    Name d_SmallBench  x 8  y 12  w 4  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 261]"    Name d_SmallBenchToolbar  x 12  y 12  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 262]"    Name d_SmallTable  x 0  y 27  w 4  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 263]"    Name d_SmallTableToolbar  x 4  y 27  w 2  h 2  RotateType 0  TopAligned false  END
+    BEGIN "[i 264]"    Name d_SnackMachine  x 56  y 21  w 2  h 3  RotateType 3  TopAligned false  END
+    BEGIN "[i 265]"    Name d_SnackMachineToolbar  x 56  y 22  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 266]"    Name d_SoftPillow  x 58  y 58  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 267]"    Name d_StoneWaterSpout  x 53  y 24  w 3  h 4  RotateType 3  TopAligned false  END
+    BEGIN "[i 268]"    Name d_StoneWaterSpoutToolbar  x 53  y 24  w 3  h 3  RotateType 0  TopAligned false  END
+    BEGIN "[i 269]"    Name d_StraitJacket  x 42  y 12  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 270]"    Name d_StraitJacket2  x 42  y 14  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 271]"    Name d_StraitJacket3  x 42  y 16  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 272]"    Name d_StraitJacket4  x 42  y 18  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 273]"    Name d_StreetLamp  x 6  y 19  w 4  h 2  RotateType 3  TopAligned false  END
+    BEGIN "[i 274]"    Name d_StreetLampToolbar  x 14  y 14  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 275]"    Name d_StreetLampTop  x 6  y 14  w 4  h 5  RotateType 3  TopAligned false  END
+    BEGIN "[i 276]"    Name d_TableFootball  x 32  y 16  w 6  h 4  RotateType 7  TopAligned false  END
+    BEGIN "[i 277]"    Name d_TableTennis  x 26  y 2  w 6  h 4  RotateType 2  TopAligned false  END
+    BEGIN "[i 278]"    Name d_ToiletSign  x 14  y 27  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 279]"    Name d_TrainingDummy  x 34  y 42  w 2  h 3  RotateType 8  TopAligned false  END
+    BEGIN "[i 280]"    Name d_Treadmill  x 41  y 51  w 2  h 4  RotateType 1  TopAligned false  END
+    BEGIN "[i 281]"    Name d_TreadmillToolbar  x 45  y 53  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 282]"    Name d_TreeCactus  x 12  y 0  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 283]"    Name d_TreeSakura  x 10  y 4  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 284]"    Name d_TreeSnowyConifer  x 8  y 0  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 285]"    Name d_TreeSpooky  x 0  y 0  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 286]"    Name d_TreeSpookyAlt  x 4  y 0  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 287]"    Name d_TreeStumpCactus  x 4  y 4  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 288]"    Name d_TreeStumpSakura  x 8  y 4  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 289]"    Name d_TreeStumpSnowyConifer  x 2  y 4  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 290]"    Name d_TreeStumpSpooky  x 0  y 4  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 291]"    Name d_TreeYoungCactus  x 4  y 6  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 292]"    Name d_TreeYoungSakura  x 8  y 6  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 293]"    Name d_TreeYoungSnowyConifer  x 2  y 6  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 294]"    Name d_TreeYoungSpooky  x 0  y 6  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 295]"    Name d_TyreApparatus  x 21  y 26  w 6  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 296]"    Name d_TyreApparatusFull  x 21  y 22  w 6  h 6  RotateType 4  TopAligned false  END
+    BEGIN "[i 297]"    Name d_TyreApparatusTop  x 21  y 22  w 6  h 4  RotateType 0  TopAligned false  END
+    BEGIN "[i 298]"    Name d_TyreStack  x 0  y 10  w 2  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 299]"    Name d_TyreStack1  x 2  y 10  w 2  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 300]"    Name d_TyreStack2  x 4  y 10  w 2  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 301]"    Name d_TyreStack3  x 6  y 10  w 2  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 302]"    Name d_TyreStackToolbar  x 0  y 10  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 303]"    Name d_VisitorDoor  x 47  y 48  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 304]"    Name d_VisitorDoubleDoor  x 47  y 48  w 4  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 305]"    Name d_VisitorDoubleDoorToolbar  x 48  y 48  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 306]"    Name d_WalkwayStairs  x 41  y 33  w 2  h 2  RotateType 11  TopAligned false  END
+    BEGIN "[i 307]"    Name d_WallLight  x 6  y 24  w 1  h 1  RotateType 7  TopAligned false  END
+    BEGIN "[i 308]"    Name d_WardenInsaneHawk  x 42  y 8  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 309]"    Name d_WardenInsaneHudson  x 56  y 14  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 310]"    Name d_WardenInsaneSlugworth  x 42  y 10  w 2  h 2  RotateType 1  TopAligned false  END
+    BEGIN "[i 311]"    Name d_WardenStatue  x 41  y 29  w 4  h 4  RotateType 4  TopAligned false  END
+    BEGIN "[i 312]"    Name d_WaterCooler  x 56  y 18  w 2  h 3  RotateType 3  TopAligned false  END
+    BEGIN "[i 313]"    Name d_WaterCoolerToolbar  x 56  y 18  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 314]"    Name d_WindowClassy  x 8  y 51  w 2  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 315]"    Name d_WindowClassyLarge  x 6  y 25  w 4  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 316]"    Name d_WindowClassyLargeToolbar  x 14  y 11  w 3  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 317]"    Name d_WindowGlass  x 27  y 8  w 2  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 318]"    Name d_WindowGlassLarge  x 27  y 10  w 4  h 2  RotateType 2  TopAligned false  END
+    BEGIN "[i 319]"    Name d_WoodenBarrel  x 36  y 25  w 2  h 3  RotateType 4  TopAligned false  END
+    BEGIN "[i 320]"    Name d_WoodenBarrelToolbar  x 36  y 26  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 321]"    Name d_WoodenStool  x 16  y 2  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 322]"    Name d_WoodenTable  x 18  y 0  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 323]"    Name d_gravestone  x 60  y 4  w 2  h 2  RotateType 4  TopAligned false  END
+    BEGIN "[i 324]"    Name d_xPrisonSign  x -12  y -12  w 2  h 2  RotateType 0  TopAligned false  END
+END
+BEGIN Markers    
+    Size                 242  
+    BEGIN "[i 0]"      x 14.03125  y 31.34375  orientation.x 0.0000000  orientation.y 0.0000000  Index 3  END
+    BEGIN "[i 1]"      x 12.00000  y 31.37500  orientation.x 0.0000000  orientation.y 0.0000000  Index 4  END
+    BEGIN "[i 2]"      x 10.06250  y 31.31250  orientation.x 0.0000000  orientation.y 0.0000000  Index 5  END
+    BEGIN "[i 3]"      x 14.06250  y 30.18750  orientation.x 0.0000000  orientation.y 0.0000000  Index 6  END
+    BEGIN "[i 4]"      x 12.06250  y 30.18750  orientation.x 0.0000000  orientation.y 0.0000000  Index 7  END
+    BEGIN "[i 5]"      x 10.03125  y 30.21875  orientation.x 0.0000000  orientation.y 0.0000000  Index 8  END
+    BEGIN "[i 6]"      x 16.78125  y 32.21875  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 7]"      x 16.78125  y 28.81250  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 8]"      x 16.78125  y 30.59375  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 9]"      x 18.37500  y 31.56250  orientation.x 0.0000000  orientation.y 0.0000000  Index 3  END
+    BEGIN "[i 10]"     x 18.37500  y 29.87500  orientation.x 0.0000000  orientation.y 0.0000000  Index 4  END
+    BEGIN "[i 11]"     x 18.37500  y 28.03125  orientation.x 0.0000000  orientation.y 0.0000000  Index 5  END
+    BEGIN "[i 12]"     x 20.06250  y 31.15625  orientation.x 0.0000000  orientation.y 0.0000000  Index 6  END
+    BEGIN "[i 13]"     x 20.03125  y 29.21875  orientation.x 0.0000000  orientation.y 0.0000000  Index 7  END
+    BEGIN "[i 14]"     x 20.06250  y 27.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 8  END
+    BEGIN "[i 15]"     x 18.90625  y 11.65625  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 16]"     x 20.43750  y 11.62500  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 17]"     x 21.93750  y 11.68750  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 18]"     x 24.03125  y 8.968750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 19]"     x 23.96875  y 10.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 20]"     x 24.06250  y 11.71875  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 21]"     x 26.03125  y 11.71875  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 22]"     x 26.03125  y 10.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 23]"     x 25.96875  y 9.062500  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 24]"     x 1.000000  y 15.15625  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 25]"     x 3.000000  y 15.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 26]"     x 4.312500  y 15.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 27]"     x 8.000000  y 15.78125  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 28]"     x 11.96875  y 15.68750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 29]"     x 14.71875  y 14.78125  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 30]"     x 6.968750  y 7.000000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 31]"     x 19.18750  y 17.78125  orientation.x -0.03996804  orientation.y -0.9992009  Index 0  END
+    BEGIN "[i 32]"     x 20.96875  y 17.81250  orientation.x 0.02221674  orientation.y -0.9997532  Index 1  END
+    BEGIN "[i 33]"     x 22.96875  y 17.81250  orientation.x 0.0000000  orientation.y -0.9999999  Index 2  END
+    BEGIN "[i 34]"     x 19.09375  y 13.65625  orientation.x 0.0000000  orientation.y 1.000000  Index 3  END
+    BEGIN "[i 35]"     x 20.90625  y 13.71875  orientation.x 0.01449123  orientation.y 0.9998950  Index 4  END
+    BEGIN "[i 36]"     x 22.68750  y 13.75000  orientation.x 0.0000000  orientation.y 1.000000  Index 5  END
+    BEGIN "[i 37]"     x 24.68750  y 14.53125  orientation.x 0.9997832  orientation.y -0.02082882  Index 0  END
+    BEGIN "[i 38]"     x 24.71875  y 15.90625  orientation.x 0.9997297  orientation.y 0.02324953  Index 1  END
+    BEGIN "[i 39]"     x 24.71875  y 17.34375  orientation.x 1.000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 40]"     x 28.81250  y 14.56250  orientation.x -0.9986178  orientation.y -0.05255883  Index 3  END
+    BEGIN "[i 41]"     x 28.87500  y 15.93750  orientation.x -0.9991680  orientation.y 0.04078237  Index 4  END
+    BEGIN "[i 42]"     x 28.84375  y 17.25000  orientation.x -0.9993395  orientation.y 0.03633962  Index 5  END
+    BEGIN "[i 43]"     x 16.96875  y 44.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 44]"     x 16.50000  y 48.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 45]"     x 17.46875  y 48.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 46]"     x 25.75000  y 43.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 47]"     x 24.43750  y 46.18750  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 48]"     x 25.37500  y 46.25000  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 49]"     x 31.43750  y 41.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 50]"     x 30.31250  y 43.18750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 51]"     x 30.50000  y 41.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 52]"     x 13.34375  y 42.25000  orientation.x 0.0000000  orientation.y 0.0000000  Index 3  END
+    BEGIN "[i 53]"     x 13.34375  y 45.71875  orientation.x 0.0000000  orientation.y 0.0000000  Index 4  END
+    BEGIN "[i 54]"     x 20.62500  y 45.78125  orientation.x 0.0000000  orientation.y 0.0000000  Index 5  END
+    BEGIN "[i 55]"     x 20.62500  y 42.31250  orientation.x 0.0000000  orientation.y 0.0000000  Index 6  END
+    BEGIN "[i 56]"     x 22.65625  y 41.81250  orientation.x 0.0000000  orientation.y 0.0000000  Index 3  END
+    BEGIN "[i 57]"     x 22.75000  y 44.21875  orientation.x 0.0000000  orientation.y 0.0000000  Index 4  END
+    BEGIN "[i 58]"     x 27.40625  y 44.21875  orientation.x 0.0000000  orientation.y 0.0000000  Index 5  END
+    BEGIN "[i 59]"     x 21.21875  y 8.968750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 60]"     x 22.93750  y 9.000000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 61]"     x 35.00000  y 19.84375  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 62]"     x 35.03125  y 16.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 63]"     x 34.96875  y 15.81250  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 64]"     x 34.96875  y 12.00000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 65]"     x 38.03125  y 16.90625  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 66]"     x 41.90625  y 16.90625  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 67]"     x 38.03125  y 10.93750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 68]"     x 41.90625  y 11.00000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 69]"     x 22.31250  y 26.75000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 70]"     x 23.93750  y 26.71875  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 71]"     x 25.56250  y 26.81250  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 72]"     x 27.96875  y 27.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 73]"     x 27.65625  y 26.75000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 74]"     x 27.43750  y 26.06250  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 75]"     x 26.25000  y 4.000000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 76]"     x 31.81250  y 4.125000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 77]"     x 34.03125  y 5.656250  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 78]"     x 34.03125  y 0.3750000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 79]"     x 27.09375  y 1.031250  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 80]"     x 29.03125  y 1.000000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 81]"     x 1.937500  y 58.53125  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 82]"     x 1.531250  y 60.59375  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 83]"     x 1.937500  y 62.71875  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 84]"     x 6.000000  y 58.65625  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 85]"     x 6.562500  y 60.65625  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 86]"     x 6.031250  y 62.75000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 87]"     x 10.00000  y 45.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 88]"     x 9.500000  y 47.46875  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 89]"     x 9.968750  y 49.62500  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 90]"     x 8.687500  y 58.28125  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 91]"     x 11.06250  y 57.62500  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 92]"     x 13.40625  y 58.28125  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 93]"     x 13.37500  y 62.37500  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 94]"     x 11.00000  y 62.62500  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 95]"     x 8.593750  y 62.28125  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 96]"     x 15.43750  y 58.59375  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 97]"     x 15.62500  y 60.53125  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 98]"     x 15.46875  y 62.78125  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 99]"     x 6.500000  y 24.56250  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 100]"    x 7.250000  y 24.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 101]"    x 7.718750  y 23.46875  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 102]"    x 6.562500  y 23.34375  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 103]"    x 27.43750  y 41.81250  orientation.x 0.0000000  orientation.y 0.0000000  Index 6  END
+    BEGIN "[i 104]"    x 33.28125  y 44.46875  orientation.x 0.0000000  orientation.y 0.0000000  Index 3  END
+    BEGIN "[i 105]"    x 33.18750  y 41.68750  orientation.x 0.0000000  orientation.y 0.0000000  Index 4  END
+    BEGIN "[i 106]"    x 28.53125  y 41.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 5  END
+    BEGIN "[i 107]"    x 28.62500  y 44.46875  orientation.x 0.0000000  orientation.y 0.0000000  Index 6  END
+    BEGIN "[i 108]"    x 26.96875  y 52.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 109]"    x 29.00000  y 52.40625  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 110]"    x 31.00000  y 52.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 111]"    x 37.00000  y 52.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 112]"    x 34.96875  y 52.09375  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 113]"    x 32.96875  y 52.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 114]"    x 39.50000  y 52.71875  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 115]"    x 39.46875  y 51.06250  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 116]"    x 39.43750  y 49.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 117]"    x 9.000000  y 13.09375  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 118]"    x 11.09375  y 13.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 119]"    x 13.00000  y 10.93750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 120]"    x 13.03125  y 12.90625  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 121]"    x 28.06250  y 34.06250  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 122]"    x 30.03125  y 34.06250  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 123]"    x 32.00000  y 34.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 124]"    x 34.00000  y 33.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 125]"    x 36.00000  y 33.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 126]"    x 38.03125  y 33.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 127]"    x 39.46875  y 33.56250  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 128]"    x 39.46875  y 31.68750  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 129]"    x 39.46875  y 30.00000  orientation.x 0.0000000  orientation.y 0.0000000  Index 2  END
+    BEGIN "[i 130]"    x 58.93750  y 54.75000  orientation.x 0.05255883  orientation.y 0.9986178  Index 0  END
+    BEGIN "[i 131]"    x 63.31250  y 54.90625  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 132]"    x 63.43750  y 56.90625  orientation.x -0.9995412  orientation.y -0.03028913  Index 0  END
+    BEGIN "[i 133]"    x 59.00000  y 56.93750  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 134]"    x 60.68750  y 54.87500  orientation.x 1.000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 135]"    x 60.75000  y 56.93750  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 136]"    x 59.09375  y 53.00000  orientation.x -0.04993762  orientation.y -0.9987524  Index 0  END
+    BEGIN "[i 137]"    x 58.90625  y 50.75000  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 138]"    x 42.00000  y 52.18750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 139]"    x 44.00000  y 53.65625  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 140]"    x 47.96875  y 53.37500  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 141]"    x 57.00000  y 23.87500  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 142]"    x 61.84375  y 22.21875  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 143]"    x 59.00000  y 21.68750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 144]"    x 32.28125  y 26.31250  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 145]"    x 33.71875  y 26.31250  orientation.x 0.0000000  orientation.y 0.0000000  Index 1  END
+    BEGIN "[i 146]"    x 58.00000  y 49.68750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 147]"    x 63.65625  y 48.53125  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 148]"    x 37.81250  y 43.53125  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 149]"    x 35.90625  y 43.46875  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 150]"    x 34.03125  y 40.62500  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 151]"    x 36.06250  y 40.50000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 152]"    x 52.37500  y 55.03125  orientation.x 0.9984604  orientation.y -0.05547002  Index 0  END
+    BEGIN "[i 153]"    x 54.68750  y 54.96875  orientation.x -0.9995677  orientation.y 0.02939905  Index 1  END
+    BEGIN "[i 154]"    x 46.34375  y 49.90625  orientation.x -0.9995412  orientation.y 0.03028913  Index 0  END
+    BEGIN "[i 155]"    x 43.62500  y 47.93750  orientation.x 1.000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 156]"    x 41.93750  y 46.18750  orientation.x 0.0000000  orientation.y -1.000000  Index 0  END
+    BEGIN "[i 157]"    x 42.06250  y 48.46875  orientation.x 0.0000000  orientation.y 1.000000  Index 0  END
+    BEGIN "[i 158]"    x 47.00000  y 32.96875  orientation.x 0.02776707  orientation.y 0.9996144  Index 0  END
+    BEGIN "[i 159]"    x 51.03125  y 34.62500  orientation.x 0.01492371  orientation.y -0.9998887  Index 0  END
+    BEGIN "[i 160]"    x 55.84375  y 34.46875  orientation.x -1.000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 161]"    x 61.00000  y 52.90625  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 162]"    x 62.96875  y 52.96875  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 163]"    x 63.03125  y 51.00000  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 164]"    x 61.03125  y 50.93750  orientation.x 0.0000000  orientation.y 0.0000000  Index 0  END
+    BEGIN "[i 165]"    x 37.02778  y 3.555556  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 166]"    x 36.78125  y 2.546875  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 167]"    x 37.25000  y 2.531250  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 168]"    x 20.71428  y 49.82143  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 169]"    x 21.30357  y 49.82143  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 170]"    x 21.01563  y 50.43750  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 171]"    x 39.00000  y 2.416667  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 172]"    x 38.76563  y 3.375000  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 173]"    x 39.29688  y 3.359375  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 174]"    x 40.38889  y 3.194444  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 175]"    x 41.51563  y 3.515625  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 176]"    x 43.02778  y 3.388889  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 177]"    x 42.71875  y 2.640625  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 178]"    x 43.28125  y 2.609375  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 179]"    x 45.01563  y 2.390625  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 180]"    x 44.68750  y 3.203125  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 181]"    x 45.31250  y 3.171875  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 182]"    x 46.50000  y 2.906250  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 183]"    x 22.98438  y 49.42188  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 184]"    x 22.67188  y 50.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 185]"    x 23.26563  y 50.12500  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 186]"    x 24.50000  y 50.10938  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 187]"    x 47.31250  y 3.328125  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 188]"    x 48.96875  y 3.578125  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 189]"    x 55.07813  y 3.500000  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 190]"    x 57.00000  y 2.437500  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 191]"    x 58.62500  y 3.062500  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 192]"    x 52.51563  y 3.078125  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 193]"    x 25.18750  y 50.46875  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 194]"    x 50.96875  y 2.546875  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 195]"    x 48.67188  y 2.875000  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 196]"    x 49.29688  y 2.875000  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 197]"    x 50.67188  y 3.265625  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 198]"    x 51.31250  y 3.265625  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 199]"    x 53.35938  y 3.468750  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 200]"    x 56.57813  y 17.20313  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 201]"    x 57.45313  y 17.20313  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 202]"    x 57.01563  y 17.62500  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 203]"    x 58.51563  y 17.15625  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 204]"    x 59.37500  y 17.14063  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 205]"    x 58.95313  y 17.60938  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 206]"    x 60.51563  y 17.17188  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 207]"    x 61.35938  y 17.14063  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 208]"    x 60.93750  y 17.60938  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 209]"    x 54.77778  y 2.625000  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 210]"    x 55.26389  y 2.597222  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 211]"    x 56.77778  y 3.236111  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 212]"    x 57.26389  y 3.222222  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 213]"    x 59.40625  y 3.546875  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 214]"    x 42.98611  y 2.319444  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 215]"    x 45.01389  y 3.527778  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 216]"    x 48.97222  y 2.541667  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 217]"    x 51.00000  y 3.500000  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 218]"    x 57.01389  y 3.583333  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 219]"    x 55.00000  y 2.347222  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 220]"    x 56.58333  y 13.06944  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 221]"    x 57.44444  y 13.05556  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 222]"    x 57.01389  y 13.52778  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 223]"    x 58.62500  y 13.01389  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 224]"    x 59.40278  y 12.98611  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 225]"    x 59.00000  y 13.48611  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 226]"    x 60.75000  y 13.05556  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 227]"    x 61.45833  y 13.05556  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 228]"    x 61.09722  y 13.51389  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 229]"    x 57.04167  y 14.66667  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 230]"    x 60.93056  y 14.63889  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 231]"    x 57.04167  y 15.23611  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 232]"    x 57.05556  y 15.70833  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 233]"    x 59.02778  y 15.08333  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 234]"    x 59.02778  y 15.68056  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 235]"    x 61.06944  y 15.15278  orientation.x 0.0000000  orientation.y 0.0000000  Index 11  END
+    BEGIN "[i 236]"    x 61.08333  y 15.69444  orientation.x 0.0000000  orientation.y 0.0000000  Index 12  END
+    BEGIN "[i 237]"    x 57.02778  y 12.37500  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 238]"    x 59.04167  y 12.31944  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 239]"    x 60.86111  y 12.37500  orientation.x 0.0000000  orientation.y 0.0000000  Index 10  END
+    BEGIN "[i 240]"    x 23.00000  y 50.64286  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+    BEGIN "[i 241]"    x 21.00000  y 49.37500  orientation.x 0.0000000  orientation.y 0.0000000  Index 13  END
+END

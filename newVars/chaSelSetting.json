@@ -1,0 +1,660 @@
+{
+  "Wearable": {
+    "Head": {
+      "Tattoo": [
+        {
+          "Name": "TattooHead",
+          "SpriteVariants": 3
+        },
+        {
+          "Name": "TattooHeadBoneBreaker",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "TattooHeadJackal",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "TattooHeadViper",
+          "SpriteVariants": 1
+        }
+      ],
+      "Other": [
+        {
+          "Name": "BandanaBoneBreaker",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "BandanaJackal",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "BandanaViper",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "RedFace",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Wrinkle",
+          "SpriteVariants": 4
+        }
+      ]
+    },
+    "Body": {
+      "Tattoo": [
+        {
+          "Name": "TattooBody",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "TattooBodyBoneBreaker",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "TattooBodyJackals",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "TattooBodyViper",
+          "SpriteVariants": 4
+        }
+      ],
+      "Other": [
+        {
+          "Name": "GuardArmour",
+          "SpriteVariants": 5
+        },
+        {
+          "Name": "MaleTrackingBelt",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "FemaleTrackingBelt",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "PrisonerBloodOverlay",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "PrisonerBloodOverlayFemale",
+          "SpriteVariants": 4
+        }
+      ]
+    },
+    "Other": [
+      {
+        "Name": "OrderlyWearable",
+        "SpriteVariants": 1
+      },
+      {
+        "Name": "BodyBaby",
+        "SpriteVariants": 1
+      },
+      {
+        "Name": "FaceBaby",
+        "SpriteVariants": 1
+      },
+      {
+        "Name": "HandToHandInsignia",
+        "SpriteVariants": 1
+      },
+      {
+        "Name": "RankInsignia",
+        "SpriteVariants": 3
+      }
+    ]
+  },
+  "Character": {
+    "Preset": {
+      "HumainSingle": [
+        {
+          "Name": "TruckDriver",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "RiotGuard",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Paramedic",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Fireman",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Avatar",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Actor",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Warden",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Chief",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Foreman",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Psychologist",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Accountant",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Lawyer",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Psychiatrist",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Orderly",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "AnimalTherapist",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "RehabilitatedPrisoner",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "FireSafetyTeacher",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "GritterDriver",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "GymInstructor",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Anthony",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Ceo",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Detective",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Benedict",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Kerry",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "MorganNaked",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Negotiator",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "TheDon",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Nico",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "CameraMan",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Rat",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Rat_Idle",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Edward",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "EdwardCivilian",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "HenchmanKnifed",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Henchman",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "Hurst",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "SecurityGuard",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "TheDonHurt",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "InsaneInmate",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "BountyHunter_Driver",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "SonnyIRL",
+          "SpriteVariants": 1
+        }
+      ],
+      "HumainCategory": [
+        {
+          "Name": "Workman",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Guard",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "ArmedGuard",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "DogHandler",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Sniper",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Teacher",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "SpiritualLeader",
+          "SpriteVariants": 7
+        },
+        {
+          "Name": "ParoleOfficer",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "ParoleLawyer",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "AppealsLawyer",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "AppealsMagistrate",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Dog",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Soldier",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Prisoner",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Doctor",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Cook",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Gardener",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Janitor",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Visitor",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "ExecutionWitness",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "CivilianChild",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "EliteOps",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Farmer",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "RestaurantCustomer",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "PestControlWorker",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "PestControlTeacher",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Repairman",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "EntityDeliveryMan",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "Waterman",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "Zombie",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "BountyHunter",
+          "SpriteVariants": 2
+        },
+        {
+          "Name": "ElectricalSkeletalFemale",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "ElectricalSkeletalMale",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "BountyHunter_Male",
+          "SpriteVariants": 2
+        }
+      ],
+      "Warden": [
+        {
+          "Name": "WardenContraband",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "WardenFear",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "WardenLobbyist",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "WardenNorton",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "WardenTunnels",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "DylanCookWarden",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "AlexisLinWarden",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "EcologistWarden",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "FarmerWarden",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "JeromeKellerWarden",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "JLocksWarden",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "WardenInsaneSlugworth",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "WardenInsaneHudson",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "WardenInsaneHawk",
+          "SpriteVariants": 1
+        },
+        {
+          "Name": "KarrHideWarden",
+          "SpriteVariants": 1
+        }
+      ],
+      "Dog": [
+        {
+          "Name": "GuardDog",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardDirewoof",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardHusky",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardCat",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardCompanion",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardDalmation",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardBeagle",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardBlackSetter",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardBlackShepherd",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardBowtieBandit",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardByte",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardChocolateLabrador",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardCorgi",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardDoberman",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardShepherd",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardShiba",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardSiberianHusky",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardToby",
+          "SpriteVariants": 4
+        },
+        {
+          "Name": "GuardSubwoofer",
+          "SpriteVariants": 4
+        }
+      ]
+    },
+    "Custom": {
+      "Head": {
+        "Preset": [
+          {
+            "Name": "HeadFromFig",
+            "SpriteVariants": 89
+          }
+        ],
+        "Custom": {
+          "Male": [
+            {
+              "Name": "Head",
+              "SpriteVariants": 40
+            },
+            {
+              "Name": "FaceOldMan",
+              "SpriteVariants": 5
+            },
+            {
+              "Name": "OldMaleHead",
+              "SpriteVariants": 5
+            },
+            {
+              "Name": "FaceSon",
+              "SpriteVariants": 2
+            },
+            {
+              "Name": "HeadLast",
+              "SpriteVariants": 1
+            }
+          ],
+          "Female": [
+            {
+              "Name": "FemaleHead",
+              "SpriteVariants": 25
+            },
+            {
+              "Name": "FaceOldWoman",
+              "SpriteVariants": 3
+            },
+            {
+              "Name": "OldFemaleHead",
+              "SpriteVariants": 5
+            },
+            {
+              "Name": "FemaleHeadGang",
+              "SpriteVariants": 2
+            },
+            {
+              "Name": "FaceWife",
+              "SpriteVariants": 3
+            },
+            {
+              "Name": "FaceDaughter",
+              "SpriteVariants": 2
+            }
+          ]
+        }
+      },
+      "Body": {
+        "Preset": [
+          {
+            "Name": "BodyFromFig",
+            "SpriteVariants": 89
+          }
+        ],
+        "Custom": {
+          "Clothes": {
+            "Male": [
+              {
+                "Name": "PrisonerX",
+                "SpriteVariants": 4
+              },
+              {
+                "Name": "StraitJacket",
+                "SpriteVariants": 4
+              }
+            ],
+            "Female": [
+              {
+                "Name": "PrisonerFemale",
+                "SpriteVariants": 4
+              }
+            ]
+          },
+          "Naked": {
+            "Male": [
+              {
+                "Name": "PrisonerNaked",
+                "SpriteVariants": 4
+              }
+            ],
+            "Female": [
+              {
+                "Name": "PrisonerNakedFemale",
+                "SpriteVariants": 4
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

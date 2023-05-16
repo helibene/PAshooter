@@ -7,9 +7,11 @@ Created on Wed Jan 18 20:25:33 2023
 import json
 
 class configLoader :
-    def __init__(self,pjPath="C:/Users/Alexandre/Desktop/PAshooter",width=None,height=None):
-        f = open(pjPath+"/config.json")
+    def __init__(self,pjPath="",width=None,height=None):
+        confFilename = "config.json"
+        f = open(pjPath+"/"+confFilename)
         configJson = json.load(f)
+        self.pjPath = pjPath
         if width!=None :
             self.screenWidth = castValue(int(width),"int")
         else :
@@ -20,10 +22,13 @@ class configLoader :
             self.screenHeight = castValue(configJson.get("screenHeight"),"int")
         self.fullscreen = castValue(configJson.get("fullscreen"),"bool")
         self.windowOnTop = castValue(configJson.get("windowOnTop"),"bool")
-        if False :
-            self.spritePath = castValue(configJson.get("spritePath"),"string")
-        else :
-            self.spritePath = pjPath+"/sprites/"
+        self.spriteFolder = castValue(configJson.get("spriteFolder"),"string")
+        self.mapFolder = castValue(configJson.get("mapFolder"),"string")
+        self.textureFolder = castValue(configJson.get("textureFolder"),"string")
+        self.characterTempFile = castValue(configJson.get("characterTempFile"),"string")
+        self.sentenceListFile = castValue(configJson.get("sentenceListFile"),"string")
+        self.readSentenceFromTxt = castValue(configJson.get("readSentenceFromTxt"),"bool")
+        
         self.maxInventorySize = castValue(configJson.get("maxInventorySize"),"int")
         self.itemSize = castValue(configJson.get("itemSize"),"int")
         self.sleepPerFrame = castValue(configJson.get("sleepPerFrame"),"int")
@@ -49,12 +54,14 @@ class configLoader :
         self.myHealth = castValue(configJson.get("myHealth"),"int")
         self.myDamageMulti = castValue(configJson.get("myDamageMulti"),"int")
         self.myAttackRange = castValue(configJson.get("myAttackRange"),"int")
-        self.textureFolder = castValue(configJson.get("textureFolder"),"string")
-        self.mapFolder = castValue(configJson.get("mapFolder"),"string")
         self.terrainTileSize = castValue(configJson.get("terrainTileSize"),"int")
         self.mapInstance = castValue(configJson.get("mapInstance"),"int")
         self.splitMapImage = castValue(configJson.get("splitMapImage"),"list")
         self.jpegQuality = castValue(configJson.get("jpegQuality"),"int")
+        
+        self.spritePath = self.pjPath+"/"+self.spriteFolder+"/"
+        self.mapFolder = self.mapFolder + "/"
+        self.textureFolder = self.textureFolder + "/"
         self.confVars = vars()
 
 

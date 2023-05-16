@@ -1,0 +1,30 @@
+[0] = sprite number
+[1] = posX
+[2] = posY
+
+
+[3]
+0-n = item in inventory
+-1 = nothing important
+-2 : unused bullet
+-3 : traveling bullet
+-4 : discarded heal item
+-5 : discarded money bag
+
+[4] = sprite image list :
+	[0] = small image for map display/ and hand display
+	[1] = normal size image for inventory display
+	[2] = small image for map hand display after use
+[5] = bullet move vector 
+[6] = range weapon instance / money value
+[7] = range weapon bullet pixel traveled
+
+spriteNum = 0
+pos = [0,0]
+itemInInventory = False
+posInventory = -1
+itemType = "default" "bullet" "rangeWeapon" "meleWeapon" "medicine" "mobDrop" "discarded"
+moneyValue = 0
+usefullItemInstance = None
+distanceTraveled = 0
+moveVector = [0,0]

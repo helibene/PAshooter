@@ -119,9 +119,20 @@ class objectTemplate :
         obj[2] = x
         return obj
     
-    def getObjSettingFromID(self,idnum=0,name=None) :
-        if idnum in self.tempConf.objRotMapping :
-            return self.tempConf.objRotMapping[idnum]
+    def getObjSettingFromID(self,key=None) :
+        if type(key)==type(10) :
+            idnum=key
+            if idnum in self.tempConf.objRotMapping :
+                return self.tempConf.objRotMapping[idnum]
+            else :
+                return None
+        elif type(key)==type("10") :
+            sel = 0
+            for val in self.tempConf.objRotMapping :
+                if self.tempConf.objRotMapping[val]["name"] == key :
+                    sel = val
+                
+            return self.tempConf.objRotMapping[sel]
         else :
             return None
     
@@ -133,12 +144,22 @@ class objectTemplate :
         for item in rotList :
             objOff = [None]*4
             noRot = False
-            angleNum = self.angleAdd(item[3],angle)
-            objSize = self.getObjSettingFromID(item[0])["size"]
-            if "offset" in self.getObjSettingFromID(item[0]) :
-                objOff = self.getObjSettingFromID(item[0])["offset"]
-            if "noRot" in self.getObjSettingFromID(item[0]) :
-                noRot = self.getObjSettingFromID(item[0])["noRot"]
+            difColorOffset=0
+            angleFromItem = 0
+            itemId = item[0]
+            colorNum = 0
+            if len(item)>3 :
+                angleFromItem = item[3]
+            if len(item)>4 :
+                colorNum = item[4]
+            angleNum = self.angleAdd(angleFromItem,angle)
+            objSize = self.getObjSettingFromID(itemId)["size"]
+            if "offset" in self.getObjSettingFromID(itemId) :
+                objOff = self.getObjSettingFromID(itemId)["offset"]
+            if "noRot" in self.getObjSettingFromID(itemId) :
+                noRot = self.getObjSettingFromID(itemId)["noRot"]
+            if "difColorOffset" in self.getObjSettingFromID(item[0]) :
+                difColorOffset = self.getObjSettingFromID(item[0])["difColorOffset"]
             posX = item[1]
             posY = item[2]
             if objOff != None :
@@ -150,7 +171,13 @@ class objectTemplate :
             else :
                 if angleNum==1 or angleNum==3 :
                     objSize = [objSize[1],objSize[0]]
-            objList.append(list([self.getObjSettingFromID(item[0])["idList"][angleNum],posX,posY,objSize]))
+            spriteNum = self.getObjSettingFromID(item[0])["idList"][angleNum]
+            if colorNum!=0 and difColorOffset!=0 :
+                if spriteNum>0 :
+                    spriteNum = spriteNum + difColorOffset*colorNum
+                else :
+                    spriteNum = spriteNum - difColorOffset*colorNum
+            objList.append(list([spriteNum,posX,posY,objSize]))
         return objList
     
 def extend(list1,list2) :

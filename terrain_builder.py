@@ -41,7 +41,7 @@ class terrain_builder :
             treeList.append(self.aggSprite([i*2,0,i*2+2,2]))
         blackpix = Image.new("RGB",(1,1),(0,0,0))
         seapix = Image.new("RGB",(1,1),(0,0,255))
-        colorMat = numpy.array(list(mapTemplate.getdata())).reshape((mapSetting[2], mapSetting[3], 3))
+        colorMat = numpy.array(list(mapTemplate.getdata())).reshape((mapSetting[3], mapSetting[2], 3))
         tileMat = [[[-1,-1] for x in range(mapSetting[3])] for y in range(mapSetting[2])] 
         if not onlyCol :
             image = Image.new("RGB", (mapSetting[2]*self.step_x, mapSetting[3]*self.step_y)) 
