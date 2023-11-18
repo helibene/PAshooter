@@ -15,52 +15,56 @@ from originalGameConfLoader import *
 from pygame.locals import *
 import pandas as pd
 import math
+import imageProcessor as ip
 
 class spriteLoader :
-    def __init__(self,resizeTile=True,resizeElse=True,tileSize=32,elseSizePct=1,resampleSelection=1):
-        #print("sprint loader start")
+    def __init__(self,resizeTile=False,resizeElse=True,tileSize=100,elseSizePct=1,resampleSelection=0):
         self.resampleList = [Image.ANTIALIAS,Image.NEAREST,Image.BILINEAR,Image.BICUBIC,Image.LANCZOS]
         self.resizeTile = resizeTile
         self.resizeElse = resizeElse
         self.tileSize = tileSize
         self.elseSizePct = elseSizePct
         self.resampleSelection = resampleSelection
-        
+        self.ip = ip.imageProcessor()
         self.spritebankPath = "C:/Users/Alexandre/Desktop/test_lua/test5"
         self.materialsPath = "C:/Users/Alexandre/Desktop/test_lua/test5"
         self.imageFolder = "/image/"
-        self.imageOutputFolder = self.imageFolder+"out4/"
+        self.imageOutputFolder = self.imageFolder+"out7/"
         self.settingsList = [[False,False]]#[[False,False],[True,False],[False,True]],[False,True]
         self.spritebankFilename = ["interface","interface_d11","objects","objects_d11","objects_d11_2"]
         self.spritesheetFilename = ["ui","ui_d11","objects","objectsTexture_d11","objects_d11_2"]
         self.spriteSheetListConf = [["objects",32],["objects_d11_2",32],["objectsTexture_d11",32],["people",32],["special-entities",32],["ui",32],["ui_d11",32],["tilesetpadded",72]]
         self.extraMapping = ["special-entities","people","objects"]
-        
+        self.dfStatColumns = ["Type","Name","Category","AddInfos","VarNum","StackFlag","spList"]
+        self.terrainMaterialList = ["Dirt","Grass","LongGrass","Mud","Gravel","Sand","BurntWall","LunarFloor","FrozenGroundOverlay","MeltedGroundOverlay"]
         self.masterLoad()
         #print(self.stat_df.loc[(self.stat_df["Category"]=="Entity")].loc[(self.stat_df["VarNum"]==1)])
         
         #print(seleMaterial(self.matConfList,["Object"],"Properties","Entity"))
-        #itemList = seleMaterial(self.matConfList,["Object"],"Properties","Wearable")
-        #self.saveObjList2(itemList,self.spritebankPath+self.imageOutputFolder,4,5)
+        #itemList = seleMaterial(self.matConfList,["Material"],None,None)#"SpriteType","RandomArea")
+        #self.saveObjList2(itemList,self.spritebankPath+self.imageOutputFolder,1,5)
     
     def masterLoad(self) :
-        print("start load")
         self.spriteConfList = getListAllSpriteConf(self.spritebankPath,self.spritebankFilename,self.spritesheetFilename,self.extraMapping)
         self.matConfList = openMaterialList(self.materialsPath)
         self.spriteImageList = openSpriteImageList(self.spritebankPath+self.imageFolder,self.spriteSheetListConf)
         self.objNameList = self.spriteNameListFromSpriteList(self.spriteConfList)
         self.stat_df = self.generateStatsFromMatListDF(self.matConfList)
-        print("gen img")
         #self.generateAllSprites()
-        
-    def processLoadRequest(self,request,orienRange=-1,variantRange=-1) :
-        retd,retm = self.loadFromInstructions(request)
-        imgList, infodf = self.imageFromMatList(retm,[],[],orienRange,variantRange,retd)
-        pyGameImgList = self.getPygameImageList(imgList)
-        del(imgList)
-        return pyGameImgList,infodf
-        
-    def loadFromInstructions(self,instruMat) :
+        #self.stat_df.to_csv("C:/Users/Alexandre/Desktop/test_lua/test_img/stats2.csv", index=False)
+    
+    #Load requests
+    def processLoadRequest(self,request,orienRange=-1,variantRange=-1,offset=None,PygameImage=True) :
+        retd,retm = self.loadFromInstructions(request,offset)
+        if type(retd) != type(None) and type(retm) != type(None) :
+            imgList, infodf = self.imageFromMatList(retm,[],[],orienRange,variantRange,retd,offset)
+            if PygameImage :
+                imgList = self.getPygameImageList(imgList)
+            return imgList,infodf
+        else :
+            return None,None
+
+    def loadFromInstructions(self,instruMat,offset=None) :
         materialList = []
         infoDf = None
         for instruEle in instruMat :
@@ -71,20 +75,61 @@ class spriteLoader :
                     varnum = instruEle[3]
                 if len(instruEle)>2 :
                     otherVals = instruEle[2]
-                retd,retm = self.masterSelect(instruEle[0],instruEle[1],otherVals,varnum,"dm")
+                retd,retm = self.masterSelect(instruEle[0],instruEle[1],otherVals,varnum,"dm",offset=offset)
             else :
-                retd,retm = self.masterSelectName(instruEle[0])
+                retd,retm = self.masterSelectName(instruEle[0],offset=offset)
             if type(retd) != type(None) and type(retm) != type(None) :
                 materialList.extend(retm)
                 if type(infoDf) == type(None) :
                     infoDf = retd
                 else :
                     infoDf = infoDf.append(retd, ignore_index=True)
-        infoDf = infoDf.reset_index(drop=True)
-        return infoDf , materialList
-       
+        if type(infoDf)==type(None) or materialList==[] :
+            return None,None
+        else :
+            infoDf = infoDf.reset_index(drop=True)
+            return infoDf , materialList
+    
+    def loadFromInstructionsCustom(self,instru,orienRange=1,variantRange=-1) :
+        mainImgList = []
+        mainInfodf= pd.DataFrame(columns=self.dfStatColumns)
+        mainOffset = 0
+        masterDict = {}
+        if "people" in instru : 
+            mainImgList,mainInfodf,masterDict,mainOffset = self.loadFromInstructionsCustomOne("people",[[["Object"],["Entity"],["no_Dog","no_Prisoner","no_PrisonerX","no_Zombie"]]],mainImgList,mainInfodf,masterDict,mainOffset,orienRange,variantRange)
+        if "dog" in instru : 
+            mainImgList,mainInfodf,masterDict,mainOffset = self.loadFromInstructionsCustomOne("dog",[[["Object"],["Entity"],["Dog"]]],mainImgList,mainInfodf,masterDict,mainOffset,orienRange,variantRange)
+        if "terrain" in instru : 
+            mainImgList,mainInfodf,masterDict,mainOffset = self.loadFromInstructionsCustomOne("terrain",[[["Material"],["Terrain"],[]]],mainImgList,mainInfodf,masterDict,mainOffset,orienRange,variantRange)#"OutdoorFloor"
+        if "sea" in instru : 
+            mainImgList,mainInfodf,masterDict,mainOffset = self.loadFromInstructionsCustomOne("sea",[[["Material"],["Water"],[]]],mainImgList,mainInfodf,masterDict,mainOffset,orienRange,variantRange)#"OutdoorFloor"
+        if "tree" in instru : 
+            mainImgList,mainInfodf,masterDict,mainOffset = self.loadFromInstructionsCustomOne("tree",[[["Object"],["Foliage"],["Tree"]]],mainImgList,mainInfodf,masterDict,mainOffset,orienRange,variantRange)#"OutdoorFloor"#,"TreeCustom","TreeYoung","TreeYoungCustom",[["Object"],["Foliage"],["TreeCustom"]]
+        if "allObj" in instru : 
+            mainImgList,mainInfodf,masterDict,mainOffset = self.loadFromInstructionsCustomOne("allObj",[[["Object"],[],[]]],mainImgList,mainInfodf,masterDict,mainOffset,orienRange,variantRange)#"OutdoorFloor"#,"TreeCustom","TreeYoung","TreeYoungCustom",[["Object"],["Foliage"],["TreeCustom"]]
+        #print(masterDict)
+        return mainImgList,mainInfodf,masterDict
+
+    def loadFromInstructionsCustomOne(self,name,loadRequest,mainImgList,mainInfodf,masterDict,mainOffset,orienRange=-1,variantRange=-1) :
+        imgList,infodf = self.processLoadRequest(loadRequest,orienRange,variantRange,offset=mainOffset)
+        if type(imgList) != type(None) and type(infodf) != type(None) :
+            mainImgList.extend(imgList)
+            mainInfodf = mainInfodf.append(infodf,ignore_index=True)
+            mainOffset = mainOffset + len(mainImgList)
+            spriteIndexMat = self.extactSpriteListFromDf(infodf)
+            masterDict[name] = {"objectNum":len(infodf),"variantNum":sum(infodf["VarNum"]),"spriteNum":len(imgList),"spriteIndexMat":spriteIndexMat}
+        return mainImgList,mainInfodf,masterDict,mainOffset
+    
+    def extactSpriteListFromDf(self,infodf) :
+        retMat = []
+        rawMat = list(infodf["spList"])
+        for ele1 in rawMat :
+            for ele2 in ele1 :
+                retMat.append(ele2)
+        return retMat
+        
     def generateAllSprites(self) :
-        itemList = seleMaterial(self.matConfList,["Object","Material","Equipment"],None,None)#["Object"],"Properties","Vehicle")#["Object"],None,None)##,"SpriteType","RandomArea"["Material"],"Name","Dirt"   ["Material"],"Name","Dirt"
+        itemList = seleMaterial(self.matConfList,["Object","Material","Equipment"],None,None)
         savedList = self.saveObjList2(itemList,self.spritebankPath+self.imageOutputFolder,4,50,True,False)
         objNameList = self.spriteNameListFromSpriteList(self.spriteConfList,False,True)
         count = 0
@@ -107,10 +152,10 @@ class spriteLoader :
             for ele in mat[cat] :
                 valList = self.generateStatsFromMat2(ele,cat,False)
                 valMat.append(valList)
-        df = pd.DataFrame(valMat, columns =["Type","Name","Category","AddInfos","VarNum","StackFlag","spList"])#, dtype = float)
+        df = pd.DataFrame(valMat, columns = self.dfStatColumns)#, dtype = float)
         return df
         
-    def masterSelect(self,eletype=[],category=[],addinfo=[],varnum=None,returnType="d") : #d dataframe n name l name list m material
+    def masterSelect(self,eletype=[],category=[],addinfo=[],varnum=None,returnType="d",offset=None) : #d dataframe n name l name list m material
         stat_df = self.stat_df
         if eletype!=[] :
             stat_df = stat_df[stat_df["Type"].isin(eletype)]
@@ -123,25 +168,24 @@ class spriteLoader :
                 stat_df = stat_df[stat_df["VarNum"]<=-varnum]
         if addinfo!=[] :
             allNoFlag = True
+            if "no_Dog" in addinfo :
+                stat_df = stat_df[stat_df["Name"]!="Dog"]
+            if "no_Prisoner" in addinfo :
+                stat_df = stat_df[stat_df["Name"]!="Prisoner"]
+            if "no_PrisonerX" in addinfo :
+                stat_df = stat_df[stat_df["Name"]!="PrisonerX"]
+            if "no_Zombie" in addinfo :
+                stat_df = stat_df[stat_df["Name"]!="Zombie"]
             for info in addinfo :
                 if "no_" not in info :
                     allNoFlag = False
             nameList=[]
-            if addinfo == ["no_Dog"] :
-                print(allNoFlag)
             for name in list(stat_df["Name"]) :
                 flag = True
                 noFlag = False
                 val = list(stat_df.loc[(stat_df["Name"]==name)]["AddInfos"])[0]
-                # if addinfo == ["no_Dog"] :
-                #     print("------",name)
-                #     print(stat_df.shape)
-                #     print(flag)
-                #     print(noFlag)
                 for info in addinfo :
                     info2 = info
-                    # if addinfo == ["Head","FromFig"] :
-                    #     print(info2,"   ",val)
                     if "no_" in info2 :
                         info2 = info2.replace("no_","")
                         if info2 in val :
@@ -149,10 +193,6 @@ class spriteLoader :
                     else :
                         if info not in val :
                             flag = False
-                # if addinfo == ["no_Dog"] :
-                #     print(stat_df.shape)
-                #     print(flag)
-                #     print(noFlag)
                 if flag and not noFlag:
                     nameList.append(name)
             stat_df = stat_df[stat_df["Name"].isin(nameList)]
@@ -179,7 +219,7 @@ class spriteLoader :
             return stat_df,self.selListMaterialByName(stat_df["Name"])
         return None
     
-    def masterSelectName(self,Name) :
+    def masterSelectName(self,Name,offset=None) :
         stat_df = self.stat_df
         stat_df = stat_df[stat_df["Name"]==Name]
         if not stat_df.empty :
@@ -318,24 +358,27 @@ class spriteLoader :
                 subcategory = "Signs"
             elif "Foliage" in matfilter or "TreeStump" in Name:
                 subcategory = "Foliage"
-                if "TreeYoungCustom" in Name :
-                    otherVals.append("TreeYoungCustom")
-                if "TreeCustom" in Name :
-                    otherVals.append("TreeCustom")
-                if "TreeYoung" in Name :
-                    otherVals.append("TreeYoung")
-                if "Tree" in Name :
-                    otherVals.append("Tree")
-                if "Plant" in Name :
-                    otherVals.append("Plant")
-                if "Crop" in Name :
-                    otherVals.append("Crop")
-                if "Flower" in Name :
-                    otherVals.append("Flower")
-                if "Topiary" in Name :
-                    otherVals.append("Topiary")
-                if "Bush" in Name :
-                    otherVals.append("Bush")
+                if Name not in ["CropAppleTree","CropOrangeTree","CropPeachTree","CropBananaTree","Tree","SpookyTree","SnowyConiferTree","CactusTree","SakuraTree","PalmTree","IndoorTreePlanter","WillowTree","BareTree"] :
+                    if "Stump" in Name :
+                        otherVals.append("Stump")
+                    if "TreeYoungCustom" in Name :
+                        otherVals.append("TreeYoungCustom")
+                    if "TreeCustom" in Name :
+                        otherVals.append("TreeCustom")
+                    if "TreeYoung" in Name :
+                        otherVals.append("TreeYoung")
+                    if "Tree" in Name and "Stump" not in Name and "Pot" not in Name:
+                        otherVals.append("Tree")
+                    if "Plant" in Name :
+                        otherVals.append("Plant")
+                    if "Crop" in Name :
+                        otherVals.append("Crop")
+                    if "Flower" in Name :
+                        otherVals.append("Flower")
+                    if "Topiary" in Name :
+                        otherVals.append("Topiary")
+                    if "Bush" in Name :
+                        otherVals.append("Bush")
             elif "Bakery" in Name or "Ingredient" in Name or "Restaurant" in Name or "FoodTray" in Name or "FoodBow" in Name or "FoodTrash" in Name:
                 subcategory = "Cooking"
             elif "Material" in properties :
@@ -363,7 +406,11 @@ class spriteLoader :
             
         if category == "Material" : 
             properties2 = properties
-            if "IsFoundationWall" in properties2 or "Wall" in Name:
+            if "Water" in Name :
+                subcategory = "Water"
+            elif Name in self.terrainMaterialList :
+                subcategory = "Terrain"
+            elif "IsFoundationWall" in properties2 or "Wall" in Name:
                 subcategory = "FoundationWall"
             elif "Fence" in Name:
                 subcategory = "Fence"
@@ -371,17 +418,10 @@ class spriteLoader :
                 subcategory = "OutdoorFloor"
             elif IndoorOutdoor == "2" or "Tiles" in Name or "Floor" in Name or "Flooring" in Name:
                 subcategory = "IndoorFloor"
-                
-            # if SpriteType != None :
-            #     if SpriteType == "Connected" :
-            #         subcategory = "wall"
-            #     else :
-            #         subcategory = "floor"
-            
-            if "HeatWaveAffected" in properties2 :
-                otherVals.append("Foliage")
             if SpriteType!=None : 
                 otherVals.append(SpriteType)
+            if "HeatWaveAffected" in properties2 :
+                otherVals.append("Foliage")
             if ObjectRequired != None :
                 otherVals.append(ObjectRequired)
             if BlockMovement!=None :
@@ -620,6 +660,7 @@ class spriteLoader :
 
             if self.resizeTile and isTile :
                  imgcropped = imgcropped.resize((int(self.tileSize),int(self.tileSize)), resample=self.resampleList[self.resampleSelection])
+                 #imgcropped = self.ip.transformTerainTile(imgcropped,[4,[None,None],[(143, 94, 21),1],None,None,None])#,[(75,215,25),0.7]
             if self.resizeElse and not isTile :
                 imgcropped = imgcropped.resize((int(width*scale*float(self.elseSizePct)),int(height*scale*float(self.elseSizePct))), resample=self.resampleList[self.resampleSelection])
             return imgcropped
@@ -697,12 +738,14 @@ class spriteLoader :
                 return sp
         return None
     
-    def imageFromMatList(self,materialList,orientationList=[],variantList=[],orientationRange=1,variantRange=1,infodf=None) :
+    def imageFromMatList(self,materialList,orientationList=[],variantList=[],orientationRange=1,variantRange=1,infodf=None,imgCountOveride=None) :
         imageList = []
         useAllLists = True
         defor = 0
         defvar = 0
         count = 0
+        if imgCountOveride!=None :
+            count = imgCountOveride
         masterVariantRange = 1
         masterOrientationRange = 1
         if variantRange == -1 and type(infodf) != type(None) :

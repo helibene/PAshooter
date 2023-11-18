@@ -32,8 +32,8 @@
 	"myDamageMulti":1,
 	"myAttackRange":30,
 	"generateNewMap":"True",
-	"splitMapImage":[0,0],
-	"objInitInstance":-1,
-	"mapInstance":0,
-	"myPosition":[0,0]
+	"splitMapImage":[5,5],
+	"objInitInstance":0,
+	"mapInstance":100,
+	"myPosition":[4000,4000]
 }

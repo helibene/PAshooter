@@ -30,13 +30,17 @@ class testPyGame2 :
         self.screenSurface = pygame.display.set_mode(size=(w-35, h-35),flags=flag)
         pygame.display.set_caption("Hello Wolrld")
         self.running=True
-        imgList,infodf = spload.processLoadRequest([[["Object"],["Entity"]]],1,-1)#["Object"],["Foliage"]##"Entity"
+        #imgList,infodf = spload.processLoadRequest([[["Object"],["Entity"],["no_Dog","no_Prisoner","no_PrisonerX","no_Zombie"]]],1,-1)#["Object"],["Foliage"]##"Entity"
+        imgList,infodf,masterDict = spload.loadFromInstructionsCustom(["terrain"])#"people","dog","terrain"])#"people","dog","tree"
+        #print(masterDict)
+        #print(infodf["Name"])
+        #infodf.to_csv("C:/Users/Alexandre/Desktop/test_lua/test_img/stats4.csv", index=False)
         del(spload)
-        print(len(imgList))
-        print(infodf)
-        print(sum(list(infodf["VarNum"])))
-        sizX = 32
-        sizY = 32
+        # print(len(imgList))
+        # print(infodf)
+        # print(sum(list(infodf["VarNum"])))
+        sizX = 64
+        sizY = 64
         self.rectMat = []
         self.imgList = []
         for img in imgList :
@@ -83,18 +87,18 @@ class testPyGame2 :
         pygame.quit()
         sys.exit()
         
-def pilImageToPygameImage(image,sizeMulti=0.5) :
-    if image!=None :
-        mode = image.mode
-        size = image.size
-        size2 = (int(size[0]*sizeMulti),int(size[1]*sizeMulti))
-        data = image.tobytes()
-        py_image = pygame.image.fromstring(data, size, mode)
-        py_image = pygame.transform.scale(py_image, (size2[0], size2[1]))
-        py_image = py_image.convert_alpha()
-        return py_image
-    else :
-        return None
+# def pilImageToPygameImage(image,sizeMulti=0.5) :
+#     if image!=None :
+#         mode = image.mode
+#         size = image.size
+#         size2 = (int(size[0]*sizeMulti),int(size[1]*sizeMulti))
+#         data = image.tobytes()
+#         py_image = pygame.image.fromstring(data, size, mode)
+#         py_image = pygame.transform.scale(py_image, (size2[0], size2[1]))
+#         py_image = py_image.convert_alpha()
+#         return py_image
+#     else :
+#         return None
 
 
 tp = testPyGame2()
