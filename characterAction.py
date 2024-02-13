@@ -57,14 +57,24 @@ def changeDirCharacterList(w,direction=[0,0],me=None) :
             if w.keyMovePlayer :
                 c.changeDir(direction)
         else :
-            if c.movingPattern == 0 :
+            if c.movingPattern == 0 : #not move
                 c.movingDir = [0,0]
-            elif c.movingPattern == 1 :
-                c.changeDirRand(w.changeDirectionFrequency,w.stopMovingFrequency)
-            elif c.movingPattern == 2 :
-                c.folowPlayer(me,me.dead)
-            elif c.movingPattern == 3 :
-                c.folowPlayer(me,me.dead,w.characterVision,w.changeDirectionFrequency,w.stopMovingFrequency)
+            elif c.movingPattern == 1 :#rand move
+                c.changeDirRand(c.probaChangeDir,c.probaStopMoving) 
+            elif c.movingPattern == 2 : #seek player
+                c.folowPlayer(me,me.dead) 
+            elif c.movingPattern == 3 : #seek player vision
+                #c.folowPlayer(me,me.dead,w.characterVision,w.changeDirectionFrequency,w.stopMovingFrequency)
+                c.folowPlayer(me,me.dead,True)
+            elif c.movingPattern == 4 : #fear player
+                #c.folowPlayer(me,not me.dead) 
+                c.folowPlayer(me,not me.dead) 
+            elif c.movingPattern == 5 : #fear player vision
+                #c.folowPlayer(me,not me.dead,w.characterVision,w.changeDirectionFrequency,w.stopMovingFrequency)
+                c.folowPlayer(me,not me.dead,True)
+            elif c.movingPattern == 6 : #seek soft
+                #c.folowPlayerSoft(me,w.changeDirectionFrequency,w.stopMovingFrequency,[70,300])
+                c.folowPlayerSoft(me)
 
 ########
 #Pickup#
@@ -174,10 +184,11 @@ def interactWithItem(w,me,interBool):
     for obj in w.objList : 
         if obj[3][0]!='none' :
             if obj[3][0]=='door' :
-                if obj[3][3] == 0 :
-                    w.backList[0][5][int(obj[3][6])][int(obj[3][5])]=True
-                else :
-                    w.backList[0][5][int(obj[3][6])][int(obj[3][5])]=False
+                if len(w.backList[0][5])>int(obj[3][5]) and len(w.backList[0][5][0])>int(obj[3][6]) :
+                    if obj[3][3] == 0 :
+                        w.backList[0][5][int(obj[3][5])][int(obj[3][6])]=True
+                    else :
+                        w.backList[0][5][int(obj[3][5])][int(obj[3][6])]=False
                 if obj[3][4] :
                     if interBool:
                         dist = math.sqrt(math.pow(obj[1]*32-me.getPosMapCenter()[0],2)+math.pow(obj[2]*32-me.getPosMapCenter()[1],2))
@@ -227,7 +238,7 @@ def meleDamageCalculation(w,me,meleWepon) :
                 if dead :
                     killCharacter(w,cha)
     for cha in w.chara_list :
-        if not cha.dead and not cha.playerControled and cha.attackCooldown==0 :
+        if not cha.dead and not cha.playerControled and cha.attackCooldown==0 and cha.aggro :
             dist = math.sqrt(math.pow(cha.getPosMapCenter()[0]-me.getPosMapCenter()[0],2)+math.pow(cha.getPosMapCenter()[1]-me.getPosMapCenter()[1],2))
             if dist<cha.attackRange :
                 cha.attackCooldown = 10

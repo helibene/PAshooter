@@ -11,7 +11,6 @@ from win32api import GetSystemMetrics
 
 class main :
     def __init__(self):
-        print("lol")
         rootPath = invertSlash(getFolderLocation())
         width,height = getScreenSize()
         sl = wi.window(cf.configLoader(rootPath,width,height))

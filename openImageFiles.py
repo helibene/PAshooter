@@ -54,6 +54,7 @@ def generateNewMap(w,generate=False) :
             mapSetList,backSetList = w.terrain.splitImage(w.rootPath+w.mapFolder+w.mapRawFolder,w.mapList[0][1],"png",w.splitMapImage[0],w.splitMapImage[1],w.mapRawSplitFolder,True)
             print("Generating terain texture files :",len(mapSetList))
             w.backList.extend(backSetList)
+    del(w.terrain)
             
 def openSheetList(w) :
     for sheetNum in range(len(w.sheetList)) :
@@ -70,8 +71,10 @@ def saveObjList(w,objMat,num=0):
     mapImage = Image.new("RGBA", (mapSizeX, mapSizeY)) 
     for obj in objMat :
         if obj[3][0]=='none':
+            #print("img:",obj[0]," x:",obj[1]," y:",obj[2],"    3:",obj[3])
             img = w.object.getSprite(obj[0],True)
-            mapImage.paste(img,(int(obj[1]*32),int(obj[2]*32)),img)
+            if img!=None :
+                mapImage.paste(img,(int(obj[1]*32),int(obj[2]*32)),img)
     mapImage.save(w.rootPath+w.mapFolder+w.mapObjectFolder+"map"+str(num)+"_obj.png","PNG")
     
     
@@ -106,12 +109,12 @@ def openBackgroundList(w) :
         w.backList[backNum][4] = sizeY
         colliMat = [[False for x in range(w.backList[backNum][4])] for y in range(w.backList[backNum][3])] 
         seaMat = [[False for x in range(w.backList[backNum][4])] for y in range(w.backList[backNum][3])] 
-        colorMat = np.array(list(imgCol.getdata())).reshape((w.backList[backNum][3], w.backList[backNum][4], 3))
+        colorMat = np.array(list(imgCol.getdata())).reshape((w.backList[backNum][4], w.backList[backNum][3], 3))
         for x in range(w.backList[backNum][3]-1) :
             for y in range(w.backList[backNum][4]-1) :
-                if colorMat[x][y][0]==0:
+                if colorMat[y][x][0]==0:
                     colliMat[x][y] = True
-                    if colorMat[x][y][2]==255:
+                    if colorMat[y][x][2]==255:
                         seaMat[x][y] = True
         w.backList[backNum][5] = colliMat
         w.backList[backNum][6] = seaMat
@@ -171,23 +174,25 @@ def loadImageHandObjList(w,characterSheetSettings,mirror=False) :
 
 
 def loadImageMenuList(w,menuSheetSettings,mirror=False) :
-    for coord in range(1,8) :
+    for coord in range(1,len(menuSheetSettings[0])) :
         img = Image.open(w.rootPath+w.textureFolder+menuSheetSettings[0][0]).convert("RGBA")
         box = (menuSheetSettings[0][coord])
         img = img.crop(box)
-        if coord==5 :
+        if coord in [5,8,9,10] :
             w.menuImageList.append(img)
         else :
             img2 = ImageTk.PhotoImage(img)
             w.menuImageList.append(img2)
             
 def loadImageAnimationList(w,characterSheetSettings):
-    for i in range(1) : 
+    for i in range(10) : 
         x,y = w.animationSelection(i)
         img = characterSheetSettings[0]
         step_x = (characterSheetSettings[1]/characterSheetSettings[3])
         step_y = (characterSheetSettings[2]/characterSheetSettings[4])
         box = ([math.ceil(x*step_x),math.ceil(y*step_y),int((x+1)*step_x),int((y+1)*step_y)])
         img = img.crop(box)
+        if i>0 :
+            img = img.resize((int(step_x*w.emojiZoom),int(step_y*w.emojiZoom)), resample=w.resampleType)
         img2 = ImageTk.PhotoImage(img)#
         w.animationList.append(img2)

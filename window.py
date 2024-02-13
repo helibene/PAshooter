@@ -30,6 +30,8 @@ import openImageFiles as oi
 import windowUtil as wu
 import lootSelection as ls
 import handObject as ho
+import characterTemplate as ct
+
 class window :
     def __init__(self,conf=None):
         print(" ==== PROGRAM START ====")
@@ -51,6 +53,7 @@ class window :
         self.pctScreenScroll = 0.3
         displayCharaTest = False
         self.zoom = 1
+        self.emojiZoom = 0.65
         self.offset = [1000,1000]
         self.displayName = True
         self.menuSize = [655,55]
@@ -67,8 +70,8 @@ class window :
         self.animationListPos = []
         self.animationList = []
         self.totalCharacterSprite = 101
-        self.changeDirectionFrequency = 0.03
-        self.stopMovingFrequency = 0.03
+        self.changeDirectionFrequency = 0.01
+        self.stopMovingFrequency = 0.01
         self.shootWeaponsObj = [8,40,41,69,70,79,51]
         self.meleWeponsObj = [5,7,19,16,22,27,35,33,43,44,45,46,48,63,50,54,66,68,76,74]
         self.medicineObj = [2,3,25,26,39,59]
@@ -76,28 +79,37 @@ class window :
         self.rwList = rw.getAllList()
         self.mwList = mw.getAllList()
         self.medList = med.getAllList()
-        self.characterVision = 300
+        self.characterVision = 200
         self.frameCount = 0
         displayFPS = False
         printResources = False
         self.objMapImage = None
         self.objMapImageRaw = None
+        self.changeSpeak = False
         self.carAngleNum = 35
         self.moneyCount = 9
         self.currentFPS = 0
         self.currentFPSavg = 0
         self.toggleStatCooldown = 0
+        self.isShoping = False 
         self.saveObjImage = False
         self.mapRawFolder = "raw/"
         self.mapTextureFolder = "texture/"
         self.mapObjectFolder = "object/"
         self.mapCollisionFolder = "collision/"
         self.mapRawSplitFolder = "split/"
+        self.shopAreaList = []
         self.packAllBack = False
         
-        self.rootPath = self.pasteConf(self.conf.spritePath,"C:/Users/Alexandre/Desktop/PAshooter/sprites/")
-        self.textureFolder = self.pasteConf(self.conf.textureFolder,"texture/")
-        self.mapFolder = self.pasteConf(self.conf.mapFolder,"map/")
+        
+        self.rootPath = self.pasteConf(self.conf.spritePath,"")
+        self.pjPath = self.pasteConf(self.conf.pjPath,"")
+        self.textureFolder = self.pasteConf(self.conf.textureFolder,"")
+        self.mapFolder = self.pasteConf(self.conf.mapFolder,"")
+        self.characterTempFile = self.pasteConf(self.conf.characterTempFile,"")
+        self.sentenceListFile = self.pasteConf(self.conf.sentenceListFile,"")
+        self.readSentenceFromTxt = self.pasteConf(self.conf.readSentenceFromTxt,False)
+        
         self.terrainTileSize = self.pasteConf(self.conf.terrainTileSize,32)
         self.mapInstance = self.pasteConf(self.conf.mapInstance,1)
         self.splitMapImage = self.pasteConf(self.conf.splitMapImage,[0,0])
@@ -110,8 +122,8 @@ class window :
         self.sprintFactor = self.pasteConf(self.conf.sprintMultiplier,2)
         self.weponUsedCooldownReset = self.pasteConf(self.conf.weponFrameCooldown,10)
         self.jpegQuality = self.pasteConf(self.conf.jpegQuality,0.5)
-        width = self.pasteConf(self.conf.screenWidth,1366)
-        height = self.pasteConf(self.conf.screenHeight,768)
+        width = self.pasteConf(self.conf.screenWidth,0)
+        height = self.pasteConf(self.conf.screenHeight,0)
         fullscreen = self.pasteConf(self.conf.fullscreen,True) 
         windowOnTop = self.pasteConf(self.conf.windowOnTop,False) 
         waitBetweenFrames = self.pasteConf(self.conf.sleepPerFrame,0) 
@@ -132,11 +144,10 @@ class window :
         myDamageMulti = self.pasteConf(self.conf.myDamageMulti,1)
         myAttackRange = self.pasteConf(self.conf.myAttackRange,30)
         
-        #print(self.splitMapImage)
         #Sprites conf
-        self.shopAreaList = []#[[0*32,0*32],[0*32,0*32]]#[[27*32,54*32],[37*32,64*32]]
-        self.sheetList = [["objects3.png",1504,1024,47,32],["terrain3.png",1024,992,32,31],["caracteres3.png",1200,1200,32,32],["black.png",1,1,1,1],["nature2.png",896,992,28,31],["vehicule.png",864,864,27,27]]#["objects2.png",800,1024,25,32]
-        self.menuList = [["menu3.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263],[704,0,896,192]]]
+        self.characterTemplate = ct.characterTemplate(self.pjPath,self.characterTempFile,self.sentenceListFile,not self.readSentenceFromTxt)
+        self.sheetList = [["objects3.png",1504,1024,47,32],["terrain3.png",1024,992,32,31],["caracteres4.png",1200,1200,32,32],["black.png",1,1,1,1],["nature2.png",896,992,28,31],["vehicule.png",864,864,27,27]]#["objects2.png",800,1024,25,32]
+        self.menuList = [["menu3.png",[0,0,655,55],[0,55,655,110],[0,110,65,175],[0,175,505,190],[0,190,505,200],[0,206,96,263],[704,0,896,192],[70,112,86,147],[88,112,94,147],[96,112,108,147]]]
         self.mapList,self.backList = self.generateMapConfig(self.mapInstance)
         self.mapList2 = []
         self.root,self.width,self.height = wu.setRoot(self,width,height,0,0,windowOnTop,fullscreen,True,True)       
@@ -155,15 +166,16 @@ class window :
 
         self.drawObjList(self.objList,self.sheetList[0],self.offset,True)
         self.drawCarObjList(self.offset,True)
-        self.object.deleteSpriteMatrix()
-        self.objectCar.deleteSpriteMatrix()
-        
-        self.isShoping = False 
-        #print(len(self.backList))
+        self.object = self.object.deleteSpriteMatrix()
+        self.objectCar = self.objectCar.deleteSpriteMatrix()
         if printResources :
             self.printRessources()
         endTimeInit = time.time()
         print("Init done in ",round(float(endTimeInit)-float(startTimeInit),2),"sec")
+        # self.packAllBack = True
+        # self.drawBackgroundSheet(self.backList,-self.offset[0],-self.offset[1])
+        self.packAllBack = False
+        self.bubbleImg =  ImageTk.PhotoImage(self.getBubbleImage())
         while True :
             self.frameCount = self.frameCount + 1
             start = time.time()
@@ -171,7 +183,6 @@ class window :
             self.canvas.pack()
             self.root.update()
             time.sleep(waitBetweenFrames)
-
             self.scrollCursor()
             ca.master(self)
             self.moveCharacterList(self.chara_list,self.backList[0][5])
@@ -195,11 +206,11 @@ class window :
         if self.toggleStatDisplay :
             self.drawStats()
     
-    def getAllUsefullList(self):
-        returnList = rw.getAllList()
-        returnList.extend(mw.getAllList())
-        returnList.extend(med.getAllList())
-        return returnList
+    # def getAllUsefullList(self):
+    #     returnList = rw.getAllList()
+    #     returnList.extend(mw.getAllList())
+    #     returnList.extend(med.getAllList())
+    #     return returnList
     
     def getUOfromSpriteNum(self,spriteNum,objList):
         for obj in objList :
@@ -246,11 +257,10 @@ class window :
             self.handObjListBuff = []
             self.objListBuff = []
         if val == 1 :
-            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(0)
+            self.objListBuff,self.handObjListBuff,shopAreaList = self.listInit([2,0],[[0,0],[0,100]])
+            #self.objListBuff,self.handObjListBuff,shopAreaList = self.listInit([0],[[0,0]])
+            #self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0,[0,100]).templateListToObjList(0)
             self.shopAreaList = shopAreaList
-        if val == 2 :
-            self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(1)
-            self.carObjList.append(self.loadCarObj(co.carObject(5,[32*115,32*150])))
         if val == 3 :
             self.objListBuff,self.handObjListBuff,shopAreaList = ot.objectTemplate(0).templateListToObjList(3)
             self.shopAreaList = shopAreaList
@@ -300,7 +310,19 @@ class window :
         self.handObjListClass.extend(self.handObjListBuff)
         self.objList = self.object.addMetadataToObjList(self.objListBuff)
         self.handObjListClass = ho.getBasicInstanceList(self.handObjListClass)
-        
+    
+    def listInit(self,masterTempList=[0],posList=[0,0]):
+        objListRet = []
+        handObjListRet = []
+        shopAreaListRet = []
+        for i in range(len(masterTempList)) :
+            objListBuff,handObjListBuff,shopAreaList = ot.objectTemplate(0,posList[i]).templateListToObjList(masterTempList[i])
+            objListRet.extend(objListBuff)
+            handObjListRet.extend(handObjListBuff)
+            shopAreaListRet.extend(shopAreaList)
+            
+        return objListRet,handObjListRet,shopAreaListRet
+    
     #########################
     #Generate class instance#
     #########################
@@ -360,11 +382,13 @@ class window :
         for obj in objMat :
             if not useImageMap or (useImageMap and obj[3][0]!='none') :
                 img = self.object.getSprite(obj[0])
-                if obj[3][0]=='cabinet':
-                    img2 = self.object.getSprite(obj[3][2])
-                if not dontDisplay :
-                    self.canvas.create_image(obj[1]*step_x-offset[0],obj[2]*step_y-offset[1], image=img, anchor="nw")
-            
+                if img!=None :
+                    if obj[3][0]=='cabinet':
+                        img2 = self.object.getSprite(obj[3][2])
+                    if not dontDisplay :
+                        self.canvas.create_image(obj[1]*step_x-offset[0],obj[2]*step_y-offset[1], image=img, anchor="nw")
+                else :
+                    print("obj not found")
     
     def drawCarObjList(self,offset=[0,0],dontDisplay=False,forceAngle=0):
         for car in self.carObjList :
@@ -408,7 +432,10 @@ class window :
             self.canvas.create_image(int(self.width/2-(self.menuSize[0]/2))-5+self.menuBarSel*50,self.height-60, image=self.menuImageList[2], anchor="nw")
             self.canvas.create_image(10,10, image=self.menuImageList[5], anchor="nw")
             #self.canvas.create_image(self.width-(896-704),0, image=self.menuImageList[6], anchor="nw")
-            moneyStr = str(self.moneyCount)#[704,0,896,192]
+            # bubbleList = [[100,100,"1000000000"],[100,150,"150000000000000"],[100,200,"20000000000000000000"],[100,250,str("35"+"0"*33)],[100,300,str("50"+"0"*48)],[200,100,"mmmmmmmmmm"],[100,400,"Hello my name is Alex and I love XU Hongyi with all my heart"]]
+            # self.generateBubbleFromList(bubbleList)
+            # self.drawBubbleList(bubbleList)
+            moneyStr = str(self.moneyCount)
             moneySize = len(moneyStr)
             self.canvas.create_text(94-10*moneySize+10-10,25+10+5, text=moneyStr, fill="black", font=("Helvetica 25 bold"))
             #if self.toggleFPSdisplay : 
@@ -428,6 +455,9 @@ class window :
         self.canvas.create_text(posX,posY+incY*4, text="Hand obj : "+str(len(self.handObjListClass)), fill="black", font=("Helvetica 10 bold"))
         self.canvas.create_text(posX,posY+incY*5, text="Static obj : "+str(len(self.objList)), fill="black", font=("Helvetica 10 bold"))
         self.canvas.create_text(posX,posY+incY*6, text="Car obj : "+str(len(self.carObjList)), fill="black", font=("Helvetica 10 bold"))
+        self.canvas.create_text(posX,posY+incY*7, text="Packed item per frame : "+str(self.totalPackedItems), fill="black", font=("Helvetica 10 bold"))
+    
+    
     def drawCharacter(self,characterSheetSettings,img,dispX,dispY,name="",pc=False) :
         step_x = (characterSheetSettings[1]/characterSheetSettings[3])
         step_y = (characterSheetSettings[2]/characterSheetSettings[4])
@@ -436,37 +466,42 @@ class window :
             bold = ""
             fontSize = int(8)
             if pc :
-                fontSize = int(10)
+                fontSize = int(12)
                 bold = "bold"
             self.drawText(name,dispX+int(step_x*self.zoom/2),dispY-int(fontSize/2+step_y*self.zoom/15),fontSize,bold,False)
-            #self.canvas.create_text(dispX+int(step_x*self.zoom/2),dispY-int(fontSize/2+step_y*self.zoom/15), text=name, fill="black", font=('Helvetica '+str(fontSize)+" bold"))
-
-    def drawText(self,text,posX,posY,fontSize,bold,background) :
+    def drawText(self,text,posX,posY,fontSize=8,bold="",background=False,anchor="center") :
         if background :
             self.canvas.create_rectangle(posX-(len(text)*(fontSize/2)),posY-int(fontSize/2)-1,posX+(len(text)*(fontSize/2)),posY+int(fontSize/2)+3,outline="",fill="lightgray")
-        self.canvas.create_text(posX,posY, text=text, fill="black", font=('Helvetica '+str(fontSize)+" "+bold))
+        self.canvas.create_text(posX,posY, anchor=anchor, text=text, fill="black", font=('Courier '+str(fontSize)+" "+bold))
 
     def drawCharacterClass(self,characterSheetSettings,character,offset=[0,0]) :
         self.drawCharacter(characterSheetSettings,character.returnSpriteFromMotion(),character.getPosScreen(offset)[0],character.getPosScreen(offset)[1],character.name,character.playerControled)
     
     def drawCharacterClassList(self,characterSheetSettings,characterList,offset=[0,0]) :
+        bubbleList = []
         for character in characterList :
             if character.inCar == -1 :
                 self.drawCharacterClass(characterSheetSettings,character,offset)
+            if character.talkingText!="":
+                bubbleList.append([character.getPosScreen(offset)[0]+40,character.getPosScreen(offset)[1]-50,character.talkingText])
+        if self.changeSpeak :
+            self.generateBubbleFromList(bubbleList)
+        self.drawBubbleList(bubbleList)
     
     def drawBackgroundSheet(self,backSettings,posX,posY) :
         if self.splitMapImage==[0,0] :
             back = backSettings[0]
             self.canvas.create_image(posX,posY, image=back[0], anchor="nw")    
         else :
+            backList = []
             for i in range(1,len(backSettings)) :
                 back = backSettings[i]  
                 if self.packAllBack:
                     self.canvas.create_image(posX+back[8]*32,posY+back[9]*32, image=back[0], anchor="nw") 
                 else :
                     if self.isBackgroundOnScreen(back) :
+                        backList.append(i)
                         self.canvas.create_image(posX+back[8]*32,posY+back[9]*32, image=back[0], anchor="nw") 
-                #print("x",back[8],"y",back[9])
                  
     
     def isBackgroundOnScreen(self,back) :
@@ -474,21 +509,59 @@ class window :
         minY = -self.offset[1]+back[9]*32
         maxX = minX+back[1]
         maxY = minY+back[2]
-        border = 200
+        border = 100
         if maxX<-border or maxY<-border or minX>self.width+border or minY>self.height+border :
             return False
         else :
             return True
-        #self.canvas.create_image(50,50, image=backSettings[0][7], anchor="nw")
         
     def drawAnimationList(self) :
         for i in self.animationListPos :
-            img = self.animationList[i[0]]
+            img = self.animationList[0]
             self.canvas.create_image(i[1]-int(i[3]/2)-self.offset[0],i[2]-int(i[4]/2)-self.offset[1], image=img, anchor="nw")
    
     def moveCamera(self,keyDir,speed=15) :
         self.offset = [self.offset[0]+speed*keyDir[0],self.offset[1]+speed*keyDir[1]]
     
+    def getBubbleImage(self,pixelSizeX=100):
+        startImg = self.menuImageList[7]
+        middleImg = self.menuImageList[8]
+        endImg = self.menuImageList[9]
+        startSize = self.getImageSize(startImg)
+        middleSize = self.getImageSize(middleImg)
+        endSize = self.getImageSize(endImg)
+        middleTagetSizeX = pixelSizeX-startSize[0]-endSize[0]
+        imageRet = Image.new("RGBA", (int(pixelSizeX), int(startSize[1])))
+        imageRet.paste(startImg,(0,0),startImg)
+        rangeX = int(middleTagetSizeX/middleSize[0])
+        if middleTagetSizeX%middleSize[0]!=0 :
+            rangeX = rangeX + 1
+        for x in range(rangeX) :
+            pixX = int(startSize[0]+x*middleSize[0])
+            imageRet.paste(middleImg,(pixX,0),middleImg)
+        imageRet.paste(endImg,(int(pixelSizeX-endSize[0]),0),endImg)
+        return imageRet
+    
+    def drawBubbleList(self,bubbleList) :
+        fontSize = 10
+        for i in range(len(bubbleList)) :
+            self.canvas.create_image(bubbleList[i][0],bubbleList[i][1], image=self.bubbleImgList[i], anchor="nw")
+            if len(bubbleList[i][2])!=2 :
+                self.drawText(bubbleList[i][2],bubbleList[i][0]+8,bubbleList[i][1]+int((20-fontSize)/2),fontSize,"",False,"nw")
+            else :
+                emojiNum = int(bubbleList[i][2])
+                img = self.animationList[emojiNum]
+                self.canvas.create_image(bubbleList[i][0]+3,bubbleList[i][1]+1, image=img, anchor="nw")
+    def generateBubbleFromList(self,bubbleList):
+        fontSize = 10
+        self.bubbleImgList = []
+        for setting in bubbleList :
+            sizeX = int(len(setting[2])*(fontSize*0.8))+8+6
+            self.bubbleImgList.append(ImageTk.PhotoImage(self.getBubbleImage(sizeX)))
+    
+    def getImageSize(self,img) :
+        sizeX, sizeY = img.size
+        return [sizeX,sizeY]
     ##############
     #Load texture#
     ##############
@@ -504,15 +577,12 @@ class window :
         canMove = False
         while not canMove :
             randPos = [int(float(random.random()*float(spawnRange[0][1]-spawnRange[0][0]))+float(spawnRange[0][0])),int(float(random.random()*float(spawnRange[1][1]-spawnRange[1][0]))+float(spawnRange[1][0]))]
-            cha = ch.character(int((random.random()*self.totalCharacterSprite)),randPos)
+            cha = ch.character(int((random.random()*self.totalCharacterSprite)),randPos,template=self.characterTemplate)
             if collisionMat!=None :
                 if self.characterCanMove(cha,collisionMat) :
                     canMove = True  
             else :
                 canMove = True 
-        cha.speed = randomFloatRange(speedRange)
-        cha.attackRange = randomFloatRange(peopleAttackRange)
-        cha.damageMulti = randomFloatRange(peopleDamageMultiRange)
         return cha
     
     def getRandChList(self,n,spawnRange=[[0,500],[0,500]],collisionMat=None,speedRange=[2,10],peopleAttackRange=[30,30],peopleDamageMultiRange=[1,1]) :
@@ -528,8 +598,8 @@ class window :
         return None
     
     def createMeFull(self,myName,mySprite,myGender,myRandomName,mySpeed,myPosition,myHealth,myAttackRange,myDamageMulti) :
-        character_me = ch.character(mySprite,myPosition,myRandomName,myName,myGender)
-        character_me.playerControled = True
+        character_me = ch.character(mySprite,myPosition,myRandomName,myName,myGender,template=self.characterTemplate)
+        character_me.playerControled = True#characterTemplate
         character_me.speed = mySpeed
         character_me.posMap = myPosition
         character_me.healthPct = myHealth
@@ -553,12 +623,17 @@ class window :
     
 
     def moveCharacterList(self,chList,collisionMat=None) :
+        self.changeSpeak = False
         for c in chList :
             if c.inCar == -1 :
                 if self.characterCanMove(c,collisionMat,True) and not c.dead:
                     c.move()
                 if c.playerControled :
                     self.moveCameraPos(c)
+                if not c.playerControled and not c.dead :
+                    changeSpeakTrigger = c.changeSpeak()
+                    if changeSpeakTrigger :
+                        self.changeSpeak = True
             else :
                 carPos = self.carObjList[c.inCar].pos
                 posDiff = [carPos[0]-c.posMap[0],carPos[1]-c.posMap[1]]
@@ -582,13 +657,13 @@ class window :
         if collisionMat==None :
             return True
         else :
-            colSizeY = len(collisionMat)-1
-            colSizeX = len(collisionMat[0])-1
+            colSizeX = len(collisionMat)-1
+            colSizeY = len(collisionMat[0])-1
             if future :
                 newcoo = [int((c.posMap[0] + c.movingDir[0]*2)/self.terrainTileSize),int((c.posMap[1] + c.movingDir[1]*2)/self.terrainTileSize)]
             else :
                 newcoo = [int(c.posMap[0]/self.terrainTileSize),int(c.posMap[1]/self.terrainTileSize)]
-            if not collisionMat[min(max(newcoo[1],0),colSizeY)][min(max(newcoo[0],0),colSizeX)] :# and not collisionMat[newcoo[1]+1][newcoo[0]+1] and not collisionMat[newcoo[1]+1][newcoo[0]] and not collisionMat[newcoo[1]][newcoo[0]+1] :
+            if not collisionMat[min(max(newcoo[0],0),colSizeX)][min(max(newcoo[1],0),colSizeY)] :# and not collisionMat[newcoo[1]+1][newcoo[0]+1] and not collisionMat[newcoo[1]+1][newcoo[0]] and not collisionMat[newcoo[1]][newcoo[0]+1] :
                 return True
             else :
                 return False
@@ -674,7 +749,11 @@ class window :
         return x,y
   
     def animationSelection(self,animNum) :
-        return 10,16
+        if animNum == 0 :
+            return 10,16
+        else :
+            y = animNum - 1
+            return 10,y
     
     def pasteConf(self,confVal,defaultVal) :
         if self.useConf :
@@ -684,6 +763,7 @@ class window :
     
     #Print
     def fpsHandeling(self,start,end,displayFPS,fpsList) : 
+        self.totalPackedItems = len(self.canvas.find_all())
         fpsNum = 0
         if end!=start :
             fpsNum = float(1/float((float(end)-float(start))))
@@ -766,11 +846,11 @@ def generateObjList() :
     x = 1
     y = 1
     objList = []
-    for i in range(50) :
+    for i in range(80) :
         objList.append([i,int(x+i),int(y)])
     x = 1
     y = 3
-    for i in range(200) :
+    for i in range(250) :
         objList.append([i+100,int(x+(i%15)*3),int(y+int(i/15)*3)])
     return objList
 #sl = window(cf.configLoader())
